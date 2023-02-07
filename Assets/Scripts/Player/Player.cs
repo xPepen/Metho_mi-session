@@ -61,7 +61,11 @@ public class Player : LivingEntity
     {
         if (ListOfActions.Contains(PlayerActionsType.SHOOT))
         {
-            MyWeapon.Attack(mousePos.MousePosition());
+            if (MyWeapon)
+            {
+                (MyWeapon as IShootable).Attack(mousePos.MousePosition());
+            }
+            //MyWeapon.Attack(mousePos.MousePosition());
         }
     }
 }
