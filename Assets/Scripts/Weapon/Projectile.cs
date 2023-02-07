@@ -26,7 +26,7 @@ public class Projectile : BaseEntity
     protected override void OnStart()
     {
         base.OnStart();
-        m_poolProjectile = GetComponentInParent<Weapon>().ProjectilePool;
+        m_poolProjectile = GetComponentInParent<RangeWeapon>().ProjectilePool;
     }
     public void OnMoveProjectile(Vector2 _dir)
     {
@@ -70,15 +70,15 @@ public class Projectile : BaseEntity
         if (_potentialEntity)
         {
              _hitable = _potentialEntity.transform.gameObject.GetComponent<LivingEntity>();
-
         }
+       
         if (_hitable != null && _hitable.Type == Target)
         {
             if (Vector3.Distance(this.transform.position, _potentialEntity.transform.position) <= HittableDistance)
             {
                 (_hitable as IHitable).OnHit(m_damage); // to be verify ...
                 print("I hit you with a projectile");
-                DectectEntity();
+                OnDisableProjectile();
             }
         }
         

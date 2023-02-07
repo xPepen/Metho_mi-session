@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : LivingEntity, IHitable
+public class Player : LivingEntity
 {
     public static Player Instance { get; private set; }
-    public PlayerActionsContainer ListOfActions;
+    public PlayerActionsContainer ListOfActions{get; private set;}
     public Weapon MyWeapon;// maybe he can switch weapon?
-    public Vector2 Direction;
+    public Vector2 Direction { get; set; }
     
     private InputReceiver mousePos;
     //private void ManagerInfo -> create scriptable manager
@@ -18,19 +18,19 @@ public class Player : LivingEntity, IHitable
         ListOfActions = new PlayerActionsContainer();
         mousePos = GetComponent<InputReceiver>();
     }
-    public void OnHit(float _damage)
-    {
-        this.currentHP -= _damage;
-        if (base.IsDead)
-        {
-            OnDead();
-        }
-    }
-    public void OnDead()
-    {
-        //ui
-        //try again or quit?
-    }
+    //public void OnHit(float _damage)
+    //{
+    //    this.currentHP -= _damage;
+    //    if (base.IsDead)
+    //    {
+    //        OnDead();
+    //    }
+    //}
+    //public void OnDead()
+    //{
+    //    //ui
+    //    //try again or quit?
+    //}
 
     protected override void OnAwake()
     {
@@ -41,7 +41,7 @@ public class Player : LivingEntity, IHitable
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        base.EntityStats.Move(Direction.normalized, m_rb);
+        Move(Direction.normalized);
         OnShoot();
     }
 
@@ -62,8 +62,6 @@ public class Player : LivingEntity, IHitable
         if (ListOfActions.Contains(PlayerActionsType.SHOOT))
         {
             MyWeapon.Attack(mousePos.MousePosition());
-            print(mousePos.MousePosition());
-            ListOfActions.ConsumeAllActions(PlayerActionsType.SHOOT);
         }
     }
 }

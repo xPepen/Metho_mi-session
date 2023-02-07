@@ -18,15 +18,20 @@ public class InputReceiver : MainBehaviour
 
     public void OnShoot(InputAction.CallbackContext context)
     {
+        
         if (context.performed)
         {
             playerRef.ListOfActions.AddAction(new PlayerAction(PlayerActionsType.SHOOT));
+        }
+        if (context.canceled)
+        {
+            playerRef.ListOfActions.ConsumeAllActions((PlayerActionsType.SHOOT));
+
         }
     }
     public Vector2 MousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        //return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
 
