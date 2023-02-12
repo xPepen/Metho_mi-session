@@ -7,17 +7,12 @@ public abstract class LivingEntity : BaseEntity,IHitable
     [SerializeField] protected float currentHP;
     [SerializeField] protected float maxHP;
     [SerializeField] protected float speed;
-    [SerializeField] protected PhysicEntityInfo EntityStats;
+   
 
     protected bool IsDead => currentHP <= 0;
     protected Rigidbody2D m_rb;
     protected virtual void Init()
     {
-        maxHP = EntityStats.maxHP;
-        currentHP = maxHP;
-        speed = EntityStats.moveSpeed;
-
-
         m_rb = GetComponent<Rigidbody2D>();
     }
     public void Move(Vector2 _direction)
@@ -40,7 +35,5 @@ public abstract class LivingEntity : BaseEntity,IHitable
         }
     }
 
-    public virtual void OnDead()
-    {
-    }
+    public abstract void OnDead();
 }

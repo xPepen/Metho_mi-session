@@ -22,13 +22,22 @@ public class UIPanelHandler : MonoBehaviour
         {
             if (index == i)
             {
-                panels[i].SetActive(true);
+                ChangeGameObjState(true, panels[i]);
             }
             else if(panels[i].activeSelf == true)
             {
-                panels[i].SetActive(false);
+                ChangeGameObjState(false, panels[i]);
             }
         }
+    }
+
+    private void ChangeGameObjState(bool _state, GameObject _obj)
+    {
+        _obj.SetActive(_state);
+    }
+    public void OnQuitUIMenu()
+    {
+        ChangeGameObjState(false, panels[0]);
     }
 
 }

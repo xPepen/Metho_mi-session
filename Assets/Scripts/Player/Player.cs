@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Player : LivingEntity
 {
+    public float CurrentXp;
+    public float Level;
     public static Player Instance { get; private set; }
     public PlayerActionsContainer ListOfActions{get; private set;}
+    [SerializeField] private PhysicEntityInfo EntityStats;
     public Weapon MyWeapon;// maybe he can switch weapon?
     public Vector2 Direction { get; set; }
     
@@ -15,6 +18,10 @@ public class Player : LivingEntity
     protected override void Init()
     {
         base.Init();
+        maxHP = EntityStats.maxHP;
+        currentHP = maxHP;
+        speed = EntityStats.moveSpeed;
+
         ListOfActions = new PlayerActionsContainer();
         mousePos = GetComponent<InputReceiver>();
     }
@@ -67,5 +74,10 @@ public class Player : LivingEntity
             }
             //MyWeapon.Attack(mousePos.MousePosition());
         }
+    }
+
+    public override void OnDead()
+    {
+        throw new System.NotImplementedException();
     }
 }

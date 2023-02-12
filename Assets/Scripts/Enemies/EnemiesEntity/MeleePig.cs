@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class MeleePig : Enemy
 {
+
+    protected override void Init()
+    {
+        base.Init();
+        base.poolRef = EnemyFactoryPig.Instance.Pool.Pool;
+    }
     protected override void OnAttack()
     {
        

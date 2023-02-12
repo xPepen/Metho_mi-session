@@ -30,10 +30,10 @@ public class Projectile : BaseEntity
     }
     public void OnMoveProjectile(Vector2 _dir)
     {
-        var x =  _dir - (Vector2)transform.position;
-        //m_rb.velocity = _dir.normalized * m_speed ;
+        var velocity =  (_dir - (Vector2)transform.position).normalized * m_speed * Time.fixedDeltaTime;
+        m_rb.velocity = velocity;
         //m_rb.AddForce(  _dir.normalized * m_speed * Time.deltaTime,ForceMode2D.Impulse);
-        m_rb.AddForce(  x.normalized * m_speed * Time.fixedDeltaTime ,ForceMode2D.Impulse);
+        //m_rb.AddForce(  velocity.normalized * m_speed * Time.fixedDeltaTime ,ForceMode2D.Impulse);
     }
 
     private void OnDisableProjectile()
@@ -67,17 +67,17 @@ public class Projectile : BaseEntity
     {
         var _potentialEntity = Physics2D.CircleCast(transform.position, HittableRadius, Vector2.zero);
         LivingEntity _hitable = null;
-        if (_potentialEntity)
+        if (!_potentialEntity)
         {
-             _hitable = _potentialEntity.transform.gameObject.GetComponent<LivingEntity>();
+            return;
         }
-       
+             _hitable = _potentialEntity.transform.GetComponent<LivingEntity>();
+
         if (_hitable != null && _hitable.Type == Target)
         {
             if (Vector3.Distance(this.transform.position, _potentialEntity.transform.position) <= HittableDistance)
             {
                 (_hitable as IHitable).OnHit(m_damage); // to be verify ...
-                print("I hit you with a projectile");
                 OnDisableProjectile();
             }
         }
