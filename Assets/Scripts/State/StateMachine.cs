@@ -15,11 +15,6 @@ public class StateMachine<T>
     {
         CurrentState.OnUpdateState();
     }
-
-    //construire la state machine
-    //savoir le get current state
-    //transition d'un etas a un autre
-
     public void SwitchState(BaseState<T> _newstate)
     {
         CurrentState.OnExitState();

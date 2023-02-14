@@ -9,12 +9,11 @@ public class Player : LivingEntity
     public static Player Instance { get; private set; }
     public PlayerActionsContainer ListOfActions{get; private set;}
     [SerializeField] private PhysicEntityInfo EntityStats;
-    public Weapon MyWeapon;// maybe he can switch weapon?
+    public Weapon MyWeapon;
     public Vector2 Direction { get; set; }
     
     private InputReceiver mousePos;
-    //private void ManagerInfo -> create scriptable manager
-
+    private Animator m_animator;
     protected override void Init()
     {
         base.Init();
@@ -24,20 +23,8 @@ public class Player : LivingEntity
 
         ListOfActions = new PlayerActionsContainer();
         mousePos = GetComponent<InputReceiver>();
+        m_animator = GetComponent<Animator>();
     }
-    //public void OnHit(float _damage)
-    //{
-    //    this.currentHP -= _damage;
-    //    if (base.IsDead)
-    //    {
-    //        OnDead();
-    //    }
-    //}
-    //public void OnDead()
-    //{
-    //    //ui
-    //    //try again or quit?
-    //}
 
     protected override void OnAwake()
     {
@@ -50,8 +37,19 @@ public class Player : LivingEntity
         base.OnUpdate();
         Move(Direction.normalized);
         OnShoot();
+        SetAnim();
     }
-
+    private void SetAnim()
+    {
+        m_animator.SetFloat("directionX", Direction.normalized.x);
+        m_animator.SetFloat("directionY", Direction.normalized.y);
+    }
+    public override void OnHit(float _damage)
+    {
+        base.OnHit(_damage);
+        GameplayManager.Instance.SetHPBar();
+        print(currentHP);
+    }
     private void PLayerSingleton()
     {
         if (Instance == null)
@@ -72,12 +70,10 @@ public class Player : LivingEntity
             {
                 (MyWeapon as IShootable).Attack(mousePos.MousePosition());
             }
-            //MyWeapon.Attack(mousePos.MousePosition());
         }
     }
 
     public override void OnDead()
     {
-        throw new System.NotImplementedException();
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class BaseState<T>
 {
-    protected T m_controllEntity;
+    protected T currentEntity;
     public BaseState(T _controlledEntity)
     {
-        this.m_controllEntity = _controlledEntity;
+        this.currentEntity = _controlledEntity;
     }
 
     //quest ce qui est excuter quand je suis dans mon state

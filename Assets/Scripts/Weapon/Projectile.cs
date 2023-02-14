@@ -14,7 +14,6 @@ public class Projectile : BaseEntity
     [Header("Projectile")]
     [SerializeField] private float m_lifeTime;
     private float m_currentLifetime;
-    [SerializeField] private Transform Barrel;
 
     private bool IsTooOld => m_currentLifetime >= m_lifeTime;
     protected override void OnAwake()
@@ -51,6 +50,7 @@ public class Projectile : BaseEntity
     protected override void OnUpdate()
     {
         base.OnUpdate();
+        DectectEntity();
         GetOlder();
         if (IsTooOld)
         {
@@ -61,7 +61,6 @@ public class Projectile : BaseEntity
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-         DectectEntity();
     }
     protected void DectectEntity()
     {

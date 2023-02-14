@@ -4,11 +4,10 @@ using UnityEngine;
 
 public abstract class LivingEntity : BaseEntity,IHitable
 {
-    [SerializeField] protected float currentHP;
-    [SerializeField] protected float maxHP;
-    [SerializeField] protected float speed;
-   
-
+    public float currentHP { get; protected set; }
+    public float maxHP { get; protected set; }
+    protected float speed;
+    [SerializeField] private ParticleSystem _HitEffect;
     protected bool IsDead => currentHP <= 0;
     protected Rigidbody2D m_rb;
     protected virtual void Init()
@@ -25,10 +24,19 @@ public abstract class LivingEntity : BaseEntity,IHitable
         base.OnAwake();
         Init();
     }
-
+    protected void Heal()
+    {
+        currentHP = maxHP;
+    }
     public virtual void OnHit(float _damage)
     {
         this.currentHP -= _damage;
+        if (_HitEffect)
+        {
+            //add pool
+            //place effect 
+            //play
+        }
         if (IsDead)
         {
             OnDead();

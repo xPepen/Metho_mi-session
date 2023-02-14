@@ -13,11 +13,15 @@ public class ExperienceCollectable : MainBehaviour
     private float m_xpGiven = baseXP;
     private SpriteRenderer m_color;
     [SerializeField]private float m_grabRange;
+
+    //manager
+    private GameplayManager m_gameRef;
     protected override void OnStart()
     {
         base.OnStart();
         m_playerRef = GameObject.Find("Player").GetComponent<Player>();
         m_color = GetComponent<SpriteRenderer>();
+        m_gameRef = GameplayManager.Instance;
     }
 
     protected override void OnUpdate()
@@ -48,8 +52,8 @@ public class ExperienceCollectable : MainBehaviour
         if (Vector3.Distance(m_playerRef.transform.position, transform.position) <= m_grabRange)
         {
             m_playerRef.CurrentXp += SetExperienceDrop(GetXpAmount());
-            print(m_playerRef.CurrentXp);
-            GameplayManager.Instance.ExperiencePool.Pool.ReAddItem(this);
+            m_gameRef.ExperiencePool.Pool.ReAddItem(this);
+            m_gameRef.SetExpBar();
         }
     }
 }

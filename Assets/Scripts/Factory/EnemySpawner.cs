@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MainBehaviour
 {
-    [SerializeField]GameObject player;
+    GameObject player;
     AbstractFactory factory;
+    private List<AbstractFactory> ListOfFactory;
     [SerializeField] private float TimeToSwitchFactory;
-    void Start()
+    protected override void OnAwake()
     {
+        base.OnAwake();
+        ListOfFactory= new List<AbstractFactory>();
+    }
+    protected override void OnStart()
+    {
+        base.OnStart();
         player = GameObject.Find("Player");
         StartCoroutine(FactoryCoroutine());
         StartCoroutine(WaveCoroutine());
