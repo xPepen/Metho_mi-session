@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateContainerMeleePig 
+public class BossStateContainer 
 {
     public Idle_PigEnemy Idle { get; protected set; }
     public Chasse_PigEnemy Chasse { get; protected set; }
     public Attack_PigEnemy Attack { get; protected set; }
     public Dead_PigEnemy Dead { get; protected set; }
-    public StateContainerMeleePig(BasicMeleeEnemy _ref) 
+    public BossStateContainer(BossTree _ref) 
     {
-        Idle = new Idle_PigEnemy(_ref);
+        /*Idle = new Idle_PigEnemy(_ref);
         Chasse = new Chasse_PigEnemy(_ref);
         Attack = new Attack_PigEnemy(_ref);
         Dead = new Dead_PigEnemy(_ref);
+        */
     }
 }
-
-public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
+public class Idle_BossTree : BaseState<BossTree>
 {
     private float timer = 1.25f;
     private float currentWait;
-        public Idle_PigEnemy(BasicMeleeEnemy _controlledEntity) : base(_controlledEntity)
+        public Idle_BossTree(BossTree _controlledEntity) : base(_controlledEntity)
         {
 
         }
@@ -40,13 +40,13 @@ public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
             currentWait += Time.deltaTime;
             if(currentEntity.CanSeePlayer && currentWait >= timer)
             {
-                currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
+                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
             }
         }
     }
-    public class Chasse_PigEnemy : BaseState<BasicMeleeEnemy>
+    public class Chasse_BossTree : BaseState<BossTree>
     {
-        public Chasse_PigEnemy(BasicMeleeEnemy _controlledEntity) : base(_controlledEntity)
+        public Chasse_BossTree(BossTree _controlledEntity) : base(_controlledEntity)
         {
         }
 
@@ -64,13 +64,13 @@ public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
 
              if (currentEntity.CanAttack)
              {
-                currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Attack);
+                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Attack);
              }
         }
     }
-    public class Attack_PigEnemy : BaseState<BasicMeleeEnemy>
+    public class Attack_BossTree : BaseState<BossTree>
     {
-        public Attack_PigEnemy(BasicMeleeEnemy _controlledEntity) : base(_controlledEntity)
+        public Attack_BossTree(BossTree _controlledEntity) : base(_controlledEntity)
         {
         }
         public override void OnEnterState()
@@ -86,14 +86,14 @@ public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
 
             if (!currentEntity.CanAttack)
             {
-            currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
+            // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
             }
         }
     }
 
-    public class Dead_PigEnemy : BaseState<BasicMeleeEnemy>
+    public class Dead_BossTree : BaseState<BossTree>
     {
-        public Dead_PigEnemy(BasicMeleeEnemy _controlledEntity) : base(_controlledEntity)
+        public Dead_BossTree(BossTree _controlledEntity) : base(_controlledEntity)
         {
         }
 
@@ -109,9 +109,11 @@ public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
         {
             if(currentEntity.currentHP > 0)
             {
-                currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Idle);
+                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Idle);
             }
         }
     }
+
+
 
 

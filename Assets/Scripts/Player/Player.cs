@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : LivingEntity
 {
-    public float CurrentXp;
+    public float CurrentXP { get; private set; }
+    public float Max_XP { get; private set; }
+    private float m_totalXpGain;
     public float Level;
     public static Player Instance { get; private set; }
     public PlayerActionsContainer ListOfActions{get; private set;}
@@ -14,6 +16,8 @@ public class Player : LivingEntity
     
     private InputReceiver mousePos;
     private Animator m_animator;
+
+    public List<Spell> ListOfSpell;
     protected override void Init()
     {
         base.Init();
@@ -24,20 +28,36 @@ public class Player : LivingEntity
         ListOfActions = new PlayerActionsContainer();
         mousePos = GetComponent<InputReceiver>();
         m_animator = GetComponent<Animator>();
+        ListOfSpell = new List<Spell>();
+        Max_XP = 100f;
     }
 
     protected override void OnAwake()
     {
         base.OnAwake();
         PLayerSingleton();
+        this.Bind();
+        print(this.GetHashCode());
     }
-
+    public void AddXP(float _amount)
+    {
+        CurrentXP += _amount;
+        if(CurrentXP >= Max_XP)
+        {
+            Level++;
+            CurrentXP = 0;
+            m_totalXpGain += CurrentXP;
+            Max_XP *= 1.25f;
+        }
+    }
     protected override void OnUpdate()
     {
         base.OnUpdate();
         Move(Direction.normalized);
         OnShoot();
         SetAnim();
+        if(ListOfSpell.Count > 0)
+        ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
     }
     private void SetAnim()
     {
@@ -47,7 +67,7 @@ public class Player : LivingEntity
     public override void OnHit(float _damage)
     {
         base.OnHit(_damage);
-        GameplayManager.Instance.SetHPBar();
+        D.Get<GameplayManager>().SetHPBar();
         print(currentHP);
     }
     private void PLayerSingleton()

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleePig : Enemy
+public class BasicMeleeEnemy : Enemy
 {
-    public StateMachine<MeleePig> EnemyStateMachine { get; protected set; }
+    public StateMachine<BasicMeleeEnemy> EnemyStateMachine { get; protected set; }
     public StateContainerMeleePig StateContainer { get; private set; }
     
     protected override void Init()
@@ -12,7 +12,7 @@ public class MeleePig : Enemy
         base.Init();
         base.poolRef = EnemyFactoryPig.Instance.Pool.Pool;
         StateContainer = new StateContainerMeleePig(this);
-        EnemyStateMachine = new StateMachine<MeleePig>(StateContainer.Idle);
+        EnemyStateMachine = new StateMachine<BasicMeleeEnemy>(StateContainer.Idle);
     }
     protected override void OnUpdate()
     {

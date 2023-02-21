@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ExperienceCollectable : MainBehaviour
@@ -11,17 +13,21 @@ public class ExperienceCollectable : MainBehaviour
 
     private Player m_playerRef;
     private float m_xpGiven = baseXP;
-    private SpriteRenderer m_color;
+    private SpriteRenderer m_sprite;
     [SerializeField]private float m_grabRange;
-
+    public float currentXP { get; private set; }
     //manager
     private GameplayManager m_gameRef;
     protected override void OnStart()
     {
         base.OnStart();
         m_playerRef = GameObject.Find("Player").GetComponent<Player>();
-        m_color = GetComponent<SpriteRenderer>();
-        m_gameRef = GameplayManager.Instance;
+        m_sprite = GetComponent<SpriteRenderer>();
+        m_gameRef = D.Get<GameplayManager>();
+        currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);
+        //if value exist add 0.001 to the value 
+        m_gameRef.AddXPToken(this);
+        
     }
 
     protected override void OnUpdate()
@@ -29,12 +35,17 @@ public class ExperienceCollectable : MainBehaviour
         base.OnUpdate();
         OnPlayerEnter();
     }
-    public void SetEntity(float _xp, Color _color)
+    public void SetEntityColor(bool _mostValue = false )
     {
-        if(_xp != m_xpGiven || _color != m_color.color)
+        var _valueColor = Color.green;
+        if (_mostValue)
         {
-             m_xpGiven = _xp;
-             m_color.color = _color;
+            m_sprite.color = _valueColor;
+            return;
+        }
+        if(m_sprite.color == _valueColor)
+        {
+            m_sprite.color = Color.white;
         }
     }
 
@@ -51,10 +62,24 @@ public class ExperienceCollectable : MainBehaviour
     {
         if (Vector3.Distance(m_playerRef.transform.position, transform.position) <= m_grabRange)
         {
-            m_playerRef.CurrentXp += SetExperienceDrop(GetXpAmount());
+            //m_playerRef.CurrentXp += SetExperienceDrop(GetXpAmount());
+            m_playerRef.AddXP(currentXP);
             m_gameRef.ExperiencePool.Pool.ReAddItem(this);
             m_gameRef.SetExpBar();
+            m_gameRef.RemoveXPToken(this);
         }
+    }
+}
+
+public class ExperienceComparable : IComparer<ExperienceCollectable>
+{
+    public int Compare(ExperienceCollectable x, ExperienceCollectable y)
+    {
+        if (x.currentXP != y.currentXP)
+        {
+            return x.currentXP.CompareTo(y.currentXP);
+        }
+        return x.GetInstanceID().CompareTo(y.GetInstanceID());
     }
 }
 

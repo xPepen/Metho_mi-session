@@ -22,8 +22,6 @@ public class EnemyMeleeWeapon : EnemyWeapon
             var _isplayerClose = Vector3.Distance(Player.Instance.transform.position, transform.position) < attackRange;
             if (_isplayerClose)
             {
-                print("attack here");
-
                 (Player.Instance as IHitable).OnHit(Damage);
             }
             m_timeWatch = 0.00f;
