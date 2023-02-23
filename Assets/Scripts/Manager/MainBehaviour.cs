@@ -17,10 +17,18 @@ public class MainBehaviour : MonoBehaviour
     }
     private void Update()
     {
+        if (D.Get<GameplayManager>()  && D.Get<GameplayManager>().IsGamePause)
+        {
+            return;
+        }
         OnUpdate();
     }
     private void FixedUpdate()
     {
+        if (D.Get<GameplayManager>()  && D.Get<GameplayManager>().IsGamePause)
+        {
+            return;
+        }
         OnFixedUpdate();
     }
 

@@ -37,7 +37,6 @@ public class Player : LivingEntity
         base.OnAwake();
         PLayerSingleton();
         this.Bind();
-        print(this.GetHashCode());
     }
     public void AddXP(float _amount)
     {
@@ -53,12 +52,19 @@ public class Player : LivingEntity
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        Move(Direction.normalized);
+        // print(mousePos.MousePosition());
         OnShoot();
-        SetAnim();
-        if(ListOfSpell.Count > 0)
-        ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
+       // if(ListOfSpell.Count > 0)
+        //ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
     }
+
+    protected override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+        Move(Direction.normalized);
+        SetAnim();
+    }
+
     private void SetAnim()
     {
         m_animator.SetFloat("directionX", Direction.normalized.x);

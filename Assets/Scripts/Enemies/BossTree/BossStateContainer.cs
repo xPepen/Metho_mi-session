@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class BossStateContainer 
 {
-    public Idle_PigEnemy Idle { get; protected set; }
-    public Chasse_PigEnemy Chasse { get; protected set; }
-    public Attack_PigEnemy Attack { get; protected set; }
-    public Dead_PigEnemy Dead { get; protected set; }
+    public Idle_BossTree Idle { get; protected set; }
+    public Chasse_BossTree Chasse { get; protected set; }
+    public Attack_BossTree Attack { get; protected set; }
+    public Dead_BossTree Dead { get; protected set; }
     public BossStateContainer(BossTree _ref) 
     {
-        /*Idle = new Idle_PigEnemy(_ref);
-        Chasse = new Chasse_PigEnemy(_ref);
-        Attack = new Attack_PigEnemy(_ref);
-        Dead = new Dead_PigEnemy(_ref);
-        */
+        Idle = new Idle_BossTree(_ref);
+        Chasse = new Chasse_BossTree(_ref);
+        Attack = new Attack_BossTree(_ref);
+        Dead = new Dead_BossTree(_ref);
     }
 }
 public class Idle_BossTree : BaseState<BossTree>
@@ -29,6 +28,8 @@ public class Idle_BossTree : BaseState<BossTree>
         public override void OnEnterState()
         {
             currentWait = 0;
+            currentEntity.InitBabyTree();
+
         }
 
         public override void OnExitState()
@@ -40,7 +41,8 @@ public class Idle_BossTree : BaseState<BossTree>
             currentWait += Time.deltaTime;
             if(currentEntity.CanSeePlayer && currentWait >= timer)
             {
-                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
+
+                 currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
             }
         }
     }
@@ -64,7 +66,7 @@ public class Idle_BossTree : BaseState<BossTree>
 
              if (currentEntity.CanAttack)
              {
-                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Attack);
+                 currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Attack);
              }
         }
     }
@@ -86,7 +88,7 @@ public class Idle_BossTree : BaseState<BossTree>
 
             if (!currentEntity.CanAttack)
             {
-            // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
+              currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Chasse);
             }
         }
     }
@@ -109,7 +111,7 @@ public class Idle_BossTree : BaseState<BossTree>
         {
             if(currentEntity.currentHP > 0)
             {
-                // currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Idle);
+                currentEntity.EnemyStateMachine.SwitchState(currentEntity.StateContainer.Idle);
             }
         }
     }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Enemy1
   m_EditorClassIdentifier: 
   MaxHP: 25
-  moveSpeed: 200
+  moveSpeed: 15

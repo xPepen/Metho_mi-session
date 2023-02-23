@@ -14,7 +14,7 @@ public class Projectile : BaseEntity
     [Header("Projectile")]
     [SerializeField] private float m_lifeTime;
     private float m_currentLifetime;
-
+    protected Vector2 m_velocity;
     private bool IsTooOld => m_currentLifetime >= m_lifeTime;
     protected override void OnAwake()
     {
@@ -29,8 +29,8 @@ public class Projectile : BaseEntity
     }
     public void OnMoveProjectile(Vector2 _dir)
     {
-        var velocity =  (_dir - (Vector2)transform.position).normalized * m_speed * Time.fixedDeltaTime;
-        m_rb.velocity = velocity;
+        m_velocity =  (_dir - (Vector2)transform.position).normalized * m_speed * Time.fixedDeltaTime;
+        m_rb.velocity = m_velocity;
         //m_rb.AddForce(  _dir.normalized * m_speed * Time.deltaTime,ForceMode2D.Impulse);
         //m_rb.AddForce(  velocity.normalized * m_speed * Time.fixedDeltaTime ,ForceMode2D.Impulse);
     }
@@ -55,6 +55,18 @@ public class Projectile : BaseEntity
         if (IsTooOld)
         {
             OnDisableProjectile();
+        }
+
+        if (D.Get<GameplayManager>().IsGamePause)
+        {
+            m_rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            if (m_rb.velocity != m_velocity)
+            {
+                m_velocity = m_rb.velocity;
+            }
         }
     }
 

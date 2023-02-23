@@ -4,65 +4,95 @@ using UnityEngine;
 
 public class BossTree : Enemy
 {
-    
     public StateMachine<BossTree> EnemyStateMachine { get; protected set; }
     public BossStateContainer StateContainer { get; private set; }
-    
-    [SerializeField]private float m_maxShield;
+    private const float m_maxShield = 100;
+    private  float m_OnHitShield ;
     private float m_currentShield;
+    public List<BabyTree> _babyTrees;
     protected override void Init()
     {
         base.Init();
-        //need a boss pool
-        base.poolRef = EnemyFactoryPig.Instance.Pool.Pool;
+        base.poolRef = TreeFactory.Instance.Pool.Pool;
         m_currentShield = m_maxShield;
-        StateContainer = new BossStateContainer(this);
-        // EnemyStateMachine = new StateMachine<BossTree>();
     }
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        StateContainer = new BossStateContainer(this);
+
+        EnemyStateMachine = new StateMachine<BossTree>(StateContainer.Idle);
+        m_OnHitShield =  m_maxShield / _babyTrees.Count;
+    }
+
     protected override void OnUpdate()
     {
         base.OnUpdate();
         EnemyStateMachine.OnUpdate();
+       
+    }
+    /*public void InitBabyTree()
+    {
+        var _rand = Random.Range(2, 5 + 1);
+        BabyTreeFactory _babyTree = BabyTreeFactory.Instance;
+            m_OnHitShield = m_maxShield / _rand;
+            print(_rand);
+            int i = 0;
+            while (i < _rand)
+            {
+                print(i);
+                var _copy = _babyTree.CreateEnemy2(this);
+                print(_copy + " number " + i);
+                _copy.transform.position = transform.position + (Vector3)Random.insideUnitCircle.normalized * 5f;
+                i++;
+            }
+    }*/
+    public void InitBabyTree()
+    {
+        
+        BabyTreeFactory _babyTree = BabyTreeFactory.Instance;
+            for(int i= 0; i < _babyTrees.Count; i ++)
+            {
+                var _copy = _babyTrees[i];
+                _copy.Original = this;
+                _copy.gameObject.SetActive(true);
+                _copy.transform.position = transform.position + (Vector3)Random.insideUnitCircle.normalized * 3f;
+            }
     }
     public override void OnAttack()
     {
-        //shoot multiple projectile
+        if (base.m_Weapon)
+        {
+                 (m_Weapon as IShootable).Attack(Player.Instance.MyWeapon.transform.position);
+        }
     }
 
-    public void HitShield(float _dmgOnShield)
+    public void HitShield()
     {
+        print((m_currentShield));
         if (this.m_currentShield < 0)
         {
             return;
         }
-        this.m_currentShield -= _dmgOnShield;
+        this.m_currentShield -= m_OnHitShield;
     }
 
     public override void OnHit(float _damage)
     {
-        //not calling base cause boss cannot be hit if he have shield
-        //base.OnHit(_damage); 
         if (this.m_currentShield > 0)
         {
             return;
         }
-        this.currentHP -= _damage;
-        /*if (_HitEffect)
-        {
-            //add pool
-            //place effect 
-            //play
-        }*/
-        if (IsDead)
-        {
-            OnDead();
-        }
+        base.OnHit(_damage); 
+      
     }
 
     public override void OnDead()
     {
         base.OnDead();
-        //EnemyStateMachine.SwitchState(idle);
+        m_currentShield = m_maxShield;
+        EnemyStateMachine.SwitchState(StateContainer.Idle);
     }
     
     

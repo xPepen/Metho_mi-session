@@ -6,9 +6,9 @@ using UnityEngine;
 
 public static class D
 {
-    private readonly static Dictionary<string, MonoBehaviour> m_dictionaryRef = new Dictionary<string, MonoBehaviour>();
+    private readonly static Dictionary<string, MainBehaviour> m_dictionaryRef = new Dictionary<string, MainBehaviour>();
 
-     public static void Bind(this MonoBehaviour _instance)
+     public static void Bind(this MainBehaviour _instance)
      {   
         string _key = _instance.GetType().Name;
         if (!m_dictionaryRef.ContainsKey(_key))
@@ -21,13 +21,13 @@ public static class D
         }
      }
      
-     public static T Get<T>() where  T : MonoBehaviour
+     public static T Get<T>() where  T : MainBehaviour
      {
          string _key = typeof(T).Name;
          return m_dictionaryRef.ContainsKey(_key) ? (T)m_dictionaryRef[_key] : null;
      }
      public static void Clear() => m_dictionaryRef.Clear();
-     public static void Remove<T>() where T : MonoBehaviour
+     public static void Remove<T>() where T : MainBehaviour
      {
          var _key = typeof(T).Name;
          if(m_dictionaryRef.ContainsKey(_key))

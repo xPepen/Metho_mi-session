@@ -49,9 +49,11 @@ public class InputReceiver : MainBehaviour
 
 
 
-    //public void OnGamePause(InputAction.CallbackContext context)
-    //{
-    //    //if (context.performed && !manager.IsOver)
-    //    //  panel.PauseMenu();
-    //}
+    public void OnGamePause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            D.Get<GameplayManager>().OnGamePause.Invoke();
+        }
+    }
 }

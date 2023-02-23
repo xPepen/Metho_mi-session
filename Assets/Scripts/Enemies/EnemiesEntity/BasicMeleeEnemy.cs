@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicMeleeEnemy : Enemy
 {
     public StateMachine<BasicMeleeEnemy> EnemyStateMachine { get; protected set; }
-    public StateContainerMeleePig StateContainer { get; private set; }
+    public StateContainerMeleePig StateContainer { get; protected set; }
     
     protected override void Init()
     {
@@ -17,11 +17,16 @@ public class BasicMeleeEnemy : Enemy
     protected override void OnUpdate()
     {
         base.OnUpdate();
+    }
+
+    protected override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
         EnemyStateMachine.OnUpdate();
     }
+
     public override void OnAttack()
     {
-       
         if (!CanAttack)
         {
             return;

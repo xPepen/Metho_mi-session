@@ -6,9 +6,9 @@ public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<
 {
     public PoolHandler<Enemy> Pool;
     public static T Instance { get; private set; }
-    protected override void OnStart()
+    protected override void OnAwake()
     {
-        base.OnStart();
+        base.OnAwake();
         if (Instance == null)
         {
             Instance = GetComponent<T>();
@@ -17,5 +17,6 @@ public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<
         {
             Destroy(Instance);
         }
+        this.Pool.InitPool();
     }
 }

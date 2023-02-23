@@ -19,7 +19,7 @@ public class StateContainerMeleePig
 
 public class Idle_PigEnemy : BaseState<BasicMeleeEnemy>
 {
-    private float timer = 1.25f;
+    private float timer = 0.5f;
     private float currentWait;
         public Idle_PigEnemy(BasicMeleeEnemy _controlledEntity) : base(_controlledEntity)
         {

@@ -31,8 +31,8 @@ public abstract class Enemy : LivingEntity
         speed = EnemyInfo.moveSpeed;
         //Init manager
         m_gameplayManager = D.Get<GameplayManager>();
-        m_playerRef = D.Get<Player>();
-
+        //m_playerRef = D.Get<Player>();
+         m_playerRef = Player.Instance;
     }
     public override void OnDead()
     {

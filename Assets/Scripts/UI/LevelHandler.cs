@@ -13,6 +13,7 @@ public class LevelHandler : MonoBehaviour
         if(!(LevelToLoad > SceneManager.sceneCount))
         {
             SceneManager.LoadScene(LevelToLoad);
+            D.Clear();
             return;
         }
         throw new System.Exception("Invalid scene index");

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MainBehaviour
 {
-    GameObject player;
     AbstractFactory factory;
     private List<AbstractFactory> ListOfFactory;
     [SerializeField] private float TimeToSwitchFactory;
@@ -14,21 +13,25 @@ public class EnemySpawner : MainBehaviour
     {
         base.OnAwake();
         ListOfFactory= new List<AbstractFactory>();
-        factory = EnemyFactoryPig.Instance;
+        
     }
     protected override void OnStart()
     {
         base.OnStart();
-        player = GameObject.Find("Player");
         StartCoroutine(FactoryCoroutine());
         StartCoroutine(WaveCoroutine()); 
     }
 
+    public void OnLevelup()
+    {
+        
+    }
 
     IEnumerator FactoryCoroutine()
     {
         factory = EnemyFactoryPig.Instance;
         yield return new WaitForSeconds(TimeToSwitchFactory);
+        factory = TreeFactory.Instance;
         //factory = MediumEnemyFactory.Instance;
         //yield return new WaitForSeconds(TimeToSwitchFactory);
         //factory = HardEnemyFactory.Instance;
@@ -42,7 +45,7 @@ public class EnemySpawner : MainBehaviour
             {
                 var enemy =  factory.CreateEnemy();
                 Vector3 randomOffset = Random.insideUnitCircle;
-                enemy.transform.position = player.transform.position + randomOffset.normalized * OffsetFromPlayer;
+                enemy.transform.position = Player.Instance.transform.position + randomOffset.normalized * OffsetFromPlayer;
             }
             yield return new WaitForSeconds(10);
         }
