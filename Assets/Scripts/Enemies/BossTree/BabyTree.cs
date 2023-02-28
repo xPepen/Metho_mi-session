@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BabyTree : Enemy
+public class BabyTree : BasicMeleeEnemy
 {
   
     public BossTree Original;
@@ -12,7 +12,7 @@ public class BabyTree : Enemy
     protected override void Init()
     {
       base.Init();
-      base.poolRef = BabyTreeFactory.Instance.Pool.Pool;
+     // base.poolRef = BabyTreeFactory.Instance.Pool.Pool;
      // StateContainer = new StateContainerMeleePig(this);
      // EnemyStateMachine = new StateMachine<BasicMeleeEnemy>(StateContainer.Idle);
     }
@@ -21,7 +21,7 @@ public class BabyTree : Enemy
       base.OnUpdate();
      // EnemyStateMachine.OnUpdate();
     }
-    public override void OnAttack()
+    /*public override void OnAttack()
     {
       if (!CanAttack)
       {
@@ -31,10 +31,16 @@ public class BabyTree : Enemy
       {
         m_Weapon.Attack(Vector2.zero);
       }
-    }
+    }*/
     public override void OnDead()
     {
-    base.OnDead();
-    Original.HitShield();
+        Heal();
+        if (Random.Range(0, 10 + 1) > 4)
+        {
+            var _Entity = m_gameplayManager.ExperiencePool.Pool.GetNextItem();
+            _Entity.transform.position = transform.position;
+        }
+        gameObject.SetActive(!gameObject.activeSelf);
+            Original.HitShield();
    }
 }

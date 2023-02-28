@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Player : LivingEntity
 {
     public float CurrentXP { get; private set; }
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
-    public float Level;
+    public int Level;
+    public UnityEvent OnLevelUp;
     public static Player Instance { get; private set; }
     public PlayerActionsContainer ListOfActions{get; private set;}
     [SerializeField] private PhysicEntityInfo EntityStats;
@@ -16,7 +20,6 @@ public class Player : LivingEntity
     
     private InputReceiver mousePos;
     private Animator m_animator;
-
     public List<Spell> ListOfSpell;
     protected override void Init()
     {
@@ -44,6 +47,7 @@ public class Player : LivingEntity
         if(CurrentXP >= Max_XP)
         {
             Level++;
+            OnLevelUp.Invoke();
             CurrentXP = 0;
             m_totalXpGain += CurrentXP;
             Max_XP *= 1.25f;
@@ -101,5 +105,8 @@ public class Player : LivingEntity
 
     public override void OnDead()
     {
+       D.Get<GameplayManager>().RestartLevel(1);
     }
+
+ 
 }

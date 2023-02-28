@@ -13,20 +13,23 @@ public class VoidCircle : Spell
     {
         if (CanAttack)
         {
-            var _potentialEntity = Physics2D.CircleCastAll(transform.position, base.SpellRadius, Vector2.zero, base.Max_Range, base.m_target);
-            //Gizmos.DrawSphere(transform.position, SpellRadius);
-            if (_potentialEntity.Length > 0)
+             Physics2D.OverlapCircleNonAlloc(transform.position, base.SpellRadius,m_collisionResult,  base.m_target);
+            if (m_collisionResult.Length > 0 && m_collisionResult[0] != null)
             {
-                int _currentCount = _potentialEntity.Length > base.HittableTargetCount ?  base.HittableTargetCount:_potentialEntity.Length;
-
-                for (int i = 0; i < _currentCount; i++)
+                //int _currentCount = m_collisionResult.Length > base.HittableTargetCount ?  base.HittableTargetCount:m_collisionResult.Length;
+                for (int i = 0; i < m_collisionResult.Length; i++)
                 {
-                    var _isHittable = (_potentialEntity[i].transform.GetComponent< IHitable>());
+                    if (m_collisionResult[i] == null)
+                    {
+                        break;
+                    }
+                    var _isHittable = (m_collisionResult[i].GetComponent<IHitable>());
                     if (_isHittable != null)
                     {
                         _isHittable.OnHit(base.SpellDamage);
-                        print("I just did attak");
                     }
+
+                    m_collisionResult[i] = null;
                 }
                 base.ResetAttack();
             }

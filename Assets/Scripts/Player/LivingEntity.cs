@@ -11,6 +11,7 @@ public abstract class LivingEntity : BaseEntity,IHitable
     protected Rigidbody2D m_rb;
     private AudioSource m_audio;
     private SpriteRenderer _sprite;
+    private float m_HitValue;
     protected virtual void Init()
     {
         m_rb = GetComponent<Rigidbody2D>();
@@ -36,6 +37,11 @@ public abstract class LivingEntity : BaseEntity,IHitable
     protected override void OnUpdate()
     {
         base.OnUpdate();
+        if (m_HitValue > 0)
+        {
+            m_HitValue = Mathf.Lerp(m_HitValue, 0f, Time.deltaTime * 5f);
+            _sprite.material.SetFloat("_HitValue", m_HitValue);
+        }
        
     }
 
@@ -45,6 +51,7 @@ public abstract class LivingEntity : BaseEntity,IHitable
     }
     public virtual void OnHit(float _damage)
     {
+        m_HitValue = 1f;
         if (m_audio)
         {
             m_audio.Play();

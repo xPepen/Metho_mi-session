@@ -5,14 +5,13 @@ using UnityEngine;
 public class BasicMeleeEnemy : Enemy
 {
     public StateMachine<BasicMeleeEnemy> EnemyStateMachine { get; protected set; }
-    public StateContainerMeleePig StateContainer { get; protected set; }
+    public StateContainerBasicMelee StateContainerBasic { get; protected set; }
     
     protected override void Init()
     {
         base.Init();
-        base.poolRef = EnemyFactoryPig.Instance.Pool.Pool;
-        StateContainer = new StateContainerMeleePig(this);
-        EnemyStateMachine = new StateMachine<BasicMeleeEnemy>(StateContainer.Idle);
+        StateContainerBasic = new StateContainerBasicMelee(this);
+        EnemyStateMachine = new StateMachine<BasicMeleeEnemy>(StateContainerBasic.Idle);
     }
     protected override void OnUpdate()
     {

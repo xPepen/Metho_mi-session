@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameplayManager : MainBehaviour
@@ -36,11 +37,35 @@ public class GameplayManager : MainBehaviour
         SetExpBar(false);
         m_xpSet = new SortedSet<ExperienceCollectable>(new ExperienceComparable());
         IsGamePause = false;
+        CheckTimeScale(IsGamePause);
         OnGamePause = () =>
         {
             IsGamePause = !IsGamePause;
             GameMenu.SetActive( !GameMenu.activeSelf);
+            CheckTimeScale(IsGamePause);
+
         };
+    }
+
+    private void CheckTimeScale(bool _isStop)
+    {
+        if (_isStop)
+        {
+            Time.timeScale = 0.00f;
+            return;
+        }
+        Time.timeScale = 1.00f;
+    }
+
+    public void RestartLevel(int _LevelIndex)
+    {
+        D.Clear();
+        SceneManager.LoadScene(_LevelIndex);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
     //public void AddXpToken(ExperienceCollectable _XP)
     //{

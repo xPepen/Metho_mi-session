@@ -13,5 +13,10 @@ public abstract class Spell : Weapon
     [SerializeField] protected float SpellRadius;
     [Tooltip("Distance for hit (Diametre)")]
     [SerializeField] protected float Max_Range;
-    
+    protected Collider2D[] m_collisionResult;
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        m_collisionResult = new Collider2D[this.HittableTargetCount];
+    }
 }

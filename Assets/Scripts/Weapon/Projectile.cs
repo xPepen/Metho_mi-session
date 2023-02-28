@@ -15,12 +15,15 @@ public class Projectile : BaseEntity
     [SerializeField] private float m_lifeTime;
     private float m_currentLifetime;
     protected Vector2 m_velocity;
+    
+    private Collider2D[] m_collResult;
     private bool IsTooOld => m_currentLifetime >= m_lifeTime;
     protected override void OnAwake()
     {
         base.OnAwake();
         m_rb= GetComponent<Rigidbody2D>();
         m_currentLifetime = 0f;
+        m_collResult = new Collider2D[1];
     }
     protected override void OnStart()
     {
@@ -29,7 +32,7 @@ public class Projectile : BaseEntity
     }
     public void OnMoveProjectile(Vector2 _dir)
     {
-        m_velocity =  (_dir - (Vector2)transform.position).normalized * m_speed * Time.fixedDeltaTime;
+        m_velocity =  (_dir - (Vector2)transform.position).normalized * (m_speed * Time.fixedDeltaTime);
         m_rb.velocity = m_velocity;
         //m_rb.AddForce(  _dir.normalized * m_speed * Time.deltaTime,ForceMode2D.Impulse);
         //m_rb.AddForce(  velocity.normalized * m_speed * Time.fixedDeltaTime ,ForceMode2D.Impulse);
@@ -56,39 +59,22 @@ public class Projectile : BaseEntity
         {
             OnDisableProjectile();
         }
-
-        if (D.Get<GameplayManager>().IsGamePause)
-        {
-            m_rb.velocity = Vector2.zero;
-        }
-        else
-        {
-            if (m_rb.velocity != m_velocity)
-            {
-                m_velocity = m_rb.velocity;
-            }
-        }
-    }
-
-    protected override void OnFixedUpdate()
-    {
-        base.OnFixedUpdate();
     }
     protected void DectectEntity()
     {
-        var _potentialEntity = Physics2D.CircleCast(transform.position, HittableRadius, Vector2.zero);
-        LivingEntity _hitable = null;
-        if (!_potentialEntity)
+        //var _potentialEntity = Physics2D.CircleCast(transform.position, HittableRadius, Vector2.zero);
+        Physics2D.OverlapCircleNonAlloc(transform.position, HittableRadius,m_collResult);
+        LivingEntity _hitable =  m_collResult[0].transform.GetComponent<LivingEntity>();
+        if ( _hitable == null)
         {
             return;
         }
-             _hitable = _potentialEntity.transform.GetComponent<LivingEntity>();
 
         if (_hitable != null && _hitable.Type == Target)
         {
-            if (Vector3.Distance(this.transform.position, _potentialEntity.transform.position) <= HittableDistance)
+            if (Vector3.Distance(this.transform.position, m_collResult[0].transform.position) <= HittableDistance)
             {
-                (_hitable as IHitable).OnHit(m_damage); // to be verify ...
+                (_hitable as IHitable).OnHit(m_damage); 
                 OnDisableProjectile();
             }
         }

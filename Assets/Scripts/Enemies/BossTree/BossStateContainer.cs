@@ -29,7 +29,6 @@ public class Idle_BossTree : BaseState<BossTree>
         {
             currentWait = 0;
             currentEntity.InitBabyTree();
-
         }
 
         public override void OnExitState()

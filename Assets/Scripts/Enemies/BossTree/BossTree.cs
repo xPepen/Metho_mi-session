@@ -13,7 +13,7 @@ public class BossTree : Enemy
     protected override void Init()
     {
         base.Init();
-        base.poolRef = TreeFactory.Instance.Pool.Pool;
+       // base.poolRef = TreeFactory.Instance.Pool.Pool;
         m_currentShield = m_maxShield;
     }
 
@@ -22,8 +22,8 @@ public class BossTree : Enemy
         base.OnStart();
         StateContainer = new BossStateContainer(this);
 
-        EnemyStateMachine = new StateMachine<BossTree>(StateContainer.Idle);
-        m_OnHitShield =  m_maxShield / _babyTrees.Count;
+        EnemyStateMachine = new StateMachine<BossTree>(StateContainer.Idle); // on initstate
+      
     }
 
     protected override void OnUpdate()
@@ -50,8 +50,6 @@ public class BossTree : Enemy
     }*/
     public void InitBabyTree()
     {
-        
-        BabyTreeFactory _babyTree = BabyTreeFactory.Instance;
             for(int i= 0; i < _babyTrees.Count; i ++)
             {
                 var _copy = _babyTrees[i];
@@ -59,6 +57,7 @@ public class BossTree : Enemy
                 _copy.gameObject.SetActive(true);
                 _copy.transform.position = transform.position + (Vector3)Random.insideUnitCircle.normalized * 3f;
             }
+            m_OnHitShield =  m_maxShield / _babyTrees.Count;
     }
     public override void OnAttack()
     {

@@ -5,11 +5,11 @@ using TMPro;
 using UnityEngine;
 
 public class ExperienceCollectable : MainBehaviour
-{
-    [SerializeField] private const int baseXP = 2;
-    private const float SMALL_XP = 2;
-    private const float MEDIUM_XP = 2;
-    private const float BIG_XP = 2;
+{ 
+    private const int baseXP = 2;
+    private const float SMALL_XP = 4;
+    private const float MEDIUM_XP = 8;
+    private const float BIG_XP = 12;
 
     private Player m_playerRef;
     private float m_xpGiven = baseXP;
@@ -24,7 +24,7 @@ public class ExperienceCollectable : MainBehaviour
         m_playerRef = GameObject.Find("Player").GetComponent<Player>();
         m_sprite = GetComponent<SpriteRenderer>();
         m_gameRef = D.Get<GameplayManager>();
-        currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);
+       // currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);
         //if value exist add 0.001 to the value 
         m_gameRef.AddXPToken(this);
         
@@ -62,7 +62,7 @@ public class ExperienceCollectable : MainBehaviour
     {
         if (Vector3.Distance(m_playerRef.transform.position, transform.position) <= m_grabRange)
         {
-            //m_playerRef.CurrentXp += SetExperienceDrop(GetXpAmount());
+            currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);
             m_playerRef.AddXP(currentXP);
             m_gameRef.ExperiencePool.Pool.ReAddItem(this);
             m_gameRef.SetExpBar();

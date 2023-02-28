@@ -5,5 +5,6 @@ using UnityEngine;
 public abstract class AbstractFactory: MainBehaviour 
 {
     public abstract GameObject CreateEnemy();
-    
+    public PoolHandler<Enemy> Pool;
+
 }

@@ -17,7 +17,8 @@ public static class D
         }
         else
         {
-            throw new ArgumentException("Key : " + _key + " already exist can't use Bind");
+            //throw new ArgumentException("Key : " + _key + " already exist can't use Bind");
+            Debug.Log("Key : " + _key + " already exist can't use Bind");
         }
      }
      

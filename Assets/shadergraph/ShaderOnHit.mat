@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyMat
+  m_Name: ShaderOnHit
   m_Shader: {fileID: -6465566751694194690, guid: 20425b86655a8a94999d761a5d988efb, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

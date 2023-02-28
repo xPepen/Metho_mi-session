@@ -15,8 +15,8 @@ public abstract class Enemy : LivingEntity
     [Header("___Attack___")]
     [SerializeField]protected Weapon m_Weapon;
     [SerializeField] protected float attackRange;
-    [SerializeField] protected bool IsMelee;
-    [field: SerializeField] protected PoolPatern<Enemy> poolRef; // must be initialise by children
+    [field: SerializeField] protected AbstractFactory m_factory;
+    [SerializeField] protected PoolPatern<Enemy> m_poolRef; // must be initialise by children
     public bool CanAttack => Vector3.Distance(transform.position ,m_playerRef.transform.position) <= attackRange;
     public Vector2 Direction => (m_playerRef.transform.position - transform.position).normalized;
 
@@ -33,12 +33,18 @@ public abstract class Enemy : LivingEntity
         m_gameplayManager = D.Get<GameplayManager>();
         //m_playerRef = D.Get<Player>();
          m_playerRef = Player.Instance;
+         if (m_factory != null)
+         {
+            m_poolRef = m_factory.Pool.Pool;
+             
+         }
+
     }
     public override void OnDead()
     {
-        poolRef.ReAddItem(this);
+        m_poolRef.ReAddItem(this);
         Heal();
-        if (Random.Range(0, 10 + 1) > 6)
+        if (Random.Range(0, 10 + 1) > 4)
         {
             var _Entity = m_gameplayManager.ExperiencePool.Pool.GetNextItem();
             _Entity.transform.position = transform.position;
