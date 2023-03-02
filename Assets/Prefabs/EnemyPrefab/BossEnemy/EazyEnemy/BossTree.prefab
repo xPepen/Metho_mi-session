@@ -1298,7 +1298,7 @@ MonoBehaviour:
   m_Weapon: {fileID: 3331625595332341973}
   attackRange: 2
   m_factory: {fileID: 0}
-  Original: {fileID: 0}
+  Original: {fileID: 3331625594677412556}
 --- !u!50 &3331625595785947835
 Rigidbody2D:
   serializedVersion: 4

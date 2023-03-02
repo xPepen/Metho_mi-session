@@ -35,4 +35,38 @@ public class VoidCircle : Spell
             }
         }
     }
+
+    public void UpgradeRange(int _value)
+    {
+        base.Max_Range += _value;
+        base.m_UpgradeName = "Void Circle : RangeUpgrade";
+    }
+    public void UpgradeDamage(int _value)
+    {
+        base.SpellDamage += _value;
+        base.m_UpgradeName = "Void Circle : RangeUpgrade";
+    }
+
+    public void UpgradeTargetCount(int _value)
+    {
+        base.m_UpgradeName = "Void Circle : RangeUpgrade";
+        m_HittableTargetCount += _value;
+        m_collisionResult = null;
+        m_collisionResult = new Collider2D[this.m_HittableTargetCount];
+    }
+
+    public override void InitUpgrade()
+    {
+        
+    }
+
+    public override void UpgradeStat(int _value)
+    {
+        
+    }
+
+    public override string UpgradeName()
+    {
+        return m_UpgradeName;
+    }
 }

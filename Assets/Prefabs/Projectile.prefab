@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 2
-  m_damage: 10
+  m_damage: 5
   HittableRadius: 1
   HittableDistance: 1
   m_speed: 300
