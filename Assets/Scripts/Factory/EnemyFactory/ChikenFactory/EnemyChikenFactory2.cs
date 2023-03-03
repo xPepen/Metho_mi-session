@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyChikenFactory2 : EnemyFactory<EnemyChikenFactory2>
 {
-    public override GameObject CreateEnemy()
+    /*public override GameObject CreateEnemy()
     {
         return base.Pool.Pool.GetNextItem().gameObject;
-    }
+    }*/
 }

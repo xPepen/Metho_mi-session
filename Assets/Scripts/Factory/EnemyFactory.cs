@@ -20,4 +20,14 @@ public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<
         }
         this.Pool.InitPool();
     }
+    public override GameObject CreateEnemy()
+    {
+        var _copy = Pool.Pool.GetNextItem().gameObject;
+        if (_copy.TryGetComponent(out Enemy _enemy) && _enemy.m_RePool == null)
+        {
+            _enemy.m_RePool = () => Pool.Pool.ReAddItem(_enemy);
+        }
+
+        return _copy;
+    }
 }

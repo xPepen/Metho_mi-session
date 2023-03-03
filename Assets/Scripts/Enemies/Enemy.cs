@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class Enemy : LivingEntity
 {
@@ -15,8 +17,8 @@ public abstract class Enemy : LivingEntity
     [Header("___Attack___")]
     [SerializeField]protected Weapon m_Weapon;
     [SerializeField] protected float attackRange;
-    [field: SerializeField] protected AbstractFactory m_factory;
-    [SerializeField] protected PoolPatern<Enemy> m_poolRef; // must be initialise by children
+
+    public Action m_RePool { get; set; }
     public bool CanAttack => Vector3.Distance(transform.position ,m_playerRef.transform.position) <= attackRange;
     public Vector2 Direction => (m_playerRef.transform.position - transform.position).normalized;
 
@@ -33,16 +35,10 @@ public abstract class Enemy : LivingEntity
         m_gameplayManager = D.Get<GameplayManager>();
         //m_playerRef = D.Get<Player>();
          m_playerRef = Player.Instance;
-         if (m_factory != null)
-         {
-            m_poolRef = m_factory.Pool.Pool;
-             
-         }
-
     }
     public override void OnDead()
     {
-        m_poolRef.ReAddItem(this);
+        m_RePool.Invoke();
         Heal();
         if (Random.Range(0, 10 + 1) > 4)
         {

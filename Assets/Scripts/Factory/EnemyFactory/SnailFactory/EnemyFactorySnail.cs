@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyFactorySnail : EnemyFactory<EnemyFactorySnail>
 {
-    public override GameObject CreateEnemy()
+    /*public override GameObject CreateEnemy()
     {
         return base.Pool.Pool.GetNextItem().gameObject;
-    }
+    }*/
 
 }
