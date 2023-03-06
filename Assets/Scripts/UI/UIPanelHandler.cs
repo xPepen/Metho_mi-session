@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class PanelNode
 {
-    public GameObject nextPanel;
-    public GameObject previous;
+    public UnityEngine.GameObject nextPanel;
+    public UnityEngine.GameObject previous;
 }
 
 public class UIPanelHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject[] panels;
+    [SerializeField] private UnityEngine.GameObject[] panels;
     [SerializeField] private int next;
     //public GameObject nextPanel;
     //public GameObject previous;
@@ -31,7 +31,7 @@ public class UIPanelHandler : MonoBehaviour
         }
     }
 
-    private void ChangeGameObjState(bool _state, GameObject _obj)
+    private void ChangeGameObjState(bool _state, UnityEngine.GameObject _obj)
     {
         _obj.SetActive(_state);
     }

@@ -7,11 +7,11 @@ public class PoolPatern<T> where T: Component
 {
    
     private Queue<T> m_pool;
-    private GameObject m_prefab;
-    private GameObject m_parentObj;
+    private UnityEngine.GameObject m_prefab;
+    private UnityEngine.GameObject m_parentObj;
     private int size;
 
-    public PoolPatern(int size, GameObject prefab, GameObject Parent)
+    public PoolPatern(int size, UnityEngine.GameObject prefab, UnityEngine.GameObject Parent)
     {
         BasicException(size);
         m_pool = new Queue<T>();
@@ -25,7 +25,7 @@ public class PoolPatern<T> where T: Component
 
         for (int i = 0; i < size; i++)
         {
-            var _obj = GameObject.Instantiate(m_prefab);
+            var _obj = UnityEngine.GameObject.Instantiate(m_prefab);
             _obj.transform.parent = m_parentObj.transform;
             _obj.gameObject.SetActive(false);
             var _newNode = _obj.GetComponent<T>();

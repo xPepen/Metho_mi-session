@@ -1,48 +1,21 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class UpgradeManager : MainBehaviour
 {
-   [SerializeField] private Player m_PlayerRef;
+    [SerializeField] private List<Upgrader> m_UgraderPanel;
 
-   [SerializeField] private List<Spell> spell;
-   
-   [SerializeField] private Dictionary<GameObject, GameObject> Spell;
+    public void ToggleAllPanel(bool _state)
+    {
+        if (m_UgraderPanel.Count <= 0)
+        {
+            return;
+        }
 
-   protected override void OnStart()
-   {
-      base.OnStart();
-      spell = m_PlayerRef.ListOfSpell;
-   }
-
-   public void OnUpgradeGunDamage()
-   {
-      
-   }
-   public void OnUpgradeSpellDamage(int _index)
-   {
-      
-   }
-   public void OnUpgradeRange(int _index)
-   {
-      
-   }
-
-   public void OnUpgradeAttackCount(int _index)
-   {
-      
-   }
-
-   public void OnUpgradeHP()
-   {
-      
-   }
-
-   public void OnUpgradeSpeed()
-   {
-      
-   }
+        for (int i = 0; i < m_UgraderPanel.Count; i++)
+        {
+            m_UgraderPanel[i].Toggle(_state);
+        }
+    }
 }

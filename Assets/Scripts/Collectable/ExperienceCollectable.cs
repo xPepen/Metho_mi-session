@@ -21,7 +21,7 @@ public class ExperienceCollectable : MainBehaviour
     protected override void OnStart()
     {
         base.OnStart();
-        m_playerRef = GameObject.Find("Player").GetComponent<Player>();
+        m_playerRef = UnityEngine.GameObject.Find("Player").GetComponent<Player>();
         m_sprite = GetComponent<SpriteRenderer>();
         m_gameRef = D.Get<GameplayManager>();
        // currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);

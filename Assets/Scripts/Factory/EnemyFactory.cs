@@ -20,7 +20,7 @@ public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<
         }
         this.Pool.InitPool();
     }
-    public override GameObject CreateEnemy()
+    public override UnityEngine.GameObject CreateEnemy()
     {
         var _copy = Pool.Pool.GetNextItem().gameObject;
         if (_copy.TryGetComponent(out Enemy _enemy) && _enemy.m_RePool == null)

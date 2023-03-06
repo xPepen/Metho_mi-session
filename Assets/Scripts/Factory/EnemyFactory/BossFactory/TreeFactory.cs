@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TreeFactory : EnemyFactory<TreeFactory>
 {
-    public override GameObject CreateEnemy()
+    /*public override GameObject CreateEnemy()
     {
         return base.Pool.Pool.GetNextItem().gameObject;
-    }
+    }*/
 
 
     

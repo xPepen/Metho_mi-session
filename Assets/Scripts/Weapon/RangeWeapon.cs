@@ -5,9 +5,9 @@ using UnityEngine;
 public class RangeWeapon : Weapon
 {
     [Header("Projectile")]
-    [SerializeField] private GameObject m_projectile;
+    [SerializeField] private UnityEngine.GameObject m_projectile;
     [SerializeField] private int m_poolSize;
-    [SerializeField] private GameObject m_poolLocation;
+    [SerializeField] private UnityEngine.GameObject m_poolLocation;
     public PoolPatern<Projectile> ProjectilePool { get; private set; }
     
    

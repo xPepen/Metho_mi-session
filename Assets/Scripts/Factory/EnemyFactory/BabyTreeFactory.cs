@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BabyTreeFactory : EnemyFactory<BabyTreeFactory>
 {
-    public override GameObject CreateEnemy()
+    public override UnityEngine.GameObject CreateEnemy()
     {
         return base.Pool.Pool.GetNextItem().gameObject;
     }
-    public GameObject CreateEnemy2(BossTree _ref)
+    public UnityEngine.GameObject CreateEnemy2(BossTree _ref)
     {
         var _copy = base.Pool.Pool.GetNextItem();
       

@@ -14,7 +14,7 @@ public class GameplayManager : MainBehaviour
     [SerializeField] private UnityEngine.UI.Image[] PlayerInfoImageArray;// [0] XP - [1] Life
     public Player m_playerRef { get; private set; }
     public Action OnGamePause;
-    public GameObject GameMenu;
+    public UnityEngine.GameObject GameMenu;
     public bool IsGamePause { get; private set; }
     //----------Experience Collectable -------------
     [field: SerializeField] public PoolHandler<ExperienceCollectable> ExperiencePool { get; private set; }

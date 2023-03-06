@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
-public class Player : LivingEntity
+public class Player : LivingEntity, IUpgradeblePlayerStats
 {
     public float CurrentXP { get; private set; }
     public float Max_XP { get; private set; }
@@ -13,14 +11,15 @@ public class Player : LivingEntity
     public int Level;
     public UnityEvent OnLevelUp;
     public static Player Instance { get; private set; }
-    public PlayerActionsContainer ListOfActions{get; private set;}
+    public PlayerActionsContainer ListOfActions { get; private set; }
     [SerializeField] private PhysicEntityInfo EntityStats;
     public Weapon MyWeapon;
     public Vector2 Direction { get; set; }
-    
+
     private InputReceiver mousePos;
     private Animator m_animator;
     public List<Spell> ListOfSpell;
+
     protected override void Init()
     {
         base.Init();
@@ -41,10 +40,11 @@ public class Player : LivingEntity
         PLayerSingleton();
         this.Bind();
     }
+
     public void AddXP(float _amount)
     {
         CurrentXP += _amount;
-        if(CurrentXP >= Max_XP)
+        if (CurrentXP >= Max_XP)
         {
             Level++;
             OnLevelUp.Invoke();
@@ -53,12 +53,13 @@ public class Player : LivingEntity
             Max_XP *= 1.25f;
         }
     }
+
     protected override void OnUpdate()
     {
         base.OnUpdate();
         // print(mousePos.MousePosition());
         OnShoot();
-       // if(ListOfSpell.Count > 0)
+        // if(ListOfSpell.Count > 0)
         //ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
     }
 
@@ -74,12 +75,14 @@ public class Player : LivingEntity
         m_animator.SetFloat("directionX", Direction.normalized.x);
         m_animator.SetFloat("directionY", Direction.normalized.y);
     }
+
     public override void OnHit(float _damage)
     {
         base.OnHit(_damage);
         D.Get<GameplayManager>().SetHPBar();
         print(currentHP);
     }
+
     private void PLayerSingleton()
     {
         if (Instance == null)
@@ -105,8 +108,31 @@ public class Player : LivingEntity
 
     public override void OnDead()
     {
-       D.Get<GameplayManager>().RestartLevel(1);
+        D.Get<GameplayManager>().RestartLevel(1);
     }
 
- 
+    /// <summary>
+    /// Interface 
+    /// </summary>
+    /// <param name="_amount"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void OnStatHealthUpgrade(float _amount)
+    {
+    }
+
+    public void OnStatSpeedUpgrade(float _amount)
+    {
+    }
+
+    public void OnAddNewSpell(GameObject _entity)
+    {
+        if (_entity.TryGetComponent(out Spell _spell))
+        {
+            //_spell
+        }
+        else
+        {
+            Debug.Log("Spell not init or doesnt exist!!");
+        }
+    }
 }
