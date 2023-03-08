@@ -8,6 +8,7 @@ public class VoidCircle : Spell
         Attack(Vector2.zero); // add to player update instead
     }
 
+
     public override void Attack(Vector2 _dir)
     {
         if (CanAttack)
@@ -37,40 +38,43 @@ public class VoidCircle : Spell
         }
     }
 
-    public void UpgradeRange(int _value)
+    protected override void OnVisualScaleChange()
     {
-        base.Max_Range += _value;
-    }
-
-    public void UpgradeDamage(int _value)
-    {
-        base.SpellDamage += _value;
-    }
-
-    public void UpgradeTargetCount(int _value)
-    {
-        m_HittableTargetCount += _value;
-        m_collisionResult = null;
-        m_collisionResult = new Collider2D[this.m_HittableTargetCount];
+        var _newRadius = SpellRadius * 2f;
+        transform.localScale = new Vector3(_newRadius, _newRadius);
     }
 
     public override void OnRadiusUpgrade(float _value)
     {
-        throw new System.NotImplementedException();
+        if (_value > 0)
+        {
+            base.SpellRadius += _value;
+            OnVisualScaleChange();
+        }
     }
 
     public override void OnDamageUpgrade(float _value)
     {
-        throw new System.NotImplementedException();
+        if (_value > 0)
+        {
+            base.SpellDamage += _value;
+        }
     }
 
     public override void OnAttackRateUpgrade(float _value)
     {
-        throw new System.NotImplementedException();
+        if (_value > 0)
+        {
+            base.m_attackRate += _value;
+        }
     }
 
-    public override void OnTargetCountUpgrade(int _increment)
+    public override void OnTargetCountUpgrade(float _increment)
     {
-        throw new System.NotImplementedException();
+        if (_increment > 0)
+        {
+            base.m_HittableTargetCount += (int)_increment;
+            base.OnTargetCountChange();
+        }
     }
 }

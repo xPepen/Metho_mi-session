@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PoolPatern<T> where T: Component
@@ -20,6 +21,14 @@ public class PoolPatern<T> where T: Component
         m_parentObj = Parent;
         InstantiatePool( this.size);
     }
+
+    public List<T> PoolObjectList()
+    {
+        
+        return m_pool.ToList();
+    }
+  
+
     private void InstantiatePool( int size)
     {
 

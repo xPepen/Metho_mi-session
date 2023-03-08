@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 2
+  m_RangeWeaponRef: {fileID: 0}
   m_damage: 5
   HittableRadius: 1
   HittableDistance: 1

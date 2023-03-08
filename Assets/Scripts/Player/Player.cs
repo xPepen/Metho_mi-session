@@ -5,20 +5,25 @@ using UnityEngine.Events;
 
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
+    public static Player Instance { get; private set; }
+
     public float CurrentXP { get; private set; }
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
     public int Level;
     public UnityEvent OnLevelUp;
-    public static Player Instance { get; private set; }
     public PlayerActionsContainer ListOfActions { get; private set; }
     [SerializeField] private PhysicEntityInfo EntityStats;
+
+    //Ishootable section
+    public Vector2 InputDir { get; set; }
+
     public Weapon MyWeapon;
-    public Vector2 Direction { get; set; }
+    public List<Spell> ListOfSpell;
+    [SerializeField] private Transform m_SpellParent;
 
     private InputReceiver mousePos;
     private Animator m_animator;
-    public List<Spell> ListOfSpell;
 
     protected override void Init()
     {
@@ -66,14 +71,14 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        Move(Direction.normalized);
+        Move(InputDir.normalized);
         SetAnim();
     }
 
     private void SetAnim()
     {
-        m_animator.SetFloat("directionX", Direction.normalized.x);
-        m_animator.SetFloat("directionY", Direction.normalized.y);
+        m_animator.SetFloat("directionX", InputDir.normalized.x);
+        m_animator.SetFloat("directionY", InputDir.normalized.y);
     }
 
     public override void OnHit(float _damage)
@@ -118,17 +123,30 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     /// <exception cref="NotImplementedException"></exception>
     public void OnStatHealthUpgrade(float _amount)
     {
+        if (_amount > 0f)
+        {
+            this.maxHP += _amount;
+            // this.currentHP = maxHP;
+        }
     }
 
     public void OnStatSpeedUpgrade(float _amount)
     {
+        if (_amount > 0f)
+        {
+            this.speed += _amount;
+        }
     }
 
     public void OnAddNewSpell(GameObject _entity)
     {
         if (_entity.TryGetComponent(out Spell _spell))
         {
-            //_spell
+            if (!ListOfSpell.Contains(_spell))
+            {
+                ListOfSpell.Add(_spell);
+                _spell.transform.parent = m_SpellParent;
+            }
         }
         else
         {

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9225bf3f70f89d643a2935539db3a7d0, type: 3}
   m_Name: InfoUpgradeText
   m_EditorClassIdentifier: 
-  m_ListOfUpgradeDataInfo: []
+  m_ItemName: Void Circle
+  m_UpgradeDefinition: Upgrade the Range by 10%

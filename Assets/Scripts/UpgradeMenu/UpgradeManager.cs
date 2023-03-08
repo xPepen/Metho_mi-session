@@ -1,10 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UpgradeMenu;
 
 
 public class UpgradeManager : MainBehaviour
 {
-    [SerializeField] private List<Upgrader> m_UgraderPanel;
+    [SerializeField] private List<UpgraderPanel> m_UgraderPanel;
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        m_UgraderPanel.ForEach(panel => panel.InitUpgradePanel());
+    }
 
     public void ToggleAllPanel(bool _state)
     {

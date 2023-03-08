@@ -13,7 +13,7 @@ public class InputReceiver : MainBehaviour
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        playerRef.Direction = context.ReadValue<Vector2>();
+        playerRef.InputDir = context.ReadValue<Vector2>();
     }
 
     public void OnShoot(InputAction.CallbackContext context)
