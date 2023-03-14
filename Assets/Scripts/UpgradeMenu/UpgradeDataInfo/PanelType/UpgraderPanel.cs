@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using TNRD;
+using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -13,52 +12,65 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
     [SerializeField] protected string m_UpgradeItemName;
     [SerializeField] protected string m_UpgradeItemDefinition;
     [SerializeField] protected TMPro.TextMeshProUGUI m_TxtUpgradeItemName;
+
     [SerializeField] protected TMPro.TextMeshProUGUI m_TxtUpgradeDefinition;
-    
+
+    //Set UI color + Image
+    [SerializeField] private Color m_baseColor;
+    [SerializeField] private Color m_selectedColor;
+    private UnityEngine.UI.Image m_PanelImage;
     protected Action m_CurrentUpgradeAction;
     protected Action m_ActionRef;
-    
-    
+
+
     //Generale Click Event
     [SerializeField] private UnityEvent m_EventOnClick;
     [SerializeField] private UnityEvent m_EventOnHoverStart;
     [SerializeField] private UnityEvent m_EventOnHoverEnd;
 
-    //test 
+    public abstract void InitUpgradePanel();
+
     protected override void OnAwake()
     {
-      
-        InitText();
+        m_PanelImage = GetComponentInChildren<UnityEngine.UI.Image>();
+        InitPanelInfo();
     }
 
-    private void InitText()
+    private void InitPanelInfo()
     {
-        this.gameObject.name = m_UpgradeItemName;
-        m_TxtUpgradeItemName.text = m_UpgradeItemName;
+        CheckOpacityColor(ref m_baseColor, ref m_selectedColor);
+        OnColorChange(m_baseColor);
+
+        gameObject.name = m_TxtUpgradeItemName.text = m_UpgradeItemName;
         m_TxtUpgradeDefinition.text = m_UpgradeItemDefinition;
     }
+
     protected void SetDescription(string _upgradeAction)
     {
-        m_TxtUpgradeDefinition.text = $"This upgrade give you  {_upgradeAction}" ;
-    } 
+        m_TxtUpgradeDefinition.text = $"This upgrade give you  {_upgradeAction}";
+    }
+
     protected void SetDescription(float _value, string _upgradeAction)
     {
         m_TxtUpgradeDefinition.text = $"This upgrade give you {_value} {_upgradeAction}";
     }
-    public abstract void InitUpgradePanel();
 
-    public virtual void OnSelected() //sit on the element
+    public void CheckOpacityColor(ref Color _baseColor, ref Color _selectColor)
     {
-        // Background.color = Color.white;
-        //m_text.color = Color.black;
+        if (_baseColor.a <= 0)
+        {
+            _baseColor.a = 0.75f;
+        }
+
+        if (_selectColor.a <= 0)
+        {
+            _selectColor.a = 0.75f;
+        }
     }
 
-    public virtual void OnDeselected() //when not on the element
-    {
-        //Background.color = Color.black;
-        //m_text.color = Color.white;
-    }
+    protected virtual void OnColorChange(Color _color) => m_PanelImage.color = _color;
 
+// ----------------------- Unity Event ------------------------------- 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.pointerEnter)
@@ -75,6 +87,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         if (eventData.pointerEnter)
         {
             m_EventOnHoverStart?.Invoke();
+            OnColorChange(m_selectedColor);
         }
     }
 
@@ -83,6 +96,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         if (eventData.pointerEnter)
         {
             m_EventOnHoverEnd?.Invoke();
+            OnColorChange(m_baseColor);
         }
     }
 
@@ -90,13 +104,15 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
     {
         gameObject.SetActive(_state);
     }
-    
+
+//------------------------- Action  -----------------------------------
     protected void OnSubscribeAction(Action _currentAction, ref float _inputValue, float _increment)
     {
         m_CurrentUpgradeAction += _currentAction;
         _inputValue += _increment;
         m_ActionRef = _currentAction;
     }
+
     protected void OnSubscribeAction(Action _currentAction)
     {
         m_CurrentUpgradeAction += _currentAction;
@@ -111,5 +127,4 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
     }
 
     protected void Clear() => m_CurrentUpgradeAction = delegate { };
-
 }

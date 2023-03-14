@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : BaseEntity, IUpgradebleProjectile
 {
-    [SerializeField] private RangeWeapon m_RangeWeaponRef;
+    [field:SerializeField] public RangeWeapon m_RangeWeaponRef { get; set; }
     [SerializeField] private float m_damage;
     [SerializeField] private float HittableRadius;
     [SerializeField] private float HittableDistance;
@@ -104,6 +104,7 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
     {
         if (_value > 0)
         {
+            m_RangeWeaponRef.AttackRate -= (_value /100);
         }
     }
 
@@ -119,5 +120,9 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
         if (_value > 0)
         {
         }
+    }
+
+    public void OnProjectileSizeUpgrade(float _value)
+    {
     }
 }

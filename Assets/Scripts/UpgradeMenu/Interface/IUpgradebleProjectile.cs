@@ -4,4 +4,5 @@ public interface IUpgradebleProjectile
     public void OnFireRateUpgrade(float _value);
     public void OnProjectileCountUpgrade(int _value);
     public void OnProjectilePerAngleUpgrade(int _value);
+    public void OnProjectileSizeUpgrade(float _value);
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,16 +25,22 @@ public class RangeWeapon : Weapon
         }
     }
 
+    public void InitProjectileOnCreation(GameObject _obj)
+    {
+        if (_obj.TryGetComponent(out IUpgradebleProjectile _interface))
+        {
+            SubscribeProjectile(_interface);
+        }
+        if (_obj.TryGetComponent(out Projectile _projectile))
+        {
+            _projectile.m_RangeWeaponRef = this;
+        }
+    }
     protected override void OnAwake()
     {
         base.OnAwake();
-        ProjectilePool.InitPool();
         m_ListOfProjectiles = new List<IUpgradebleProjectile>();
-       var  x = GetComponentsInChildren<IUpgradebleProjectile>(true);
-       foreach (var y in x)
-       {
-           m_ListOfProjectiles.Add(y);
-       }
+        ProjectilePool.InitPool(InitProjectileOnCreation); 
            
     }
 

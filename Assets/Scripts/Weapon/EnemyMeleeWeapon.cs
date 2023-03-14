@@ -7,7 +7,7 @@ public class EnemyMeleeWeapon : EnemyWeapon
     protected override void OnStart()
     {
         base.OnStart();
-        m_timeWatch = m_attackRate;
+        m_timeWatch = AttackRate;
     }
     protected override void OnUpdate()
     {

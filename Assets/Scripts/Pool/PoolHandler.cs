@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,8 +9,14 @@ public class PoolHandler<T> where T : MainBehaviour
     public int PoolSize;
     public UnityEngine.GameObject Prefab;
     public UnityEngine.GameObject ParentObj;
+
     public void InitPool()
     {
         Pool = new PoolPatern<T>(PoolSize, Prefab, ParentObj);
+    }
+
+    public void InitPool(Action<UnityEngine.GameObject> InitFunc)
+    {
+        Pool = new PoolPatern<T>(PoolSize, Prefab, ParentObj, InitFunc);
     }
 }

@@ -36,6 +36,6 @@ public class MultipleProjectileWeapon : RangeWeapon
 
     public override bool CanAttak()
     {
-        return m_timeWatch >= m_attackRate || CurrentMaxProjectile < MaxProjectilePerAttack;
+        return m_timeWatch >= AttackRate || CurrentMaxProjectile < MaxProjectilePerAttack;
     }
 }

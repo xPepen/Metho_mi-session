@@ -5,7 +5,7 @@ public class VoidCircle : Spell
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        Attack(Vector2.zero); // add to player update instead
+        //Attack(Vector2.zero); // add to player update instead
     }
 
 
@@ -48,16 +48,20 @@ public class VoidCircle : Spell
     {
         if (_value > 0)
         {
-            base.SpellRadius += _value;
+            base.SpellRadius += ValueToPercent(_value,base.SpellRadius);
             OnVisualScaleChange();
         }
     }
 
+    private float ValueToPercent(float multiplier,float baseValue)
+    {
+        return ((multiplier/ 100)* baseValue);
+    }
     public override void OnDamageUpgrade(float _value)
     {
         if (_value > 0)
         {
-            base.SpellDamage += _value;
+            base.SpellDamage += ValueToPercent(_value,base.SpellDamage);
         }
     }
 
@@ -65,7 +69,7 @@ public class VoidCircle : Spell
     {
         if (_value > 0)
         {
-            base.m_attackRate += _value;
+            base.AttackRate -= ValueToPercent(_value,base.AttackRate);;
         }
     }
 

@@ -11,7 +11,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
     public int Level;
-    public UnityEvent OnLevelUp;
+    [SerializeField] private LevelUpEvent EventLevelUp;
     public PlayerActionsContainer ListOfActions { get; private set; }
     [SerializeField] private PhysicEntityInfo EntityStats;
 
@@ -52,7 +52,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         if (CurrentXP >= Max_XP)
         {
             Level++;
-            OnLevelUp.Invoke();
+            EventLevelUp.OnLevelUp.Invoke();
             CurrentXP = 0;
             m_totalXpGain += CurrentXP;
             Max_XP *= 1.25f;
@@ -64,8 +64,8 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         base.OnUpdate();
         // print(mousePos.MousePosition());
         OnShoot();
-        // if(ListOfSpell.Count > 0)
-        //ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
+        if (ListOfSpell.Count > 0)
+            ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
     }
 
     protected override void OnFixedUpdate()
@@ -144,8 +144,11 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         {
             if (!ListOfSpell.Contains(_spell))
             {
+                _entity.SetActive(true);
                 ListOfSpell.Add(_spell);
-                _spell.transform.parent = m_SpellParent;
+                var pos = _spell.transform;
+                pos.parent = m_SpellParent;
+                pos.localPosition = Vector3.zero;
             }
         }
         else
