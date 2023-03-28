@@ -1,16 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : BaseEntity, IUpgradebleProjectile
 {
-    [field:SerializeField] public RangeWeapon m_RangeWeaponRef { get; set; }
+    public RangeWeapon m_RangeWeaponRef { get; set; }
     [SerializeField] private float m_damage;
     [SerializeField] private float HittableRadius;
     [SerializeField] private float HittableDistance;
     [SerializeField] private float m_speed;
-    private PoolPatern<Projectile> m_poolProjectile;
     [SerializeField] private EnumEntityType Target;
     private Rigidbody2D m_rb;
 
@@ -29,17 +25,8 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
         m_rb = GetComponent<Rigidbody2D>();
         m_currentLifetime = 0f;
         m_collResult = new Collider2D[1];
-        m_RangeWeaponRef = GetComponentInParent<RangeWeapon>(true);
-        m_RangeWeaponRef.SubscribeProjectile(this);
-    }
-
-  
-
-    protected override void OnStart()
-    {
-        base.OnStart();
-        m_poolProjectile = m_RangeWeaponRef.ProjectilePool.Pool;
-
+        //m_RangeWeaponRef = GetComponentInParent<RangeWeapon>(true);
+        // m_RangeWeaponRef.SubscribeProjectile(this);
     }
 
     public void OnMoveProjectile(Vector2 _dir)
@@ -52,7 +39,7 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
     {
         m_rb.velocity = Vector2.zero;
         transform.position = Vector3.one * -100f;
-        m_poolProjectile.ReAddItem(this);
+        m_RangeWeaponRef.ProjectilePool.Pool.ReAddItem(this);
         m_currentLifetime = 0f;
     }
 
@@ -92,37 +79,38 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
         }
     }
 
+//interface
     public void OnDamageUpgrade(float _value)
     {
         if (_value > 0)
         {
-            transform.localScale = new Vector3(10, 10);
-        }
-    }
-
-    public void OnFireRateUpgrade(float _value)
-    {
-        if (_value > 0)
-        {
-            m_RangeWeaponRef.AttackRate -= (_value /100);
-        }
-    }
-
-    public void OnProjectileCountUpgrade(int _value)
-    {
-        if (_value > 0)
-        {
-        }
-    }
-
-    public void OnProjectilePerAngleUpgrade(int _value)
-    {
-        if (_value > 0)
-        {
+            this.m_damage += ValueToPercent(_value, m_damage);
         }
     }
 
     public void OnProjectileSizeUpgrade(float _value)
     {
+        HittableRadius += ValueToPercent(_value, HittableRadius);
+        HittableDistance += ValueToPercent(_value, HittableDistance);
+        OnVisualScaleChange();
+    }
+
+
+    public void OnSpeedUpgrade(float _value)
+    {
+        if (_value > 0)
+        {
+            this.m_speed += ValueToPercent(_value, m_speed);
+        }
+    }
+
+    private float ValueToPercent(float multiplier, float baseValue)
+    {
+        return ((multiplier / 100) * baseValue);
+    }
+
+    private void OnVisualScaleChange()
+    {
+        transform.localScale = new Vector3(HittableRadius, HittableRadius);
     }
 }

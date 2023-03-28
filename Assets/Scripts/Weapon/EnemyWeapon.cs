@@ -10,6 +10,10 @@ public abstract class EnemyWeapon : Weapon
     protected override void OnStart()
     {
         base.OnStart();
+        if (AttackRate == 0)
+        {
+            AttackRate = 1f;
+        }
         m_playerRef = Player.Instance;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,7 +7,6 @@ using UnityEngine.Events;
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
     public static Player Instance { get; private set; }
-
     public float CurrentXP { get; private set; }
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
@@ -37,6 +37,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         m_animator = GetComponent<Animator>();
         ListOfSpell = new List<Spell>();
         Max_XP = 100f;
+        EventLevelUp = GetComponent<LevelUpEvent>();
     }
 
     protected override void OnAwake()
@@ -48,6 +49,10 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
 
     public void AddXP(float _amount)
     {
+        //add const value for hast table 
+        //because nneed them to get hashtable values
+        Hashtable hash = new Hashtable();
+
         CurrentXP += _amount;
         if (CurrentXP >= Max_XP)
         {
@@ -56,8 +61,13 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
             CurrentXP = 0;
             m_totalXpGain += CurrentXP;
             Max_XP *= 1.25f;
+            print("level = " + Level);
+            BinaryReaderWriter.Serialize(Level, nameof(Player));
+            BinaryReaderWriter.Deserialize(nameof(Player), out hash);
+            print("hash value 0 = " + hash["Level"]);
         }
     }
+   
 
     protected override void OnUpdate()
     {
@@ -126,7 +136,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         if (_amount > 0f)
         {
             this.maxHP += _amount;
-            // this.currentHP = maxHP;
+            this.currentHP = maxHP;
         }
     }
 
@@ -134,7 +144,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     {
         if (_amount > 0f)
         {
-            this.speed += _amount;
+            this.speed += ValueToPercent(_amount, speed);
         }
     }
 
@@ -156,4 +166,11 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
             Debug.Log("Spell not init or doesnt exist!!");
         }
     }
+
+    private float ValueToPercent(float multiplier, float baseValue)
+    {
+        return ((multiplier / 100) * baseValue);
+    }
+
+   
 }

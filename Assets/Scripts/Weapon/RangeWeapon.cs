@@ -25,7 +25,7 @@ public class RangeWeapon : Weapon
         }
     }
 
-    public void InitProjectileOnCreation(GameObject _obj)
+    private void InitProjectileOnCreation(GameObject _obj)
     {
         if (_obj.TryGetComponent(out IUpgradebleProjectile _interface))
         {
