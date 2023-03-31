@@ -7,8 +7,6 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace TNRD.Builders
-{
     internal sealed class AssetsItemBuilder
     {
         private readonly HashSet<string> addedItems;
@@ -89,4 +87,3 @@ namespace TNRD.Builders
             return item;
         }
     }
-}

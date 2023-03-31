@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -19,7 +18,7 @@ public class SpellManager : MainBehaviour
     {
         foreach (var _spell in ListOfSpell)
         {
-            var _copy = Instantiate(_spell.SpellObject, Vector3.zero, quaternion.identity);
+            var _copy = Instantiate(_spell.SpellObject, Vector3.zero, Quaternion.identity);
             m_DictionaryOfSpell.Add(_spell.spellType, _copy);
         }
     }

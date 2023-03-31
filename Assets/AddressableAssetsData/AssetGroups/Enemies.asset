@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Enemies
+  m_EditorClassIdentifier: 
+  m_GroupName: Enemies
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1bb90a4ce0d0fa847a071e7313c98d80
+  m_SerializeEntries:
+  - m_GUID: 32d2944d2002e6f4fbe414922e8890be
+    m_Address: Chiken1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 877173cbeecb8264a9c0a08279ac4e11
+    m_Address: Pig1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 2d95b764cad31594b91327711261a4a7
+    m_Address: Snail
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 16fd003140f23374caa9ea16c09ddb50
+    m_Address: Chiken3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 198bd35a8fe70ac4c9bb71457ffc0228
+    m_Address: Pig3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: dbc6c744d6ec80e41890fb472055d568
+    m_Address: Snail3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 016e0d9cd590421448ca9b29c4d3b2cb
+    m_Address: Chiken2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: 52c75ec3612450340b34f8bdebcc8427
+    m_Address: Pig2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: c642b28c40b19e348a0699d84e135d69
+    m_Address: Snail2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  - m_GUID: e9a729f3f251a314a89d3c6ba32bf093
+    m_Address: BossTree
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 34e8b1d4d759fd741911d2ccb7286444, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2e967c4f2a344a6449211587133eb4ae, type: 2}
+    - {fileID: 11400000, guid: 22c6e5bea323aed4fa68e66cd0c7ce60, type: 2}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Map Rules
+  m_EditorClassIdentifier: 
+  m_GroupName: Map Rules
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 28baadf77c50cb747b5be028700f2611
+  m_SerializeEntries:
+  - m_GUID: abf3c769c3cda5a44a473f7e0f7e7415
+    m_Address: Assets/Import Assets/Aztec-Tech Blocks/MapRule1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level1
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 34e8b1d4d759fd741911d2ccb7286444, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4fe7eb360c7953741ae968e1ddcef656, type: 2}
+    - {fileID: 11400000, guid: c492cd77e26674c44bb97cd7d48dae98, type: 2}

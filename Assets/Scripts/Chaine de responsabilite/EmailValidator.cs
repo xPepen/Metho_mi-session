@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class EmailValidator
     {
-        private SortedList<int, IUserValidateInput> m_LinkedList;
+        private SortedList<float, IUserValidateInput> m_LinkedList;
         private IUserValidateInput m_CurrentCheck;
 
         public EmailValidator()
         {
-            m_LinkedList = new SortedList<int, IUserValidateInput>();
+            m_LinkedList = new SortedList<float, IUserValidateInput>();
             m_LinkedList.Add(0, new EmailEmpty());
             m_LinkedList.Add(1, new EmailRegex());
             m_LinkedList.Add(2, new EmailRequestFail());

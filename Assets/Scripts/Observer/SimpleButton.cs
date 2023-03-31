@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,11 +9,11 @@ interface IClickObserver
 public class SimpleButton : MonoBehaviour,IPointerClickHandler
 {
     private Action onClick;
-    public Image image;
+    /*public Image image;
     private void Awake()
     {
         image = GetComponent<Image>();
-    }
+    }*/
 
     internal void OnSubscribe(Action _OnClick) => this.onClick += _OnClick;
     internal void OnUnSubscribe(Action _OnClick) => this.onClick -= _OnClick;

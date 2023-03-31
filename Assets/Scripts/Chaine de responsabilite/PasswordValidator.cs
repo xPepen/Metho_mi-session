@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PasswordValidator
 {
-    private SortedList<int, IUserValidateInput> m_LinkedList;
+    private SortedList<float, IUserValidateInput> m_LinkedList;
     private IUserValidateInput m_CurrentCheck;
 
     public PasswordValidator()
     {
-        m_LinkedList = new SortedList<int, IUserValidateInput>();
+        m_LinkedList = new SortedList<float, IUserValidateInput>();
         m_LinkedList.Add(0, new PasswordEmpty());
         m_LinkedList.Add(1, new PasswordEmptySpace());
         m_LinkedList.Add(2, new PasswordLength());

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TMPro;
@@ -8,13 +10,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
+[Flags]
 public enum AccountState
 {
-    NONE = 0,
+    NONE   = 1,
     CREATE = 1,
-    LOGIN = 2
+    LOGIN  = 2
 }
-
 
 public class UserAcount : MainBehaviour
 {
@@ -28,6 +30,8 @@ public class UserAcount : MainBehaviour
     private List<PasswordValidator> m_PasswordValidator;
 
     [SerializeField] private UnityEvent m_OnConnectionConfirm;
+    [SerializeField] private UnityEvent m_OnRequestStart;
+    [SerializeField] private UnityEvent m_OnRequestEnd;
 
     protected override void OnAwake()
     {
@@ -35,7 +39,7 @@ public class UserAcount : MainBehaviour
         m_EmailValidator = new EmailValidator();
         m_PasswordValidaor = new PasswordValidator();
     }
-
+  
     public void UserAccountAction(string buttonJob)
     {
         if (buttonJob.ToUpper() == (nameof(AccountState.CREATE)))
@@ -46,16 +50,14 @@ public class UserAcount : MainBehaviour
         {
             AsyncUserTask(LoginUser(m_InputEmail.text, m_InputPassword.text), m_OnConnectionConfirm);
         }
-        else
-        {
-            Debug.LogError("Jobbutton isnt valide", this);
-        }
-    }
 
+        m_OnRequestEnd.Invoke();
+    }
 
     private async void AsyncUserTask(Task<string> task, UnityEvent _event = null)
     {
-        if (!m_EmailValidator.CheckforRequest(m_InputEmail.text))
+        m_OnRequestStart.Invoke();
+        /*if (!m_EmailValidator.CheckforRequest(m_InputEmail.text))
         {
             SetMessageState(m_EmailValidator.GetErrorMessage());
             return;
@@ -65,11 +67,12 @@ public class UserAcount : MainBehaviour
         {
             SetMessageState(m_PasswordValidaor.GetErrorMessage());
             return;
-        }
+        }*/
+
 
         var message = await task;
         SetMessageState(message);
-        if (_event != null)
+        if (_event != null && m_IsIdentityConfirm)
         {
             _event.Invoke();
         }
@@ -109,8 +112,6 @@ public class UserAcount : MainBehaviour
         }
     }
 
-    private static readonly HttpClient HttpClient = new HttpClient();
-
     private async Task<string> LoginUser(string user, string password)
     {
         string url = "https://parseapi.back4app.com/login";
@@ -124,14 +125,24 @@ public class UserAcount : MainBehaviour
 
             await request.SendWebRequest();
 
-
+           
             if (request.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log(request.downloadHandler.text);
+                
+               var x = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline);
+                Debug.Log("Code number is " + x.Groups[0].Value);
                 return "Incorrect Email or password " + request.error;
             }
 
+            print(request.downloadHandler.text);
             m_IsIdentityConfirm = true;
             return "Login ";
         }
     }
+
+    /*private string WebErrorMessage(int error)
+    {
+        
+    }*/
 }

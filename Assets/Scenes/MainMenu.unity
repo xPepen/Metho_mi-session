@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 1226731002}
   - component: {fileID: 1226731006}
   - component: {fileID: 1226731007}
+  - component: {fileID: 1226731008}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -260,6 +261,19 @@ MonoBehaviour:
   - {fileID: 776830604}
   - {fileID: 2078798867}
   next: 1
+--- !u!114 &1226731008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226731001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e0514a9ba8847498547842002e7a3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneName: Level1
 --- !u!1 &1337175457
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +655,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 5408068245908519271, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7037955358014493656, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -700,9 +718,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7037955359380970994, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7037955359380970994, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1226731006}
+      objectReference: {fileID: 1226731008}
+    - target: {fileID: 7037955359380970994, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadAdressable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7037955359380970994, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneAssetLoader, NewAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 7037955359380970994, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Level1
+      objectReference: {fileID: 0}
     - target: {fileID: 7037955359380970995, guid: d2e71812e7f8052499a6ceff532a9a3d, type: 3}
       propertyPath: m_Color.b
       value: 1

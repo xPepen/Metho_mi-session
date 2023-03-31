@@ -4,10 +4,10 @@ public class SceneData : ScriptableObject
 {
     public string SceneName;
 
-    public bool IsSceneNameChange => SceneAsset.name != SceneName;
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     [SerializeField] UnityEditor.SceneAsset sceneAsset;
+    public bool IsSceneNameChange => sceneAsset.name != SceneName;
 
     public UnityEditor.SceneAsset SceneAsset
     {

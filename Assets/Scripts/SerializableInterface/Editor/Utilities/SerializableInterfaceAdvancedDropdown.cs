@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using TNRD.Builders;
+using TNRD;
 using TNRD.Items;
+using TNRD.Utilities;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace TNRD.Utilities
-{
+
     internal sealed class SerializableInterfaceAdvancedDropdown : AdvancedDropdown
     {
         private readonly Type interfaceType;
@@ -98,4 +98,3 @@ namespace TNRD.Utilities
             }
         }
     }
-}

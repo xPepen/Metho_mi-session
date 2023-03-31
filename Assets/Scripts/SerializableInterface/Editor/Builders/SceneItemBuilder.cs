@@ -7,8 +7,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-namespace TNRD.Builders
-{
+
     internal sealed class SceneItemBuilder
     {
         private readonly Type interfaceType;
@@ -67,4 +66,3 @@ namespace TNRD.Builders
                 parent.AddChild(advancedDropdownItem);
         }
     }
-}

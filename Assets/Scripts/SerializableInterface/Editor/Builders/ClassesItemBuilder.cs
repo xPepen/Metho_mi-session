@@ -6,8 +6,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine.Assertions;
 
-namespace TNRD.Builders
-{
+
     internal sealed class ClassesItemBuilder
     {
         private readonly Dictionary<string, AdvancedDropdownItem> splitToItem;
@@ -75,4 +74,3 @@ namespace TNRD.Builders
             return splitItem;
         }
     }
-}
