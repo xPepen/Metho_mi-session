@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
@@ -16,6 +15,9 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     [SerializeField] private PhysicEntityInfo EntityStats;
 
     //Ishootable section
+    [SerializeField] private bool m_IsRevivable;
+    [SerializeField] private bool m_IsSpeedBoost;
+    [SerializeField] private bool m_IsBonusSkin;
     public Vector2 InputDir { get; set; }
 
     public Weapon MyWeapon;
@@ -24,7 +26,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
 
     private InputReceiver mousePos;
     private Animator m_animator;
-
+//Promo PowerUpCode
     protected override void Init()
     {
         base.Init();
@@ -45,6 +47,11 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         base.OnAwake();
         PLayerSingleton();
         this.Bind();
+    }
+
+    private void InitPromoCode(EPromoCode promoCode)
+    {
+        
     }
 
     public void AddXP(float _amount)

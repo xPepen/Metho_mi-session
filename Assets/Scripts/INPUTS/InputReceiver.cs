@@ -9,7 +9,7 @@ public class InputReceiver : MainBehaviour
     private Player playerRef;
     protected override void OnAwake()
     {
-        playerRef = Player.Instance;
+        playerRef = GetComponent<Player>();
     }
     public void OnMove(InputAction.CallbackContext context)
     {

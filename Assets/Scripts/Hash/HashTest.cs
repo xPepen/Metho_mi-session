@@ -14,7 +14,7 @@ public class HashTest : MonoBehaviour
     {
         var hash = Hash("PainSandwish");
         string output = string.Join(", ", hash);
-        print(output);
+       // print(output);
         goodHash = new byte[]
         {
             237, 234, 252, 133, 60, 132, 132, 167, 125, 94, 133, 111, 34, 225, 75, 180, 234, 152, 149, 175, 79, 66, 95,

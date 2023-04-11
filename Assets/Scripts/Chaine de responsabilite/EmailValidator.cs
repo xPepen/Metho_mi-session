@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
+
 
 
 public class EmailValidator
@@ -27,7 +27,6 @@ public class EmailValidator
                 if (!m_LinkedList[i].ValidateInput(value))
                 {
                     SetInterfaceData(m_LinkedList[i]);
-                    Debug.Log("index : " + i + $" = {m_LinkedList[i]}");
                     return false;
                 }
             }
