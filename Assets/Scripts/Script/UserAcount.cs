@@ -36,11 +36,76 @@ public class UserAcount : MainBehaviour
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
     private Dictionary<string, string> m_UserData;
 
+    
+    //test for file
+  
+
+    private void Test()
+    {
+        BinaryReaderWriter.Serialize(0, nameof(Player));
+    }
+    private async Task<string> SetFile(string filename)
+    {
+        string uri = $"https://parseapi.back4app.com/User/{filename}";
+
+        using (var request = UnityWebRequest.Get(uri))
+        {
+            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
+            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
+            request.SetRequestHeader("X-Parse-Revocable-Session", "image/png");
+
+            // string filepath = Path.Combine() 
+            await request.SendWebRequest();
+
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                    .Value;
+                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+            }
+
+            print(request.downloadHandler.text);
+            m_IsIdentityConfirm = true;
+            return request.downloadHandler.text;
+        }
+    }
+    
+    private async Task<string> GetFile(string filename)
+    {
+        string uri = $"https://parseapi.back4app.com/files/{filename}";
+
+        using (var request = UnityWebRequest.Get(uri))
+        {
+            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
+            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
+            request.SetRequestHeader("X-Parse-Revocable-Session", "image/png");
+
+            // string filepath = Path.Combine() 
+            await request.SendWebRequest();
+
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                    .Value;
+                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+            }
+
+            print(request.downloadHandler.text);
+            m_IsIdentityConfirm = true;
+            return request.downloadHandler.text;
+        }
+    }
+        
+
+        //end test
     protected override void OnAwake()
     {
         base.OnAwake();
         m_EmailValidator = new EmailValidator();
         m_PasswordValidaor = new PasswordValidator();
+        m_UserData = new(5);
     }
 
     public void UserAccountAction(string buttonJob)
@@ -146,12 +211,12 @@ public class UserAcount : MainBehaviour
         SetMessageState(await task);
     }
 
-    private async Task SetUserInformation(string userData)
+    private async void SetUserInformation(string userData)
     {
-        m_UserData = new();
+       
         JObject jObject = JObject.Parse(userData);
         await Task.Run(() =>
-        {
+         {
             m_UserData.Add("SkinCode", jObject["SkinCode"].ToString().ToLower());
             m_UserData.Add("SpeedCode", jObject["SpeedCode"].ToString().ToLower());
             m_UserData.Add("ReviveCode", jObject["ReviveCode"].ToString().ToLower());
@@ -160,9 +225,10 @@ public class UserAcount : MainBehaviour
         });
         m_PlayerPromoCode.UserId = m_UserData["objectId"];
         m_PlayerPromoCode.UserToken = m_UserData["sessionToken"];
-        print("data has been added" + Time.time);
+        SetMessageState("Data dictionnary added");
     }
 
+    
     private async Task<string> CreateUser(string user, string password)
     {
         const string url = "https://parseapi.back4app.com/users";
@@ -192,7 +258,7 @@ public class UserAcount : MainBehaviour
         }
     }
 
-    private async Task<string> LoginUser(string user, string password)
+    /*private async Task<string> LoginUser(string user, string password)
     {
         string url = "https://parseapi.back4app.com/login";
         string mainUrl = $"{url}?username={user}&password={password}";
@@ -204,18 +270,35 @@ public class UserAcount : MainBehaviour
             request.SetRequestHeader("X-Parse-Revocable-Session", "1");
 
             await request.SendWebRequest();
+            SetMessageState("request send");
             if (request.result != UnityWebRequest.Result.Success)
             {
                 var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
                     .Value;
                 return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
-            }
-
-            m_UserData = new();
-
-            await SetUserInformation(request.downloadHandler.text);
+            } 
+            SetUserInformation(request.downloadHandler.text);
             m_IsIdentityConfirm = true;
             SetMessageState("LOgin confirm!!!");
+            return string.Empty;
+        }
+    }*/
+    private async Task<string> LoginUser(string user, string password)
+    {
+        string url = "https://parseapi.back4app.com/login";
+        string mainUrl = $"{url}?username={user}&password={password}";
+        
+        using (var request = new UnityWebRequestBuilder().SetUrl(mainUrl).SetMethod("Get").Revocable().Build())
+        {
+            await request.SendWebRequest();
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                    .Value;
+                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+            } 
+            SetUserInformation(request.downloadHandler.text);
+            m_IsIdentityConfirm = true;
             return string.Empty;
         }
     }

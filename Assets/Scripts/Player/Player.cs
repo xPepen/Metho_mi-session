@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
@@ -10,7 +11,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
     public int Level;
-    [SerializeField] private LevelUpEvent EventLevelUp;
+    [FormerlySerializedAs("EventLevelUp")] [SerializeField] private PlayerSerializedEvent eventPlayerSerialized;
     public PlayerActionsContainer ListOfActions { get; private set; }
     [SerializeField] private PhysicEntityInfo EntityStats;
 
@@ -25,7 +26,10 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     [SerializeField] private Transform m_SpellParent;
 
     private InputReceiver mousePos;
+
     private Animator m_animator;
+
+    public bool IsGameplaymode {get; private set; }
 //Promo PowerUpCode
     protected override void Init()
     {
@@ -39,7 +43,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         m_animator = GetComponent<Animator>();
         ListOfSpell = new List<Spell>();
         Max_XP = 100f;
-        EventLevelUp = GetComponent<LevelUpEvent>();
+        eventPlayerSerialized = GetComponent<PlayerSerializedEvent>();
     }
 
     protected override void OnAwake()
@@ -49,9 +53,13 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         this.Bind();
     }
 
+    public void SetGameplayMode(bool value)
+    {
+        if (IsGameplaymode == value) return;
+        IsGameplaymode = value;
+    }
     private void InitPromoCode(EPromoCode promoCode)
     {
-        
     }
 
     public void AddXP(float _amount)
@@ -64,30 +72,35 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         if (CurrentXP >= Max_XP)
         {
             Level++;
-            EventLevelUp.OnLevelUp.Invoke();
+            eventPlayerSerialized.OnLevelUp.Invoke();
             CurrentXP = 0;
             m_totalXpGain += CurrentXP;
             Max_XP *= 1.25f;
-            print("level = " + Level);
             BinaryReaderWriter.Serialize(Level, nameof(Player));
             BinaryReaderWriter.Deserialize(nameof(Player), out hash);
-            print("hash value 0 = " + hash["Level"]);
         }
     }
-   
+
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        // print(mousePos.MousePosition());
+        if (!IsGameplaymode) return;
         OnShoot();
         if (ListOfSpell.Count > 0)
             ListOfSpell.ForEach(spell => { spell.Attack(Vector2.zero); });
+
+        if (ListOfActions.Contains(PlayerActionsType.PAUSE))
+        {
+            eventPlayerSerialized.OnPauseMenu.Invoke();
+            ListOfActions.RemoveAll();
+        }
     }
 
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+        if (!IsGameplaymode) return;
         Move(InputDir.normalized);
         SetAnim();
     }
@@ -178,6 +191,4 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     {
         return ((multiplier / 100) * baseValue);
     }
-
-   
 }

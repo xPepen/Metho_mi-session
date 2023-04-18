@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LevelUpEvent : MainBehaviour
+public class PlayerSerializedEvent : MainBehaviour
 {
    [field: SerializeField] public UnityEvent OnLevelUp;
+   [field: SerializeField] public UnityEvent OnPauseMenu;
 }

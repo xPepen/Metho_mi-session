@@ -1,4 +1,4 @@
-public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<T>
+public abstract class EnemyFactory <T> : AbstractFactory<Enemy> where T : EnemyFactory<T>
 {
    
     public static T Instance { get; private set; }
@@ -24,6 +24,7 @@ public abstract class EnemyFactory <T> : AbstractFactory where T : EnemyFactory<
             _enemy.m_RePool = () => Pool.Pool.ReAddItem(_enemy);
         }
 
+        Entity = _enemy;
         return _copy;
     }
 }

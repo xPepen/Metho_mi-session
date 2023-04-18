@@ -15,4 +15,5 @@ public enum PlayerActionsType
     WEAPONATTACK,
     SHOOT,
     RUN,
+    PAUSE,
 }

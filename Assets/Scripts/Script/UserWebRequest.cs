@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = System.Random;
-
 
 public enum EPromoCode
 {
@@ -26,27 +24,18 @@ public class UserWebRequest : MainBehaviour
     private const string m_PromoCodeClass = "PromoCode";
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
-
     public void OnTryPromoCodee()
     {
-        //AsyncUserTask(m_PromoCodeInput.text);
-        AsyncUserTask("abc");
+        AsyncUserTask(m_PromoCodeInput.text);
+        //AsyncUserTask("abc");
     }
 
-    /*private string GenerateRandomCode(int index)
-    {
-        
-    }*/
     private string GenerateRandomWordCode(int wordLenght, int customNum)
     {
         const int asciiStart = 97; // ASCII code for 'a'
         const int asciiEnd = 122; // ASCII code for 'z'
 
-        Random random = new Random();
+        var random = new System.Random();
         StringBuilder codeBuilder = new StringBuilder(wordLenght);
 
         for (int i = 0; i < wordLenght; i++)
@@ -110,7 +99,7 @@ public class UserWebRequest : MainBehaviour
         var codeReq = await GetCodeStateAndType(m_PromoCodeRequest(m_PromoCodeClass, input));
         var isUsed = codeReq[0];
         var codeType = codeReq[1];
-        
+
         if (isUsed == "true")
         {
             SetMessage("This code is already used!");

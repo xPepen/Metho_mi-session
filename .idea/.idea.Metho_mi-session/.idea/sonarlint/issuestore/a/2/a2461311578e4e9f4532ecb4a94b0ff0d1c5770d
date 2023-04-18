@@ -1,0 +1,6 @@
+
+|csharpsquid:S101"`Rename class 'FileReader_TSV' to match pascal case naming rules, consider using 'FileReaderTsv'.(äûÆ™
+Jcsharpsquid:S3903"-Move 'FileReader_TSV' into a named namespace.(äûÆ™
+Gcsharpsquid:S2933	"%Make 'm_DictonnaryReader' 'readonly'.(õË¿üÿÿÿÿ
+;csharpsquid:S2933
+"Make 'm_Path' 'readonly'.(ÁÆ¢¤ÿÿÿÿÿ

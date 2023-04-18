@@ -36,19 +36,29 @@ public class GameplayManager : MainBehaviour
         SetHPBar(false);
         SetExpBar(false);
         m_xpSet = new SortedSet<ExperienceCollectable>(new ExperienceComparable());
-        IsGamePause = false;
-        CheckTimeScale(IsGamePause);
+        //IsGamePause = false;
+        
+        IsGameOnPause(IsGamePause);
         OnGamePause = () =>
         {
             IsGamePause = !IsGamePause;
             GameMenu.SetActive( !GameMenu.activeSelf);
-            CheckTimeScale(IsGamePause);
+            IsGameOnPause(IsGamePause);
 
         };
     }
 
-    private void CheckTimeScale(bool _isStop)
+    /*public void SetGamePause( bool )
     {
+        IsGamePause = !IsGamePause;
+        GameMenu.SetActive( !GameMenu.activeSelf);
+        CheckTimeScale(IsGamePause);
+        OnGamePause.Invoke();
+    }*/
+
+    public void IsGameOnPause(bool _isStop)
+    {
+        IsGamePause = _isStop;
         if (_isStop)
         {
             Time.timeScale = 0.00f;

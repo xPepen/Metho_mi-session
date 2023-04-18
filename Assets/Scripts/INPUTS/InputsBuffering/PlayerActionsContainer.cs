@@ -33,7 +33,7 @@ public class PlayerActionsContainer
         this.m_ListOfActions.RemoveAll(action => action.IsTooOld());
     }
 
-    public void PurgeAllAction()
+    public void RemoveAll()
     {
         this.m_ListOfActions.Clear();
     }

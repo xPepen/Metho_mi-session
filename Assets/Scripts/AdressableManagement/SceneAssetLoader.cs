@@ -45,10 +45,6 @@ public class SceneAssetLoader : Manager<SceneAssetLoader>
             Addressables.UnloadSceneAsync(m_sceneHandle, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
                 .Completed+=SceneUnLoader_Completed;
         }
-        else
-        {
-            print("cant unload scene");
-        }
     }
 
     private void SceneLoader_Completed(AsyncOperationHandle<IList<UnityEngine.Object>> obj)

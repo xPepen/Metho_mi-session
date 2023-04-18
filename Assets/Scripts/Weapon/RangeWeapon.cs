@@ -8,6 +8,13 @@ public class RangeWeapon : Weapon
     private List<IUpgradebleProjectile> m_ListOfProjectiles;
     public List<IUpgradebleProjectile> ListOfProjectiles => m_ListOfProjectiles;
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        m_ListOfProjectiles = new List<IUpgradebleProjectile>();
+        ProjectilePool.InitPool(InitProjectileOnCreation); 
+           
+    }
     public void SubscribeProjectile(IUpgradebleProjectile _ref)
     {
         if (!m_ListOfProjectiles.Contains(_ref))
@@ -36,20 +43,14 @@ public class RangeWeapon : Weapon
             _projectile.m_RangeWeaponRef = this;
         }
     }
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        m_ListOfProjectiles = new List<IUpgradebleProjectile>();
-        ProjectilePool.InitPool(InitProjectileOnCreation); 
-           
-    }
+   
 
     public override void Attack(Vector2 _dir)
     {
         if (CanAttak())
         {
             var _currProjectile = ProjectilePool.Pool.GetNextItem();
-            _currProjectile.transform.position = this.transform.position;
+            _currProjectile.transform.position = transform.position;
             _currProjectile.OnMoveProjectile(_dir);
             m_timeWatch = 0f;
         }

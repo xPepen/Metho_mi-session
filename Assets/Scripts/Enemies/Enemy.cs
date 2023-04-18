@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,9 +33,10 @@ public abstract class Enemy : LivingEntity
         //m_playerRef = D.Get<Player>();
          m_playerRef = Player.Instance;
     }
+    public void PoolBackEnemy() => m_RePool.Invoke();
     public override void OnDead()
     {
-        m_RePool.Invoke();
+        PoolBackEnemy();
         Heal();
         if (Random.Range(0, 10 + 1) > 4)
         {

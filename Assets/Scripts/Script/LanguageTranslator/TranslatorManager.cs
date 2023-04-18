@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum PossibleLanguage
 {
     English,
     French,
-    Spanish
+    Spanish,
+    Russe,
+    Italien,
 }
 
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,17 +5,21 @@ using UnityEngine.InputSystem;
 public class InputReceiver : MainBehaviour
 {
     private Player playerRef;
+    [SerializeField] private Camera m_MainCamera;
     protected override void OnAwake()
     {
         playerRef = GetComponent<Player>();
+        m_MainCamera = Camera.main;
     }
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!playerRef.IsGameplaymode) return;
         playerRef.InputDir = context.ReadValue<Vector2>();
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {
+        if (!playerRef.IsGameplaymode) return;
         
         if (context.performed)
         {
@@ -31,29 +33,17 @@ public class InputReceiver : MainBehaviour
     }
     public Vector2 MousePosition()
     {
-        return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        if (!playerRef.IsGameplaymode) return Vector2.zero;
+        return m_MainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
-
-
-    //public void OnRun(InputAction.CallbackContext context)
-    //{
-    //    action = new PlayerAction(PlayerActionsType.RUN);
-    //    playerRef.DesiredActions.AddAction(action);
-    //    //if (context.performed)
-    //    //    isRunning = true;
-    //    //else
-    //    //    isRunning = false;
-    //    playerRef.Islide = context.performed;
-    //}
-
-
 
 
     public void OnGamePause(InputAction.CallbackContext context)
     {
+        if (!playerRef.IsGameplaymode) return;
         if (context.performed)
         {
-            D.Get<GameplayManager>().OnGamePause.Invoke();
+            playerRef.ListOfActions.AddAction(new PlayerAction(PlayerActionsType.PAUSE));
         }
     }
 }

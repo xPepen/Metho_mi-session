@@ -12,7 +12,6 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
     protected string m_TitleKey;
     protected string m_DescriptionKey;
 
-
     [SerializeField] protected TMPro.TextMeshProUGUI m_TxtUpgradeItemName;
 
     [SerializeField] protected TMPro.TextMeshProUGUI m_TxtUpgradeDefinition;
@@ -51,7 +50,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         base.OnStart();
         InitPanelInfo();
     }
-  
+
     public void InitUpgradePanel()
     {
         if (!isActionCompleted || m_CurrentUpgrade > MAX_UPGRADE)
@@ -60,11 +59,11 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         }
 
         var node = GetFirstNode(out isActionCompleted);
-        
+
         var correctDescription = GetCorrectLangText(m_DescriptionKey);
-        
-        var descriptionText = node.UseFloatValue ? $"{node.UpgradeValue} " + correctDescription
-            : node.UseStringValue ? node.UpgradeDefinition : correctDescription;
+
+        var descriptionText = node.UseFloatValue ? $"{node.UpgradeValue} " + correctDescription :
+            node.UseStringValue ? node.UpgradeDefinition : correctDescription;
 
         SetDescription(descriptionText);
 
@@ -84,6 +83,12 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
 
     protected void SetKeys(string titleKey, string descriptionkey)
     {
+        if (string.IsNullOrWhiteSpace(titleKey) || String.IsNullOrWhiteSpace(descriptionkey))
+        {
+            Debug.Log("Upgrade Panel keys are not initialise");
+            return;
+        }
+
         m_TitleKey = titleKey;
         m_DescriptionKey = descriptionkey;
     }
@@ -93,16 +98,13 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         m_PanelManager = _manager;
     }
 
-   
 
     private void InitPanelInfo()
     {
         CheckOpacityColor(ref m_baseColor, ref m_selectedColor);
         OnColorChange(m_baseColor);
-
-
         gameObject.name = m_TxtUpgradeItemName.text = GetCorrectLangText(m_TitleKey, true);
-       // m_TxtUpgradeDefinition.text = GetCorrectLangText(m_DescriptionKey);
+        
     }
 
 
@@ -111,7 +113,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         _ActionState = false;
         if (m_QueueOfUpgrade.Count == 0)
         {
-            return new UpgradeNode(null, "UpgradeMax");
+            return new UpgradeNode(null, "Max");
         }
 
         m_CurrentUpgrade++; //add UI TEXT + show ui current upgrade
@@ -133,12 +135,12 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
 
     protected void SetDescription(string _upgradeAction)
     {
-        m_TxtUpgradeDefinition.text = m_PanelManager.GetValueFromDictionary(m_preTextDef)+" " + _upgradeAction;
+        m_TxtUpgradeDefinition.text = m_PanelManager.GetValueFromDictionary(m_preTextDef) + " " + _upgradeAction;
     }
 
     protected void SetDescription(float _value, string _upgradeAction)
     {
-         m_TxtUpgradeDefinition.text =
+        m_TxtUpgradeDefinition.text =
             m_PanelManager.GetValueFromDictionary(m_preTextDef) + $" {_value} " + _upgradeAction;
     }
 

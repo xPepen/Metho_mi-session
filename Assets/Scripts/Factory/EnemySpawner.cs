@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class EnemySpawner : MainBehaviour
 {
-    AbstractFactory m_BossFactory;
-    // private List<AbstractFactory> m_BossFactory;
-    private List<AbstractFactory> ListOfFactory;
+    AbstractFactory<Enemy> m_BossFactory;
+    private List<AbstractFactory<Enemy>> ListOfFactory;
     [SerializeField] private float TimeToSwitchFactory;
     [SerializeField] private float OffsetFromPlayer;
     [SerializeField] private int EnemyToSpawnCount;
+
+    private bool m_GamehasBeenInit = false;
     //timer to spawn boss
     private float m_timwWatch;
     [SerializeField] private float m_timeToSpawnBoss = 100f;
     
+    private  List<Enemy> m_ListOfEnemy;
+    
     protected override void OnAwake()
     {
         base.OnAwake();
-        ListOfFactory= new List<AbstractFactory>();
+        m_ListOfEnemy = new List<Enemy>();
+        ListOfFactory= new List<AbstractFactory<Enemy>>();
         m_BossFactory = TreeFactory.Instance;
     }
 
@@ -54,13 +58,32 @@ public class EnemySpawner : MainBehaviour
         //check level spawn x boss 
         //call this fuction inside an event
     }
-    protected override void OnStart()
+   
+
+    public void OnGameplayStart()
     {
-        base.OnStart();
+        if (!m_GamehasBeenInit)
+        {
+            m_GamehasBeenInit = true;
+        }
+        StopAllCoroutines();
         StartCoroutine(FactoryCoroutine());
         StartCoroutine(WaveCoroutine()); 
     }
 
+    public void OnGameplayEnd()
+    {
+        if (!m_GamehasBeenInit) return;
+        if (m_ListOfEnemy.Count <= 0) return;
+        
+        StopAllCoroutines();
+
+        for (int i = 0; i < m_ListOfEnemy.Count; i++)
+        {
+            m_ListOfEnemy[i].m_RePool();
+        }
+        m_ListOfEnemy.Clear();
+    }
     protected override void OnUpdate()
     {
         base.OnUpdate();
@@ -96,17 +119,19 @@ public class EnemySpawner : MainBehaviour
 
     IEnumerator WaveCoroutine()
     {
+        GameObject entityToCreate = null;
         while (true)
         {
             for (int i = 0; i < EnemyToSpawnCount; i++)
             {
                 var index = Random.Range(0, ListOfFactory.Count);
-                var enemy =  ListOfFactory[index].CreateEnemy();
-                enemy.transform.position = Player.Instance.transform.position + (Vector3)Random.insideUnitCircle.normalized * OffsetFromPlayer;
+                entityToCreate =  ListOfFactory[index].CreateEnemy();
+                m_ListOfEnemy.Add( ListOfFactory[index].Entity);
+                entityToCreate.transform.position = Player.Instance.transform.position + (Vector3)Random.insideUnitCircle.normalized * OffsetFromPlayer;
                 if (m_timwWatch >= m_timeToSpawnBoss)
                 {
-                    var _boss = m_BossFactory.CreateEnemy();
-                    _boss.transform.position = transform.position;
+                    entityToCreate = m_BossFactory.CreateEnemy();
+                    entityToCreate.transform.position = transform.position;
                     m_timwWatch = 0;
                 }
             }
