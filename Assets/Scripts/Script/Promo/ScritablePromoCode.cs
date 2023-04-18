@@ -9,7 +9,7 @@ public class ScritablePromoCode : ScriptableObject
     public bool ReviveCode;
     public bool SpeedCode;
     public bool SkinCode;
-
+    public string DataUrl;
     public Dictionary<string, string> AllUserData = new();
     public void UpdatePromoCode(EPromoCode code)
     {

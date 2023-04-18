@@ -8,20 +8,22 @@ using UnityEngine;
 public static class BinaryReaderWriter
 {
     private static readonly string m_Path = Application.persistentDataPath;
-    private static readonly string m_FileType = ".dat";
+    private static readonly string m_FileType = ".bin";
 
 
-    private static string Path(string fileName)
+    private static string FilePath(string fileName)
     {
-        return m_Path + $"{fileName}" + m_FileType;
+        return Path.Combine(m_Path , fileName + m_FileType);
     }
 
-    public static void Serialize(int value, string fileName)
+    public static void Serialize(int level, int money,int playtime, string fileName)
     {
         Hashtable hashvalues = new Hashtable();
-        hashvalues.Add("Level", value);
+        hashvalues.Add("Level", level);
+        hashvalues.Add("money", money);
+        hashvalues.Add("playtime", playtime);
 
-        var path = Path(fileName);
+        var path = FilePath(fileName);
         FileStream fs = File.Exists(path) ? new FileStream(path, FileMode.Open) : new FileStream(path, FileMode.Create);
 
         BinaryFormatter formatter = new BinaryFormatter();
@@ -42,12 +44,11 @@ public static class BinaryReaderWriter
 
     public static void Deserialize(string fileName, out Hashtable hash)
     {
-        var path = Path(fileName);
+        var path = FilePath(fileName);
         FileStream fs = new FileStream(path, FileMode.Open);
         try
         {
             BinaryFormatter formatter = new BinaryFormatter();
-
             hash = (Hashtable)formatter.Deserialize(fs);
         }
         catch (SerializationException e)

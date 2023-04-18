@@ -76,8 +76,8 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
             CurrentXP = 0;
             m_totalXpGain += CurrentXP;
             Max_XP *= 1.25f;
-            BinaryReaderWriter.Serialize(Level, nameof(Player));
-            BinaryReaderWriter.Deserialize(nameof(Player), out hash);
+            // BinaryReaderWriter.Serialize(Level, nameof(Player));
+            // BinaryReaderWriter.Deserialize(nameof(Player), out hash);
         }
     }
 

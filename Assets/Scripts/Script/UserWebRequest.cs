@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TMPro;
+using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -23,52 +25,113 @@ public class UserWebRequest : MainBehaviour
 
     private const string m_WebClassRequest = "https://parseapi.back4app.com/classes/";
     private const string m_PromoCodeClass = "PromoCode";
+
+    private string m_PlayerLocalDataPath;
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
-//
 
-    public void TEST_ME()
+    [SerializeField] private TextMeshProUGUI m_BestLevel;
+    [SerializeField] private TextMeshProUGUI m_playTime;
+
+    [SerializeField] private TextMeshProUGUI m_Money;
+
+    protected override void OnAwake()
     {
-        Test();
+        base.OnAwake();
+        m_PlayerLocalDataPath = Path.Combine(Application.persistentDataPath, nameof(Player) + ".bin");
     }
 
-    private async void Test()
-    {
-        BinaryReaderWriter.Serialize(0, nameof(Player));
-        var path = Application.persistentDataPath + nameof(Player) + ".dat";
-        var @byteData  = File.ReadAllBytes(path);
-        await UploadeFile(byteData);
-    }
-    
-    private async Task<string> UploadeFile(byte[] data)
-    {
-        string uri = $"https://parseapi.back4app.com/users/{m_PlayerPromoCode.UserId}";
 
-        using (var request = UnityWebRequest.Put(uri,data))
+    protected override void OnStart()
+    {
+        base.OnStart();
+        UpdateText();
+    }
+
+    public void UpdateDataPLayer()
+    {
+        UpdateBinaryData();
+    }
+
+    public void UpdateText()
+    {
+        TMP_SetUIText();
+    }
+
+    private async void TMP_SetUIText()
+    {
+        var playerData = await GetPlayerData();
+        m_BestLevel.text = playerData["Level"].ToString();
+        m_playTime.text = playerData["playtime"].ToString();
+        m_Money.text = playerData["money"].ToString();
+    }
+
+    private async void UpdateBinaryData()
+    {
+        BinaryReaderWriter.Serialize(2, 100, 23, nameof(Player));
+        await SetPlayerData();
+    }
+
+    private async void SetNewPlayerDataUrl(string url)
+    {
+        print(url);
+        m_PlayerPromoCode.DataUrl = url;
+        await UpdateUserData(false);
+    }
+
+    private async Task<string> SetPlayerData()
+    {
+        const string uri = "https://parseapi.back4app.com/files/PlayerData";
+
+        using (var request = new UnityWebRequest(uri, "POST"))
         {
             request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
             request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
-            request.SetRequestHeader("Content-type", "application/octet-stream");
-
-
-            // string filepath = Path.Combine() 
+            request.SetRequestHeader("Content-Type", "application/octet-stream");
+            
+            request.uploadHandler = new UploadHandlerFile(m_PlayerLocalDataPath);
+            request.downloadHandler = new DownloadHandlerBuffer();
             await request.SendWebRequest();
 
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                    .Value;
+                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+            }
+
+            var data = JObject.Parse(request.downloadHandler.text);
+            SetNewPlayerDataUrl( data["url"].ToString());
+            return "";
+        }
+    }
+
+
+    private async Task<Hashtable> GetPlayerData()
+    {
+        if (string.IsNullOrWhiteSpace(m_PlayerPromoCode.DataUrl)) return null;
+        using (var request = UnityWebRequest.Get(m_PlayerPromoCode.DataUrl))
+        {
+            request.downloadHandler =
+                new DownloadHandlerFile(Path.Combine(Application.persistentDataPath, nameof(Player) + ".bin"));
+
+            await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
             {
                 // var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
                 //     .Value;
                 // return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
-                Debug.LogError("Dont work");
-                return "ERROR";
+                return null;
             }
 
-            print(request.downloadHandler.text);
-            return request.downloadHandler.text;
+            Hashtable hashValues;
+            BinaryReaderWriter.Deserialize(nameof(Player), out hashValues);
+            print(hashValues["Level"]);
+            return hashValues;
         }
     }
 
-//
+
     public void OnTryPromoCodee()
     {
         AsyncUserTask(m_PromoCodeInput.text);
@@ -161,14 +224,27 @@ public class UserWebRequest : MainBehaviour
         {
             SetMessage("Your already have this type of code");
         }
+
         ClearInput();
     }
-    
-    private async Task<string> UpdateUserData()
+
+    private async Task<string> UpdateUserData(bool isPromoCode = true)
     {
         string uri = $"https://parseapi.back4app.com/users/{m_PlayerPromoCode.UserId}";
-        string json = m_PlayerPromoCode.CreateJsonFile();
-    
+        string json = null;
+        if (isPromoCode)
+        {
+            json = m_PlayerPromoCode.CreateJsonFile();
+        }
+        else
+        {
+            json = JsonConvert.SerializeObject(new
+            {
+                m_PlayerPromoCode.DataUrl
+            });
+        }
+
+        print(json);
         using (var request = UnityWebRequest.Put(uri, json))
         {
             request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
@@ -179,16 +255,16 @@ public class UserWebRequest : MainBehaviour
             request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
 
             await request.SendWebRequest();
+            print(request.result);
             if (request.result != UnityWebRequest.Result.Success)
             {
-            
                 var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
                     .Value;
                 Debug.LogError(Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode)));
 
                 return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
             }
-            
+
             print(request.downloadHandler.text);
             return string.Empty;
         }
@@ -286,9 +362,10 @@ public class UserWebRequest : MainBehaviour
                 Debug.LogError(request.error);
             }
         }
+
         return string.Empty;
     }
-    
+
 
     public async Task CreateNewPromoCode(string reqWeb, string codeValue, string codeType)
     {

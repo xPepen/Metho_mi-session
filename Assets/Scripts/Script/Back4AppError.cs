@@ -51,5 +51,6 @@ public static class Back4AppError
          1 => "The specified object or session doesnt exist or could not be found",
          2 => "There is a problem with the parameters used to construct this query",
          4 => "An invalid field name. Keys are case-sensitive",
+        _ => "Exception not found"
     };
 }

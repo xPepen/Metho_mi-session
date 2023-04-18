@@ -37,32 +37,7 @@ public class UserAcount : MainBehaviour
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
     private Dictionary<string, string> m_UserData;
 
-    private async Task<string> DownloadFile(string filename)
-    {
-        string uri = $"https://parseapi.back4app.com/files/{filename}";
-
-        using (var request = UnityWebRequest.Get(uri))
-        {
-            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
-            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
-            request.SetRequestHeader("X-Parse-Revocable-Session", "image/png");
-
-            // string filepath = Path.Combine() 
-            await request.SendWebRequest();
-
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
-                    .Value;
-                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
-            }
-
-            print(request.downloadHandler.text);
-            m_IsIdentityConfirm = true;
-            return request.downloadHandler.text;
-        }
-    }
+   
         
 
         //end test
@@ -178,18 +153,21 @@ public class UserAcount : MainBehaviour
 
     private async void SetUserInformation(string userData)
     {
-       
+        if (m_UserData.Count > 0) return;
         JObject jObject = JObject.Parse(userData);
+      
         await Task.Run(() =>
          {
             m_UserData.Add("SkinCode", jObject["SkinCode"].ToString().ToLower());
             m_UserData.Add("SpeedCode", jObject["SpeedCode"].ToString().ToLower());
             m_UserData.Add("ReviveCode", jObject["ReviveCode"].ToString().ToLower());
             m_UserData.Add("objectId", jObject["objectId"].ToString());
+            m_UserData.Add("DataUrl", jObject["DataUrl"].ToString());
             m_UserData.Add("sessionToken", jObject["sessionToken"].ToString());
         });
         m_PlayerPromoCode.UserId = m_UserData["objectId"];
         m_PlayerPromoCode.UserToken = m_UserData["sessionToken"];
+        m_PlayerPromoCode.DataUrl = m_UserData["DataUrl"];
         m_PlayerPromoCode.AllUserData = m_UserData;
     }
 
@@ -244,7 +222,7 @@ public class UserAcount : MainBehaviour
             } 
             SetUserInformation(request.downloadHandler.text);
             m_IsIdentityConfirm = true;
-            SetMessageState("LOgin confirm!!!");
+            SetMessageState("Login confirm!!!");
             return string.Empty;
         }
     }

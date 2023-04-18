@@ -1151,7 +1151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &207841410
 Transform:
   m_ObjectHideFlags: 0
@@ -7504,6 +7504,9 @@ MonoBehaviour:
   - {fileID: 24636846}
   - {fileID: 508425400}
   next: 0
+  OnQuit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1731565772
 MonoBehaviour:
   m_ObjectHideFlags: 0
