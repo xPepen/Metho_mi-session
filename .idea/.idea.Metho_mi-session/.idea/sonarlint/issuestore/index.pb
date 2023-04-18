@@ -1,6 +1,4 @@
 
-a
-1Assets/Scripts/Script/Promo/ScritablePromoCode.cs,3\9\392799767c4b48fe1b5ac4724a0c6f275fc966f3
 b
 2Assets/ProgressBarSharder/ProgressBarController.cs,1\c\1c9bab11976684c54685e6709ae7299be458f069
 ^

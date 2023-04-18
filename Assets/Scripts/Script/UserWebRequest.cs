@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,7 +24,51 @@ public class UserWebRequest : MainBehaviour
     private const string m_WebClassRequest = "https://parseapi.back4app.com/classes/";
     private const string m_PromoCodeClass = "PromoCode";
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
+//
 
+    public void TEST_ME()
+    {
+        Test();
+    }
+
+    private async void Test()
+    {
+        BinaryReaderWriter.Serialize(0, nameof(Player));
+        var path = Application.persistentDataPath + nameof(Player) + ".dat";
+        var @byteData  = File.ReadAllBytes(path);
+        await UploadeFile(byteData);
+    }
+    
+    private async Task<string> UploadeFile(byte[] data)
+    {
+        string uri = $"https://parseapi.back4app.com/users/{m_PlayerPromoCode.UserId}";
+
+        using (var request = UnityWebRequest.Put(uri,data))
+        {
+            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
+            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
+            request.SetRequestHeader("Content-type", "application/octet-stream");
+
+
+            // string filepath = Path.Combine() 
+            await request.SendWebRequest();
+
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                // var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                //     .Value;
+                // return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+                Debug.LogError("Dont work");
+                return "ERROR";
+            }
+
+            print(request.downloadHandler.text);
+            return request.downloadHandler.text;
+        }
+    }
+
+//
     public void OnTryPromoCodee()
     {
         AsyncUserTask(m_PromoCodeInput.text);
@@ -109,14 +154,44 @@ public class UserWebRequest : MainBehaviour
         {
             await UpdateClassData(id, "{\"HasBeenUse\": true}");
             m_PlayerPromoCode.UpdatePromoCode(code);
+            await UpdateUserData();
             SetMessage($"Code type {code} added");
         }
         else
         {
             SetMessage("Your already have this type of code");
         }
-
         ClearInput();
+    }
+    
+    private async Task<string> UpdateUserData()
+    {
+        string uri = $"https://parseapi.back4app.com/users/{m_PlayerPromoCode.UserId}";
+        string json = m_PlayerPromoCode.CreateJsonFile();
+    
+        using (var request = UnityWebRequest.Put(uri, json))
+        {
+            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
+            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
+            request.SetRequestHeader("X-Parse-Session-Token", m_PlayerPromoCode.UserToken);
+            request.SetRequestHeader("Content-type", "application/json");
+
+            request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
+
+            await request.SendWebRequest();
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+            
+                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
+                    .Value;
+                Debug.LogError(Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode)));
+
+                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
+            }
+            
+            print(request.downloadHandler.text);
+            return string.Empty;
+        }
     }
 
 
@@ -210,10 +285,10 @@ public class UserWebRequest : MainBehaviour
                 // return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
                 Debug.LogError(request.error);
             }
-
-            return string.Empty;
         }
+        return string.Empty;
     }
+    
 
     public async Task CreateNewPromoCode(string reqWeb, string codeValue, string codeType)
     {

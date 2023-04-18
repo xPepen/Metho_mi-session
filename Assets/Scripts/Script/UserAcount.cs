@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -36,42 +37,7 @@ public class UserAcount : MainBehaviour
     [SerializeField] private ScritablePromoCode m_PlayerPromoCode;
     private Dictionary<string, string> m_UserData;
 
-    
-    //test for file
-  
-
-    private void Test()
-    {
-        BinaryReaderWriter.Serialize(0, nameof(Player));
-    }
-    private async Task<string> SetFile(string filename)
-    {
-        string uri = $"https://parseapi.back4app.com/User/{filename}";
-
-        using (var request = UnityWebRequest.Get(uri))
-        {
-            request.SetRequestHeader("X-Parse-Application-Id", Secrets.ApplicationId);
-            request.SetRequestHeader("X-Parse-REST-API-Key", Secrets.RestApiKey);
-            request.SetRequestHeader("X-Parse-Revocable-Session", "image/png");
-
-            // string filepath = Path.Combine() 
-            await request.SendWebRequest();
-
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                var ErrorCode = Regex.Match(request.downloadHandler.text, @"(\d+)", RegexOptions.Multiline).Groups[0]
-                    .Value;
-                return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
-            }
-
-            print(request.downloadHandler.text);
-            m_IsIdentityConfirm = true;
-            return request.downloadHandler.text;
-        }
-    }
-    
-    private async Task<string> GetFile(string filename)
+    private async Task<string> DownloadFile(string filename)
     {
         string uri = $"https://parseapi.back4app.com/files/{filename}";
 
@@ -117,6 +83,8 @@ public class UserAcount : MainBehaviour
         else if (buttonJob.ToUpper() == (nameof(AccountState.LOGIN)))
         {
             AsyncUserTask(LoginUser(m_InputEmail.text, m_InputPassword.text), m_OnConnectionConfirm);
+            
+
         }
 
         m_OnRequestEnd.Invoke();
@@ -166,9 +134,6 @@ public class UserAcount : MainBehaviour
                 if (count == possibility) break;
             }
         }
-
-        return;
-        
     }
 
 
@@ -220,12 +185,12 @@ public class UserAcount : MainBehaviour
             m_UserData.Add("SkinCode", jObject["SkinCode"].ToString().ToLower());
             m_UserData.Add("SpeedCode", jObject["SpeedCode"].ToString().ToLower());
             m_UserData.Add("ReviveCode", jObject["ReviveCode"].ToString().ToLower());
-            m_UserData.Add("objectId", jObject["objectId"].ToString().ToLower());
-            m_UserData.Add("sessionToken", jObject["sessionToken"].ToString().ToLower());
+            m_UserData.Add("objectId", jObject["objectId"].ToString());
+            m_UserData.Add("sessionToken", jObject["sessionToken"].ToString());
         });
         m_PlayerPromoCode.UserId = m_UserData["objectId"];
         m_PlayerPromoCode.UserToken = m_UserData["sessionToken"];
-        SetMessageState("Data dictionnary added");
+        m_PlayerPromoCode.AllUserData = m_UserData;
     }
 
     
@@ -258,7 +223,7 @@ public class UserAcount : MainBehaviour
         }
     }
 
-    /*private async Task<string> LoginUser(string user, string password)
+    private async Task<string> LoginUser(string user, string password)
     {
         string url = "https://parseapi.back4app.com/login";
         string mainUrl = $"{url}?username={user}&password={password}";
@@ -282,8 +247,8 @@ public class UserAcount : MainBehaviour
             SetMessageState("LOgin confirm!!!");
             return string.Empty;
         }
-    }*/
-    private async Task<string> LoginUser(string user, string password)
+    }
+    /*private async Task<string> LoginUser(string user, string password)
     {
         string url = "https://parseapi.back4app.com/login";
         string mainUrl = $"{url}?username={user}&password={password}";
@@ -297,11 +262,12 @@ public class UserAcount : MainBehaviour
                     .Value;
                 return Back4AppError.GetErrorMessage(Convert.ToInt32(ErrorCode));
             } 
+            Debug.LogError(request.downloadHandler.text);
             SetUserInformation(request.downloadHandler.text);
             m_IsIdentityConfirm = true;
             return string.Empty;
         }
-    }
+    }*/
 
     private async Task<string> UpdateClassData(string classId = "")
     {

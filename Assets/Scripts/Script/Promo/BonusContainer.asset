@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53ccf546dfb67c4db353404ab00f412, type: 3}
   m_Name: BonusContainer
   m_EditorClassIdentifier: 
-  UserId: 1e1lxooskf
-  UserToken: r:88766777c8263f935648ae0145918dfb
+  UserId: 1E1lXooSKf
+  UserToken: r:fa25a2c6f968b91b9ef7c15a62bc33c3
   ReviveCode: 1
   SpeedCode: 1
   SkinCode: 1

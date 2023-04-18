@@ -21,7 +21,6 @@ public static class BinaryReaderWriter
         Hashtable hashvalues = new Hashtable();
         hashvalues.Add("Level", value);
 
-        // FileStream fs = new FileStream("DataFile.dat", FileMode.Create);
         var path = Path(fileName);
         FileStream fs = File.Exists(path) ? new FileStream(path, FileMode.Open) : new FileStream(path, FileMode.Create);
 
