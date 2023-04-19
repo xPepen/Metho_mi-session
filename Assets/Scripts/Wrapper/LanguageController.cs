@@ -11,10 +11,12 @@ public class LanguageController : MonoBehaviour
 
     public string GetLanguage()
     {
+        Debug.LogError("Current lang = "  + TranslatorManager.GetCurrentLanguage() );
         return TranslatorManager.GetCurrentLanguage();
     } 
     public void SetNewLanguage(PossibleLanguage langValue)
     {
+        Debug.LogError("WE SET NEW LANG");
          TranslatorManager.SetCurrentLanguage(langValue);
     }
     

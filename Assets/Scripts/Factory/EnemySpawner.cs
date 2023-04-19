@@ -9,6 +9,7 @@ public class EnemySpawner : MainBehaviour
     [SerializeField] private float TimeToSwitchFactory;
     [SerializeField] private float OffsetFromPlayer;
     [SerializeField] private int EnemyToSpawnCount;
+    [SerializeField] private float TimeBetweenWave;
 
     private bool m_GamehasBeenInit = false;
     //timer to spawn boss
@@ -135,7 +136,7 @@ public class EnemySpawner : MainBehaviour
                     m_timwWatch = 0;
                 }
             }
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(TimeBetweenWave);
         }
     }
 }

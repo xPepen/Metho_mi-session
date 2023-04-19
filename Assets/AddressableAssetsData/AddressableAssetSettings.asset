@@ -93,6 +93,7 @@ MonoBehaviour:
     - MainMenu
     - Level2
     - LoginPage
+    - Level3
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 7180c215924e2fc44839f4886ee3a370, type: 2}

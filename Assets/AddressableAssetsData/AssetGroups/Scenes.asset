@@ -32,6 +32,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - LoginPage
+  - m_GUID: 71a5212ff633129499f9c2a8e5e86917
+    m_Address: Level3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level3
+  - m_GUID: 02fff43741f702841ac12bed67dfcdca
+    m_Address: Level2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Level2
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 34e8b1d4d759fd741911d2ccb7286444, type: 2}
   m_SchemaSet:

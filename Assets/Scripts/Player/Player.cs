@@ -42,7 +42,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         mousePos = GetComponent<InputReceiver>();
         m_animator = GetComponent<Animator>();
         ListOfSpell = new List<Spell>();
-        Max_XP = 100f;
+        Max_XP = 25f;
         eventPlayerSerialized = GetComponent<PlayerSerializedEvent>();
     }
 
@@ -62,6 +62,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     {
     }
 
+    public void ResetVelocity() => Move(Vector2.zero);
     public void AddXP(float _amount)
     {
         //add const value for hast table 

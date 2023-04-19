@@ -17,10 +17,6 @@ k
 0Assets/Scripts/Wrapper/SceneManagerController.cs,b\6\b669ee393c20f10107b80d04b388384e502103e2
 W
 'Assets/Scripts/Manager/MainBehaviour.cs,d\b\dbd7a4ea3ac428d1e43db909862a968bb22e0818
-^
-.Assets/Scripts/Player/PlayerSerializedEvent.cs,e\0\e05b678fd33caa137ec8fed10e1d220e873df7fe
-Y
-)Assets/Scripts/Manager/GameplayManager.cs,0\1\01073a5c9d3d5d8de9ae9e2b4f047c90bd69bc8a
 o
 ?Assets/Scripts/INPUTS/InputsBuffering/PlayerActionsContainer.cs,7\5\750c26b7755b03c56409cd6e3c3d108e3cc7d404
 S
@@ -37,8 +33,6 @@ g
 7Assets/Scripts/AdressableManagement/SceneAssetLoader.cs,e\6\e6cf42a45ef0e17a2a335b7099ab965f730c5bba
 S
 #Assets/Scripts/Weapon/Projectile.cs,5\b\5bd6497143909c010d23471ab1474116dec278e1
-V
-&Assets/Scripts/Factory/EnemySpawner.cs,2\0\2063529478f596a4442c9b8a4dcfcded3560eb18
 T
 $Assets/Scripts/Weapon/RangeWeapon.cs,3\4\34bdc0ef033308a02f5b0cf842201539204cde7d
 V
@@ -49,8 +43,6 @@ Y
 )Assets/Scripts/Factory/AbstractFactory.cs,2\1\210cf7d32bfbeca9567aa44b7afdca4a1a05c923
 O
 Assets/Scripts/Enemies/Enemy.cs,b\7\b7353f45ab629382b7da29c981fd24596005cd95
-^
-.Assets/Scripts/Script/Reader/FileReader_TSV.cs,a\2\a2461311578e4e9f4532ecb4a94b0ff0d1c5770d
 Q
 !Assets/Scripts/UI/LevelHandler.cs,2\d\2d1bda784816bebaa4e1e4a26d9007c291669360
 z
@@ -59,9 +51,5 @@ JAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/SpellUpgraderPanel.cs,2\9
 PAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/PlayerStatsUpgraderPanel.cs,f\9\f97eca445e04b0dd02b6c3010d79b830063f5273
 
 OAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/ProjectileUpgraderPanel.cs,c\4\c444718113a269d5c2d271983469475fc108a519
-\
-,Assets/Scripts/UpgradeMenu/UpgradeManager.cs,a\a\aa03dd014a8b5af0677da2d82813ad0e30e9f7b7
-u
-EAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/UpgraderPanel.cs,c\2\c2ce05fd3493c16c29593c6cc01c66260e8d15c8
-U
-%Assets/Scripts/UI/VolumeController.cs,3\5\355c5e60ca7217ebf494db07181bb17e4805fc8a
+V
+&Assets/Scripts/Script/Back4AppError.cs,1\9\199f3cbfbf189f994bddf0c4910f804ba49042a5

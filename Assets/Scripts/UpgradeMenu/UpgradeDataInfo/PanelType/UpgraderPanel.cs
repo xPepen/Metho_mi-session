@@ -59,7 +59,6 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         }
 
         var node = GetFirstNode(out isActionCompleted);
-
         var correctDescription = GetCorrectLangText(m_DescriptionKey);
 
         var descriptionText = node.UseFloatValue ? $"{node.UpgradeValue} " + correctDescription :
@@ -123,9 +122,11 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
 
     protected string GetCorrectLangText(ReadOnlySpan<char> key, bool isTitle = false)
     {
+        var curUpgrade = m_CurrentUpgrade == 0 ? 1 : m_CurrentUpgrade;
+        
         return isTitle
             ? m_PanelManager.GetValueFromDictionary(key.ToString())
-            : m_PanelManager.GetValueFromDictionary(key.ToString() + m_CurrentUpgrade);
+            : m_PanelManager.GetValueFromDictionary(key.ToString() + curUpgrade);
     }
 
     protected void SetUITitleText(string text)

@@ -20,14 +20,16 @@ public class UpgradeManager : MainBehaviour, ITranslateBehaviour
     {
         base.OnStart();
         InitListOfPanels();
+        ToggleAllPanel(false);
     }
 
-    private void InitListOfPanels()
+    public void InitListOfPanels()
     {
         for (int i = 0; i < m_UgraderPanel.Count; i++)
         {
             m_UgraderPanel[i].InitUpgradePanel();
             m_UgraderPanel[i].SetUpgraddeManager(this);
+            
         }
     }
 

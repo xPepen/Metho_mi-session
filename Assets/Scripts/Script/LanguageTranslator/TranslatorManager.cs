@@ -12,11 +12,10 @@ public enum PossibleLanguage
     Italien,
 }
 
-
 public class TranslatorManager : MainBehaviour
 {
     private string CurrentLanguage;
-    private const string m_UserLang = "UserLanguage";
+    private const string m_UserLangKey = "UserLanguage";
     [SerializeField] private PossibleLanguage m_DefaultLang = PossibleLanguage.English;
     private List<ITranslateBehaviour> m_textEntities = new();
 
@@ -26,8 +25,10 @@ public class TranslatorManager : MainBehaviour
         InitLang();
     }
 
-    private string GetPlayerPrefLang() => PlayerPrefs.GetString(m_UserLang);
-    private void SetPlayerPrefLang(ReadOnlySpan<char> newlang) => PlayerPrefs.SetString(m_UserLang, newlang.ToString());
+    private string GetPlayerPrefLang() => PlayerPrefs.GetString(m_UserLangKey);
+
+    private void SetPlayerPrefLang(ReadOnlySpan<char> newlang) =>
+        PlayerPrefs.SetString(m_UserLangKey, newlang.ToString());
 
 
     private bool IsLangEmpty()
@@ -39,19 +40,19 @@ public class TranslatorManager : MainBehaviour
     private void InitLang()
     {
         var defaultLang = m_DefaultLang.ToString();
-        if (IsLangEmpty() || !(defaultLang.Equals(GetPlayerPrefLang())))
+        Debug.LogError(IsLangEmpty() + " " + defaultLang.Equals(GetPlayerPrefLang()));
+        if (IsLangEmpty())
         {
             CurrentLanguage = defaultLang;
             SetPlayerPrefLang(CurrentLanguage);
             return;
         }
-
         CurrentLanguage = GetPlayerPrefLang();
     }
 
     private void UpdateLanguages()
     {
-        m_textEntities.ForEach(instance =>instance.UpdateText());
+        m_textEntities.ForEach(instance => instance.UpdateText());
     }
 
     public string GetCurrentLanguage() => CurrentLanguage;

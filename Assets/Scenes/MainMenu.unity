@@ -325,7 +325,6 @@ GameObject:
   - component: {fileID: 31418781}
   - component: {fileID: 31418780}
   - component: {fileID: 31418782}
-  - component: {fileID: 31418783}
   m_Layer: 0
   m_Name: ManagerController
   m_TagString: Untagged
@@ -374,20 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2169b904438eb54d847e0f073e3d321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TranslatorManager: {fileID: 31418783}
---- !u!114 &31418783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31418779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82260d2c695e4c041946e15765af21e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DefaultLang: 3
+  TranslatorManager: {fileID: 0}
 --- !u!1 &74075997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4343,7 +4329,7 @@ MonoBehaviour:
   m_fontSize: 14
   m_fontSizeBase: 14
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
