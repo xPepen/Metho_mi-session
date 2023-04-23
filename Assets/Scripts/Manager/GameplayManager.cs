@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameplayManager : MainBehaviour
 {
@@ -25,18 +22,17 @@ public class GameplayManager : MainBehaviour
     {
         base.OnAwake();
         this.Bind();
+        m_playerRef = D.Get<Player>();
+        ExperiencePool.InitPool();
     }
 
     protected override void OnStart()
     {
         base.OnStart();
-        m_playerRef = D.Get<Player>();
 
-        ExperiencePool.InitPool();
         SetHPBar(false);
         SetExpBar(false);
         m_xpSet = new SortedSet<ExperienceCollectable>(new ExperienceComparable());
-        //IsGamePause = false;
         
         IsGameOnPause(IsGamePause);
         OnGamePause = () =>
@@ -46,6 +42,14 @@ public class GameplayManager : MainBehaviour
             IsGameOnPause(IsGamePause);
 
         };
+    }
+
+    public void RestPlayer()
+    {
+        if(!m_playerRef.gameObject.activeSelf) return;
+        m_playerRef.InitPlayer(25);
+        SetHPBar(false);
+        SetExpBar(false);
     }
 
     /*public void SetGamePause( bool )
@@ -67,11 +71,7 @@ public class GameplayManager : MainBehaviour
         Time.timeScale = 1.00f;
     }
 
-    public void RestartLevel(int _LevelIndex)
-    {
-        D.Clear();
-        SceneManager.LoadScene(_LevelIndex);
-    }
+   
 
     public void Exit()
     {
@@ -129,21 +129,16 @@ public class GameplayManager : MainBehaviour
         if (!_isInit)
         {
             SetFillBar(1, m_playerRef.maxHP / m_playerRef.maxHP);
+            return;
         }
-        if (PlayerInfoImageArray[1].fillAmount > 0)
-        {
             SetFillBar(1 ,m_playerRef.currentHP / m_playerRef.maxHP);
-        }
-        else
-        {
-            //gameover
-        }
     }
     public void SetExpBar(bool _isInit = true)
     {
         if (!_isInit)
         {
             SetFillBar(0, 0);
+            return;
         }
         SetFillBar(0, m_playerRef.CurrentXP / m_playerRef.Max_XP);
 

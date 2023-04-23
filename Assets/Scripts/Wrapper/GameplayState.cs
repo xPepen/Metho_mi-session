@@ -8,4 +8,5 @@ public enum GameplayState
   Upgrade,
   DeadMenu,
   GameOption,
+  NextLevel,
 }

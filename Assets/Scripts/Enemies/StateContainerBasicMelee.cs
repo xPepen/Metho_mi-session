@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StateContainerBasicMelee 
 {
-    public Idle_MeleeEnemy Idle { get; protected set; }
+    public Idle_MeleeEnemy 
+        Idle { get; protected set; }
     public Chasse_MeleeEnemy Chasse { get; protected set; }
     public Attack_MeleeEnemy Attack { get; protected set; }
     public Dead_MeleeEnemy Dead { get; protected set; }

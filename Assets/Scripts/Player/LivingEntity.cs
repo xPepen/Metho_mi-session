@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class LivingEntity : BaseEntity,IHitable
@@ -7,7 +6,7 @@ public abstract class LivingEntity : BaseEntity,IHitable
     public float currentHP { get; protected set; }
     public float maxHP { get; protected set; }
     protected float speed;
-    protected bool IsDead => currentHP <= 0;
+    public bool IsDead => currentHP <= 0;
     protected Rigidbody2D m_rb;
     private AudioSource m_audio;
     private SpriteRenderer _sprite;

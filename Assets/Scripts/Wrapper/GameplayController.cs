@@ -15,12 +15,22 @@ public class GameplayController : MainBehaviour
     [SerializeField] private UnityEvent UpgradeEvent;
     [SerializeField] private UnityEvent DeadMenuEvent;
     [SerializeField] private UnityEvent GameOptionEvent;
+    [SerializeField] private UnityEvent NextLevel;
 
     protected override void OnAwake()
     {
         base.OnAwake();
-        UpdateState("MainMenu");
     }
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        UpdateState("MainMenu");
+
+    }
+
+    public GameplayState GetState() => m_currentState;
+    
 
     private bool TrySetState(out GameplayState currentState, GameplayState newState)
     {
@@ -59,6 +69,9 @@ public class GameplayController : MainBehaviour
                 break;
             case GameplayState.GameOption:
                 GameOptionEvent.Invoke();
+                break;
+            case GameplayState.NextLevel:
+                NextLevel.Invoke();
                 break;
             default:
                 Debug.LogError("NO STATE SET");

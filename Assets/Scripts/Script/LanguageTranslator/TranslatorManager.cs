@@ -40,7 +40,6 @@ public class TranslatorManager : MainBehaviour
     private void InitLang()
     {
         var defaultLang = m_DefaultLang.ToString();
-        Debug.LogError(IsLangEmpty() + " " + defaultLang.Equals(GetPlayerPrefLang()));
         if (IsLangEmpty())
         {
             CurrentLanguage = defaultLang;

@@ -168,10 +168,10 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
     protected virtual void OnColorChange(Color _color) => m_PanelImage.color = _color;
 
 // ----------------------- Unity Event ------------------------------- 
-    public virtual void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData = null)
     {
-        if (eventData.pointerEnter)
-        {
+        /*if (eventData.pointerEnter)
+        {*/
             if (m_EventOnClick is null) return;
 
             m_CurrentUpgradeAction.Invoke();
@@ -179,7 +179,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
             m_EventOnClick?.Invoke();
             isActionCompleted = true;
             InitUpgradePanel();
-        }
+        // }
     }
 
 

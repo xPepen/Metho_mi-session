@@ -1,25 +1,0 @@
-
-2csharpsquid:S3168T"Return 'Task' instead.(¸Ù!
-Hcsharpsquid:S3903"+Move 'DeathTracker' into a named namespace.(úÜ÷
-:csharpsquid:S2933"Make 'emailInput' 'readonly'.(ëº®Õ
-:csharpsquid:S2933"Make 'paswdInput' 'readonly'.(€ÌÅ’
-fcsharpsquid:S1104"DMake this field 'private' and encapsulate it in a 'public' property.(à’¶¶şÿÿÿÿ
-Mcsharpsquid:S1172¥"*Remove this unused method parameter 'url'.(Ä€âıÿÿÿÿ
-Ocsharpsquid:S1172¥",Remove this unused method parameter 'regex'.(Ä€âıÿÿÿÿ
-acsharpsquid:S1075#"?Refactor your code not to use hardcoded absolute paths or URIs.(ôÀÆìúÿÿÿÿ
-\csharpsquid:S1075$"?Refactor your code not to use hardcoded absolute paths or URIs.(˜©Ú×
-\csharpsquid:S1075>"?Refactor your code not to use hardcoded absolute paths or URIs.(¶ù„«
-\csharpsquid:S1075\"?Refactor your code not to use hardcoded absolute paths or URIs.(İİé
-acsharpsquid:S1075t"?Refactor your code not to use hardcoded absolute paths or URIs.(•Á¶¹úÿÿÿÿ
-\csharpsquid:S1075"?Refactor your code not to use hardcoded absolute paths or URIs.(­ÿµp
-\csharpsquid:S1075§"?Refactor your code not to use hardcoded absolute paths or URIs.(­ÿµp
-\csharpsquid:S1075½"?Refactor your code not to use hardcoded absolute paths or URIs.(›¿–i
-\csharpsquid:S1075Õ"?Refactor your code not to use hardcoded absolute paths or URIs.(›¿–i
-Icsharpsquid:S1481#"'Remove the unused local variable 'url'.(ôÀÆìúÿÿÿÿ
-Bcsharpsquid:S1481V"%Remove the unused local variable 'x'.(“ªõØ
-@csharpsquid:S125"Remove this commented out code.(³ç‘âüÿÿÿÿ
-;csharpsquid:S125"Remove this commented out code.(ıâ®ú
-;csharpsquid:S125W"Remove this commented out code.(¯ú
-<csharpsquid:S125‚"Remove this commented out code.(¥©ÈÙ
-<csharpsquid:S125…"Remove this commented out code.(¾¿Òù
-<csharpsquid:S125Í"Remove this commented out code.(´„àâ

@@ -1,0 +1,12 @@
+
+?csharpsquid:S3168D"Return 'Task' instead.(Îë«‡ûÿÿÿÿ8Ú—“¤ù0
+;csharpsquid:S3168•"Return 'Task' instead.(¬ş¦8Ú—“¤ù0
+;csharpsquid:S3168š"Return 'Task' instead.(çõÌ¦8Û—“¤ù0
+Hcsharpsquid:S3903"+Move 'AccountState' into a named namespace.(üÇí‡
+Ecsharpsquid:S3903")Move 'UserAcount' into a named namespace.(Ù­»)
+}csharpsquid:S2342"`Rename this enumeration to match the regular expression: '^([A-Z]{1,3}[a-z0-9]+)*([A-Z]{2})?s$'.(üÇí‡
+Scsharpsquid:S1172ú".Remove this unused method parameter 'classId'.(¸© 8Û—“¤ù0
+icsharpsquid:S1075±"?Refactor your code not to use hardcoded absolute paths or URIs.(ôÀÆìúÿÿÿÿ8Û—“¤ù0
+dcsharpsquid:S1075Î"?Refactor your code not to use hardcoded absolute paths or URIs.(¶ù„«8Û—“¤ù0
+Gcsharpsquid:S125F"Remove this commented out code.(€ˆ°Ùıÿÿÿÿ8Û—“¤ù0
+Hcsharpsquid:S125æ"Remove this commented out code.(ÒÌâ–øÿÿÿÿ8øæô¥ù0

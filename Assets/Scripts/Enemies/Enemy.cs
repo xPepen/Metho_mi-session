@@ -38,7 +38,7 @@ public abstract class Enemy : LivingEntity
     {
         PoolBackEnemy();
         Heal();
-        if (Random.Range(0, 10 + 1) > 4)
+        if (Random.Range(0, 10 + 1) > 8)
         {
             var _Entity = m_gameplayManager.ExperiencePool.Pool.GetNextItem();
             _Entity.transform.position = transform.position;

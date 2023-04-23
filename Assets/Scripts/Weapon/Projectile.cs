@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : BaseEntity, IUpgradebleProjectile
 {
-    public RangeWeapon m_RangeWeaponRef { get; set; }
+    [field:SerializeField]public RangeWeapon m_RangeWeaponRef { get; set; }
     [SerializeField] private float m_damage;
     [SerializeField] private float HittableRadius;
     [SerializeField] private float HittableDistance;
@@ -63,18 +63,17 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
     {
         //var _potentialEntity = Physics2D.CircleCast(transform.position, HittableRadius, Vector2.zero);
         Physics2D.OverlapCircleNonAlloc(transform.position, HittableRadius, m_collResult);
-        LivingEntity _hitable = m_collResult[0].transform.GetComponent<LivingEntity>();
-        if (_hitable == null)
+        // LivingEntity _hitable = m_collResult[0].transform.TryGetComponent(out LivingEntity livingEntity);
+        if (m_collResult[0] == null || m_collResult[0].transform == null) return;
+        if (m_collResult[0].transform.TryGetComponent(out LivingEntity _hitable))
         {
-            return;
-        }
-
-        if (_hitable != null && _hitable.Type == Target)
-        {
-            if (Vector3.Distance(this.transform.position, m_collResult[0].transform.position) <= HittableDistance)
+            if (_hitable.Type == Target)
             {
-                (_hitable as IHitable).OnHit(m_damage);
-                OnDisableProjectile();
+                if (Vector3.Distance(this.transform.position, m_collResult[0].transform.position) <= HittableDistance)
+                {
+                    (_hitable as IHitable).OnHit(m_damage);
+                    OnDisableProjectile();
+                }
             }
         }
     }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
@@ -11,7 +13,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     public float Max_XP { get; private set; }
     private float m_totalXpGain;
     public int Level;
-    [FormerlySerializedAs("EventLevelUp")] [SerializeField] private PlayerSerializedEvent eventPlayerSerialized;
+    [SerializeField] private PlayerSerializedEvent eventPlayerSerialized;
     public PlayerActionsContainer ListOfActions { get; private set; }
     [SerializeField] private PhysicEntityInfo EntityStats;
 
@@ -29,7 +31,10 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
 
     private Animator m_animator;
 
-    public bool IsGameplaymode {get; private set; }
+    public bool IsAutoPlay;
+    public bool IsGodMode;
+    public bool IsGameplaymode { get; private set; }
+
 //Promo PowerUpCode
     protected override void Init()
     {
@@ -37,12 +42,10 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         maxHP = EntityStats.maxHP;
         currentHP = maxHP;
         speed = EntityStats.moveSpeed;
-
         ListOfActions = new PlayerActionsContainer();
         mousePos = GetComponent<InputReceiver>();
         m_animator = GetComponent<Animator>();
         ListOfSpell = new List<Spell>();
-        Max_XP = 25f;
         eventPlayerSerialized = GetComponent<PlayerSerializedEvent>();
     }
 
@@ -52,36 +55,6 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         PLayerSingleton();
         this.Bind();
     }
-
-    public void SetGameplayMode(bool value)
-    {
-        if (IsGameplaymode == value) return;
-        IsGameplaymode = value;
-    }
-    private void InitPromoCode(EPromoCode promoCode)
-    {
-    }
-
-    public void ResetVelocity() => Move(Vector2.zero);
-    public void AddXP(float _amount)
-    {
-        //add const value for hast table 
-        //because nneed them to get hashtable values
-        Hashtable hash = new Hashtable();
-
-        CurrentXP += _amount;
-        if (CurrentXP >= Max_XP)
-        {
-            Level++;
-            eventPlayerSerialized.OnLevelUp.Invoke();
-            CurrentXP = 0;
-            m_totalXpGain += CurrentXP;
-            Max_XP *= 1.25f;
-            // BinaryReaderWriter.Serialize(Level, nameof(Player));
-            // BinaryReaderWriter.Deserialize(nameof(Player), out hash);
-        }
-    }
-
 
     protected override void OnUpdate()
     {
@@ -102,9 +75,45 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     {
         base.OnFixedUpdate();
         if (!IsGameplaymode) return;
-        Move(InputDir.normalized);
+        if (!IsAutoPlay)
+        {
+            Move(InputDir.normalized);
+        }
+
         SetAnim();
     }
+
+    public void SetGameplayMode(bool value)
+    {
+        if (IsGameplaymode == value) return;
+        IsGameplaymode = value;
+    }
+
+    private void InitPromoCode(EPromoCode promoCode)
+    {
+    }
+
+    public void ResetVelocity() => Move(Vector2.zero);
+
+    public void AddXP(float _amount)
+    {
+        //add const value for hast table 
+        //because nneed them to get hashtable values
+        Hashtable hash = new Hashtable();
+
+        CurrentXP += _amount;
+        if (CurrentXP >= Max_XP)
+        {
+            Level++;
+            eventPlayerSerialized.OnLevelUp.Invoke();
+            CurrentXP = 0;
+            m_totalXpGain += CurrentXP;
+            Max_XP *= 1.25f;
+            // BinaryReaderWriter.Serialize(Level, nameof(Player));
+            // BinaryReaderWriter.Deserialize(nameof(Player), out hash);
+        }
+    }
+
 
     private void SetAnim()
     {
@@ -114,6 +123,7 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
 
     public override void OnHit(float _damage)
     {
+        if (IsGodMode) return;
         base.OnHit(_damage);
         D.Get<GameplayManager>().SetHPBar();
         print(currentHP);
@@ -142,9 +152,27 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
         }
     }
 
+    public void OnShoot(Vector2 dir)
+    {
+        if (MyWeapon)
+        {
+            (MyWeapon as IShootable).Attack(dir);
+        }
+    }
+
+    public void InitPlayer(int @baseMaxXP)
+    {
+        Heal();
+        ResetVelocity();
+        Max_XP = baseMaxXP;
+        CurrentXP = 0f;
+        ListOfActions.RemoveAll();
+        Level = 0;
+    }
+
     public override void OnDead()
     {
-        D.Get<GameplayManager>().RestartLevel(1);
+        eventPlayerSerialized.OnDead.Invoke();
     }
 
     /// <summary>
