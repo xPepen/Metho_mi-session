@@ -53,18 +53,12 @@ U
 %Assets/Scripts/UI/VolumeController.cs,3\5\355c5e60ca7217ebf494db07181bb17e4805fc8a
 m
 =Assets/Scripts/Script/LanguageTranslator/TranslatorManager.cs,3\2\32ee95b6a259293d9d9025469d155a08950e1ff2
-^
-.Assets/Scripts/Player/PlayerSerializedEvent.cs,e\0\e05b678fd33caa137ec8fed10e1d220e873df7fe
 d
 4Assets/Scripts/Button Fonctionnality/DropDownLang.cs,0\2\0227d7b47c26dca293c9db06995c0401f958db44
 [
 +Assets/Scripts/Enemies/BossTree/BossTree.cs,d\4\d44b268d4830c69155a5628dcfaa206b72eec7af
 [
 +Assets/Scripts/Enemies/BossTree/BabyTree.cs,a\3\a36d0c5eedee6bf339686c661e7ace3d0eaba5d7
-z
-JAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/SpellUpgraderPanel.cs,2\9\292957cc361ea2d6e45a645b64dc9862e9ca85a3
-u
-EAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/UpgraderPanel.cs,c\2\c2ce05fd3493c16c29593c6cc01c66260e8d15c8
 Y
 )Assets/Scripts/Factory/AbstractFactory.cs,2\1\210cf7d32bfbeca9567aa44b7afdca4a1a05c923
 g
@@ -81,13 +75,9 @@ W
 'Assets/Scripts/Wrapper/GameplayState.cs,e\a\ea76561651475942d87e54f4ba8170591b32be85
 \
 ,Assets/Scripts/Wrapper/GameplayController.cs,9\1\91658eee4824d4e0224154162fc0a38cb9d16a77
-V
-&Assets/Scripts/Factory/EnemySpawner.cs,2\0\2063529478f596a4442c9b8a4dcfcded3560eb18
 U
 %Assets/Scripts/Player/LivingEntity.cs,6\2\621c08a0bd108be2e5c36ab13e067ee9c7249f3f
 S
 #Assets/Scripts/Weapon/IShootable.cs,1\7\178feb16d6b85215e6587a7fa2f06a2689c571b2
 O
 Assets/Scripts/Weapon/Weapon.cs,f\8\f8555916c3a2f849780340609a670fa4737c4647
-]
--Assets/Scripts/AutomatePlayer/AutomateUser.cs,1\e\1ea889b3f3679063d4cb9373e399eeb682bb168b

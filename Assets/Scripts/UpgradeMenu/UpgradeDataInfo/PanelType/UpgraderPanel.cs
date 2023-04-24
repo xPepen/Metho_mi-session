@@ -30,7 +30,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
 
     protected bool isActionCompleted;
     protected int m_CurrentUpgrade;
-    protected const int MAX_UPGRADE = 5;
+    protected int MAX_UPGRADE;
 
     //Generale Click Event
     [SerializeField] private UnityEvent m_EventOnClick;
@@ -43,6 +43,7 @@ public abstract class UpgraderPanel : MainBehaviour, IPointerDownHandler, IPoint
         m_PanelImage = GetComponentInChildren<UnityEngine.UI.Image>();
         isActionCompleted = true;
         InitUpgradeNodeQueue();
+        MAX_UPGRADE = m_QueueOfUpgrade.Count;
     }
 
     protected override void OnStart()

@@ -1,6 +1,5 @@
 public abstract class EnemyFactory <T> : AbstractFactory<Enemy> where T : EnemyFactory<T>
 {
-   
     public static T Instance { get; private set; }
 
     protected override void OnAwake()

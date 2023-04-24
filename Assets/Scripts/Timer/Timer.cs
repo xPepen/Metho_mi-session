@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Timer : IDisposable, ITimerControl
 {
-    private Action m_OnTimerCompleted;
+    public delegate void TimerEvent();
+    private event TimerEvent m_TimerEvent;
+
+   // private Action m_OnTimerCompleted;
     private float m_TimeForNextAction;
     private float m_TimeWatch;
 
@@ -18,9 +21,9 @@ public class Timer : IDisposable, ITimerControl
 
     public TimeType TimeType => m_TimeType;
 
-    public Timer(Action? onTimerEnd, float duration, TimeType timeType, bool durationModifiable = false)
+    public Timer(TimerEvent onTimerEnd, float duration, TimeType timeType, bool durationModifiable = false)
     {
-        m_OnTimerCompleted = onTimerEnd;
+        m_TimerEvent += onTimerEnd;
         m_TimeWatch = 0f;
         m_TimeForNextAction = duration;
         m_TimeType = timeType;
@@ -28,7 +31,6 @@ public class Timer : IDisposable, ITimerControl
         m_IsTimerModifiable = durationModifiable;
         TimerManager.Subscribe(this);
     }
-
     public void OnUpdate()
     {
         if (!m_CanUpdate) return;
@@ -36,10 +38,41 @@ public class Timer : IDisposable, ITimerControl
         if (m_TimeWatch >= m_TimeForNextAction && !m_IsTimerFinish)
         {
             m_IsTimerFinish = true;
-            if (m_OnTimerCompleted == null) return;
-            m_OnTimerCompleted.Invoke();
+            if (m_TimerEvent == null) return;
+            m_TimerEvent?.Invoke();
             ResetTimer();
         }
+    }
+
+    public void SubscribeEvent(TimerEvent newAction, bool isOneShotAction)
+    {
+        if (newAction == null) return;
+        if (isOneShotAction)
+        {
+            m_TimerEvent += ()=>
+            {
+                newAction.Invoke();
+                m_TimerEvent -= newAction;
+            };
+        }
+        m_TimerEvent += newAction;
+    }
+    public void UnscribeEvent(TimerEvent newAction)
+    {
+        if (newAction == null) return;
+        m_TimerEvent -= newAction;
+    }
+
+    public void OverrideAllEvent(TimerEvent newAction)
+    {
+        ClearAllEvent();
+        m_TimerEvent += newAction;
+
+    }
+    public void ClearAllEvent()
+    {
+        if (m_TimerEvent == null) return;
+        m_TimerEvent  = null;
     }
 
     private float GetTimeScaler() => m_TimeType == TimeType.Delta ? Time.deltaTime : Time.fixedDeltaTime;
@@ -61,14 +94,12 @@ public class Timer : IDisposable, ITimerControl
     {
         m_CanUpdate = false;
     }
-
-  
-
+    
     public void StartTimer()
     {
         m_CanUpdate = true;
     }
-
+    
     public bool IsTimerFinish()
     {
         if (m_IsTimerFinish)
@@ -76,7 +107,6 @@ public class Timer : IDisposable, ITimerControl
             ResetTimer();
             return true;
         }
-
         return false;
     }
 
@@ -100,6 +130,6 @@ public class Timer : IDisposable, ITimerControl
     public void Dispose()
     {
         TimerManager.UnSubscribe(this);
-        m_OnTimerCompleted = null;
+       ClearAllEvent();
     }
 }

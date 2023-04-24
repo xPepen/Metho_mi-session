@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class ExperienceCollectable : MainBehaviour
+public class ExperienceCollectable : MainBehaviour,IPooler<ExperienceCollectable>
 { 
     private const int baseXP = 2;
     private const float SMALL_XP = 4;
@@ -18,6 +16,8 @@ public class ExperienceCollectable : MainBehaviour
     public float currentXP { get; private set; }
     //manager
     private GameplayManager m_gameRef;
+    public Action<ExperienceCollectable> RePoolItem { get; set; }
+
     protected override void OnStart()
     {
         base.OnStart();
@@ -64,9 +64,10 @@ public class ExperienceCollectable : MainBehaviour
         {
             currentXP = SetExperienceDrop(GetXpAmount()) + UnityEngine.Random.Range(0,10 + 1);
             m_playerRef.AddXP(currentXP);
-            m_gameRef.ExperiencePool.Pool.ReAddItem(this);
+            RePoolItem.Invoke(this);
             m_gameRef.SetExpBar();
             m_gameRef.RemoveXPToken(this);
+            m_gameRef.ListOfExperience.Remove(this);
         }
     }
 }

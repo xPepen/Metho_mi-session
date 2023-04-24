@@ -170,7 +170,7 @@ public class EnemySpawner : MainBehaviour
         if (m_ListOfEnemy.Count == 0) return;
         for (int i = 0; i < m_ListOfEnemy.Count; i++)
         {
-            m_ListOfEnemy[i].m_RePool();
+            m_ListOfEnemy[i].RePoolItem.Invoke(m_ListOfEnemy[i]);
         }
 
         m_ListOfEnemy.Clear();

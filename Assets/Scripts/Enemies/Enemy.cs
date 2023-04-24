@@ -40,6 +40,7 @@ public abstract class Enemy : LivingEntity,IPooler <Enemy>
         {
             var _Entity = m_gameplayManager.ExperiencePool.Pool.GetNextItem();
             _Entity.transform.position = transform.position;
+            m_gameplayManager.ListOfExperience.Add(_Entity);
         }
        
     }

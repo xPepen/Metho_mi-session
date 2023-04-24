@@ -21,8 +21,7 @@ public class PoolPatern<T> where T : Component
             InstantiatePool(this.size);
             return;
         }
-
-        throw new UnityException("Prefab inject into the pool didn't containt 'IPooler<T> interface'");
+        throw new UnityException($"Prefab name {m_prefab.name} inject into the pool didn't containt 'IPooler<T> interface'");
     }
 
     public List<T> PoolObjectList()
@@ -46,21 +45,6 @@ public class PoolPatern<T> where T : Component
             m_pool.Enqueue(_obj.GetComponent<T>());
         }
     }
-
-    private void InstantiatePool(int size, Action<UnityEngine.GameObject> InitFunc)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            var _obj = UnityEngine.GameObject.Instantiate(m_prefab);
-            if (InitFunc != null) InitFunc(_obj);
-
-            _obj.transform.parent = m_parentObj.transform;
-            _obj.gameObject.SetActive(false);
-            var _newNode = _obj.GetComponent<T>();
-            m_pool.Enqueue(_newNode);
-        }
-    }
-
     private void BasicException(int size)
     {
         if (size <= 0)
@@ -68,12 +52,11 @@ public class PoolPatern<T> where T : Component
             throw new ArgumentException("Pool size must be a positive number and supperior to 0");
         }
     }
-
     public T GetNextItem()
     {
         if (m_pool.Count == 0)
         {
-            InstantiatePool(size, null);
+            InstantiatePool(size);
         }
 
         var _obj = m_pool.Dequeue();

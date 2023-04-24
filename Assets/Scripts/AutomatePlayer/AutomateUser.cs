@@ -24,21 +24,17 @@ public class AutomateUser : MainBehaviour
     protected override void OnAwake()
     {
         base.OnAwake();
+        if (!AutoPlay) return;
         m_Timer = new Timer(CalculateNextDirection, 3.5f , TimeType.Delta);
         TimerManager.TryStopAllTimer(TimeType.Delta);
-        if (AutoPlay)
-        {
-            PlayerRef.IsAutoPlay = true;
-        }
-
-        if (!Killable)
-        {
-            PlayerRef.IsGodMode = true;
-        }
+           
+        PlayerRef.IsAutoPlay = AutoPlay;
+        PlayerRef.IsGodMode = Killable;
     }
 
     protected override void OnUpdate()
     {
+        if (!AutoPlay) return;
         base.OnUpdate();
         if (!AutoPlay) return;
         SetTimer();
@@ -51,6 +47,10 @@ public class AutomateUser : MainBehaviour
         //choose a upgrade
         else if (GameState() == GameplayState.Upgrade)
         {
+            if (UIUpgrade.Count == 0)
+            {
+                Controller.UpdateState("Gameplay");
+            }
             var index = Random.Range(0, UIUpgrade.Count);
             if (UIUpgrade[index] == null)
             {

@@ -18,6 +18,8 @@ public class GameplayManager : MainBehaviour
     private SortedSet<ExperienceCollectable> m_xpSet;
     //EXPERIENCE
 
+    public List<ExperienceCollectable> ListOfExperience = new();
+
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -50,6 +52,8 @@ public class GameplayManager : MainBehaviour
         m_playerRef.InitPlayer(25);
         SetHPBar(false);
         SetExpBar(false);
+        if(ListOfExperience.Count == 0) return;
+        ListOfExperience.ForEach(xp => xp.RePoolItem.Invoke(xp));
     }
 
     public void IsGameOnPause(bool _isStop)

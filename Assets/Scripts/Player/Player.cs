@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 public class Player : LivingEntity, IUpgradeblePlayerStats
 {
@@ -31,11 +28,10 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
 
     private Animator m_animator;
 
-    public bool IsAutoPlay;
-    public bool IsGodMode;
+    public bool IsAutoPlay = false;
+    public bool IsGodMode = false;
     public bool IsGameplaymode { get; private set; }
 
-//Promo PowerUpCode
     protected override void Init()
     {
         base.Init();
@@ -93,7 +89,11 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     {
     }
 
-    public void ResetVelocity() => Move(Vector2.zero);
+    public void ResetVelocity()
+    {
+        ListOfActions.RemoveAll();
+        Move(Vector2.zero);
+    }
 
     public void AddXP(float _amount)
     {
