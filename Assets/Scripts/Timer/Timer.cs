@@ -1,16 +1,9 @@
+using System;
 using UnityEngine;
 
-public enum TimeType
+public class Timer : IDisposable, ITimerControl
 {
-    Delta,
-    FixedDelta
-}
-public class Timer
-{
-    private System.Action m_OnTimerCompleted;
-
-    private readonly float m_multipliervalue;
-
+    private Action m_OnTimerCompleted;
     private float m_TimeForNextAction;
     private float m_TimeWatch;
 
@@ -23,7 +16,9 @@ public class Timer
     public float GetCurrentDuration => m_TimeForNextAction;
     public float CurrentTime => m_TimeWatch;
 
-    public Timer(System.Action? onTimerEnd, float duration, TimeType timeType, bool durationModifiable = false)
+    public TimeType TimeType => m_TimeType;
+
+    public Timer(Action? onTimerEnd, float duration, TimeType timeType, bool durationModifiable = false)
     {
         m_OnTimerCompleted = onTimerEnd;
         m_TimeWatch = 0f;
@@ -31,6 +26,7 @@ public class Timer
         m_TimeType = timeType;
         m_CanUpdate = true;
         m_IsTimerModifiable = durationModifiable;
+        TimerManager.Subscribe(this);
     }
 
     public void OnUpdate()
@@ -50,7 +46,7 @@ public class Timer
 
     public void ChangeDuration(float newTime)
     {
-        if (!m_IsTimerModifiable || newTime == m_TimeForNextAction) return;
+        if (!m_IsTimerModifiable || Math.Abs(newTime - m_TimeForNextAction) == 0) return;
 
         m_TimeForNextAction = newTime;
     }
@@ -65,6 +61,8 @@ public class Timer
     {
         m_CanUpdate = false;
     }
+
+  
 
     public void StartTimer()
     {
@@ -87,6 +85,21 @@ public class Timer
         m_IsTimerFinish = false;
         m_TimeWatch = 0.00f;
     }
+    
+    void ITimerControl.PauseTime(TimeType type)
+    {
+        if (m_TimeType != type) return;
+        m_CanUpdate = false;
+    }
 
-   
+    void ITimerControl.StartTime(TimeType type)
+    {
+        if (m_TimeType != type) return;
+        m_CanUpdate = true;
+    }
+    public void Dispose()
+    {
+        TimerManager.UnSubscribe(this);
+        m_OnTimerCompleted = null;
+    }
 }
