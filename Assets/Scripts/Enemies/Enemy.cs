@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public abstract class Enemy : LivingEntity
+public abstract class Enemy : LivingEntity,IPooler <Enemy>
 {
    
     public GameplayManager m_gameplayManager { get; private set; }
@@ -15,7 +14,7 @@ public abstract class Enemy : LivingEntity
     [SerializeField]protected Weapon m_Weapon;
     [SerializeField] protected float attackRange;
 
-    public Action m_RePool { get; set; }
+    public Action<Enemy> RePoolItem { get; set; }
     public bool CanAttack => Vector3.Distance(transform.position ,m_playerRef.transform.position) <= attackRange;
     public Vector2 Direction => (m_playerRef.transform.position - transform.position).normalized;
 
@@ -33,12 +32,11 @@ public abstract class Enemy : LivingEntity
         //m_playerRef = D.Get<Player>();
          m_playerRef = Player.Instance;
     }
-    public void PoolBackEnemy() => m_RePool.Invoke();
     public override void OnDead()
     {
-        PoolBackEnemy();
+        RePoolItem.Invoke(this);
         Heal();
-        if (Random.Range(0, 10 + 1) > 8)
+        if (UnityEngine.Random.Range(0, 10 + 1) > 8)
         {
             var _Entity = m_gameplayManager.ExperiencePool.Pool.GetNextItem();
             _Entity.transform.position = transform.position;

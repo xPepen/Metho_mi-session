@@ -2991,7 +2991,7 @@ MonoBehaviour:
   currentState: 0
   AutoPlay: 1
   Controller: {fileID: 821719170}
-  enemyDectectionRadius: 15
+  enemyDectectionRadius: 20
   Killable: 0
   Direction: {x: 0, y: 0}
 --- !u!1 &411514734
@@ -9327,9 +9327,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeToSwitchFactory: 25
   OffsetFromPlayer: 10
-  EnemyToSpawnCount: 12
-  TimeBetweenWave: 20
-  TimeToSwitchLevel: 60
+  EnemyToSpawnCount: 10
+  TimeBetweenWave: 10
+  TimeToSwitchLevel: 70
   nextLevelBtn: {fileID: 1356947360}
   m_timeToSpawnBoss: 25
   m_OnChangeLevel:

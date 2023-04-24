@@ -9,7 +9,6 @@ public class PoolPatern<T> where T : Component
     private UnityEngine.GameObject m_prefab;
     private UnityEngine.GameObject m_parentObj;
     private int size;
-
     public PoolPatern(int size, UnityEngine.GameObject prefab, UnityEngine.GameObject Parent)
     {
         BasicException(size);
@@ -17,18 +16,13 @@ public class PoolPatern<T> where T : Component
         this.size = size;
         m_prefab = prefab;
         m_parentObj = Parent;
-        InstantiatePool(this.size, null);
-    }
+        if (m_prefab.TryGetComponent(out IPooler<T> _))
+        {
+            InstantiatePool(this.size);
+            return;
+        }
 
-    public PoolPatern(int size, UnityEngine.GameObject prefab, UnityEngine.GameObject Parent,
-        Action<UnityEngine.GameObject> InitFunc)
-    {
-        BasicException(size);
-        m_pool = new Queue<T>();
-        this.size = size;
-        m_prefab = prefab;
-        m_parentObj = Parent;
-        InstantiatePool(this.size, InitFunc);
+        throw new UnityException("Prefab inject into the pool didn't containt 'IPooler<T> interface'");
     }
 
     public List<T> PoolObjectList()
@@ -36,13 +30,29 @@ public class PoolPatern<T> where T : Component
         return m_pool.ToList();
     }
 
+    public List<E> ConvertListTo<E>()
+    {
+        return m_pool.Cast<E>().ToList();
+    }
+
+    private void InstantiatePool(int size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            var _obj = UnityEngine.GameObject.Instantiate(m_prefab, m_parentObj.transform);
+
+            _obj.GetComponent<IPooler<T>>().RePoolItem = ReAddItem;
+            _obj.gameObject.SetActive(false);
+            m_pool.Enqueue(_obj.GetComponent<T>());
+        }
+    }
 
     private void InstantiatePool(int size, Action<UnityEngine.GameObject> InitFunc)
     {
         for (int i = 0; i < size; i++)
         {
             var _obj = UnityEngine.GameObject.Instantiate(m_prefab);
-            if (InitFunc != null)  InitFunc(_obj);
+            if (InitFunc != null) InitFunc(_obj);
 
             _obj.transform.parent = m_parentObj.transform;
             _obj.gameObject.SetActive(false);

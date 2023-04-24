@@ -1,0 +1,9 @@
+
+Icsharpsquid:S3903"'Move 'BabyTree' into a named namespace.(àü»Ÿüÿÿÿÿ
+acsharpsquid:S1104"DMake this field 'private' and encapsulate it in a 'public' property.(î™™ù
+[csharpsquid:S1185"9Remove this method 'Init' to simply inherit its behavior.(íÍ„Êýÿÿÿÿ
+Zcsharpsquid:S1185"=Remove this method 'OnUpdate' to simply inherit its behavior.(ÀÍ—…
+@csharpsquid:S125	"Remove this commented out code.(ƒéˆÑüÿÿÿÿ
+;csharpsquid:S125"Remove this commented out code.(ê®›Ï
+@csharpsquid:S125"Remove this commented out code.(˜¢Ç†þÿÿÿÿ
+@csharpsquid:S125"Remove this commented out code.(ÒÌâ–øÿÿÿÿ

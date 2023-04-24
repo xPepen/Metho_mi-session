@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
-public class Projectile : BaseEntity, IUpgradebleProjectile
+public class Projectile : BaseEntity, IUpgradebleProjectile, IPooler<Projectile>
 {
-    [field:SerializeField]public RangeWeapon m_RangeWeaponRef { get; set; }
     [SerializeField] private float m_damage;
     [SerializeField] private float HittableRadius;
     [SerializeField] private float HittableDistance;
@@ -19,14 +19,14 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
     private Collider2D[] m_collResult;
     private bool IsTooOld => m_currentLifetime >= m_lifeTime;
 
+    public Action<Projectile> RePoolItem { get; set; }
+
     protected override void OnAwake()
     {
         base.OnAwake();
         m_rb = GetComponent<Rigidbody2D>();
         m_currentLifetime = 0f;
         m_collResult = new Collider2D[1];
-        //m_RangeWeaponRef = GetComponentInParent<RangeWeapon>(true);
-        // m_RangeWeaponRef.SubscribeProjectile(this);
     }
 
     public void OnMoveProjectile(Vector2 _dir)
@@ -39,7 +39,7 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
     {
         m_rb.velocity = Vector2.zero;
         transform.position = Vector3.one * -100f;
-        m_RangeWeaponRef.ProjectilePool.Pool.ReAddItem(this);
+        RePoolItem(this);
         m_currentLifetime = 0f;
     }
 
@@ -61,9 +61,7 @@ public class Projectile : BaseEntity, IUpgradebleProjectile
 
     protected void DectectEntity()
     {
-        //var _potentialEntity = Physics2D.CircleCast(transform.position, HittableRadius, Vector2.zero);
         Physics2D.OverlapCircleNonAlloc(transform.position, HittableRadius, m_collResult);
-        // LivingEntity _hitable = m_collResult[0].transform.TryGetComponent(out LivingEntity livingEntity);
         if (m_collResult[0] == null || m_collResult[0].transform == null) return;
         if (m_collResult[0].transform.TryGetComponent(out LivingEntity _hitable))
         {

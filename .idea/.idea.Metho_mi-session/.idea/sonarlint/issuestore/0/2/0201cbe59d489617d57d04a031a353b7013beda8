@@ -1,0 +1,11 @@
+
+‡csharpsquid:S1010"fRename class 'Chasse_MeleeEnemy' to match pascal case naming rules, consider using 'ChasseMeleeEnemy'.(ºÂ âúÿÿÿÿ
+}csharpsquid:S101_"bRename class 'Dead_MeleeEnemy' to match pascal case naming rules, consider using 'DeadMeleeEnemy'.(È¡Öv
+‡csharpsquid:S101H"fRename class 'Attack_MeleeEnemy' to match pascal case naming rules, consider using 'AttackMeleeEnemy'.(Êìòêþÿÿÿÿ
+~csharpsquid:S101"bRename class 'Idle_MeleeEnemy' to match pascal case naming rules, consider using 'IdleMeleeEnemy'.(Ö”’™
+Tcsharpsquid:S3903"7Move 'StateContainerBasicMelee' into a named namespace.(öÏ‹è
+Rcsharpsquid:S39030"0Move 'Chasse_MeleeEnemy' into a named namespace.(ºÂ âúÿÿÿÿ
+Jcsharpsquid:S3903_".Move 'Dead_MeleeEnemy' into a named namespace.(È¡Öv
+Rcsharpsquid:S3903H"0Move 'Attack_MeleeEnemy' into a named namespace.(Êìòêþÿÿÿÿ
+Kcsharpsquid:S3903".Move 'Idle_MeleeEnemy' into a named namespace.(Ö”’™
+:csharpsquid:S2933"Make 'timer' 'readonly'.(ð¿Åƒÿÿÿÿÿ

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,16 +11,22 @@ public class RangeWeapon : Weapon
     {
         base.OnAwake();
         m_ListOfProjectiles = new List<IUpgradebleProjectile>();
-        ProjectilePool.InitPool(InitProjectileOnCreation); 
-           
+        ProjectilePool.InitPool();
+        m_ListOfProjectiles = ProjectilePool.Pool.ConvertListTo<IUpgradebleProjectile>();
     }
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+        m_ListOfProjectiles = ProjectilePool.Pool.ConvertListTo<IUpgradebleProjectile>();
+    }
+
     public void SubscribeProjectile(IUpgradebleProjectile _ref)
     {
         if (!m_ListOfProjectiles.Contains(_ref))
         {
             m_ListOfProjectiles.Add(_ref);
         }
-        
     }
 
     public void UnSubscribeProjectile(IUpgradebleProjectile _ref)
@@ -32,18 +37,6 @@ public class RangeWeapon : Weapon
         }
     }
 
-    private void InitProjectileOnCreation(GameObject _obj)
-    {
-        if (_obj.TryGetComponent(out IUpgradebleProjectile _interface))
-        {
-            SubscribeProjectile(_interface);
-        }
-        if (_obj.TryGetComponent(out Projectile _projectile))
-        {
-            _projectile.m_RangeWeaponRef = this;
-        }
-    }
-   
 
     public override void Attack(Vector2 _dir)
     {

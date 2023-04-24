@@ -18,13 +18,10 @@ public abstract class EnemyFactory <T> : AbstractFactory<Enemy> where T : EnemyF
     }
     public override UnityEngine.GameObject CreateEnemy()
     {
-        var _copy = Pool.Pool.GetNextItem().gameObject;
-        if (_copy.TryGetComponent(out Enemy _enemy) && _enemy.m_RePool == null)
-        {
-            _enemy.m_RePool = () => Pool.Pool.ReAddItem(_enemy);
-        }
+        var pooling = Pool.Pool.GetNextItem();
+        
+        Entity = pooling;
 
-        Entity = _enemy;
-        return _copy;
+        return pooling.gameObject;
     }
 }

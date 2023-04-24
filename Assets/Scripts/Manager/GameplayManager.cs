@@ -52,14 +52,6 @@ public class GameplayManager : MainBehaviour
         SetExpBar(false);
     }
 
-    /*public void SetGamePause( bool )
-    {
-        IsGamePause = !IsGamePause;
-        GameMenu.SetActive( !GameMenu.activeSelf);
-        CheckTimeScale(IsGamePause);
-        OnGamePause.Invoke();
-    }*/
-
     public void IsGameOnPause(bool _isStop)
     {
         IsGamePause = _isStop;

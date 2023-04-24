@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AutomateUser : MainBehaviour
@@ -26,6 +25,7 @@ public class AutomateUser : MainBehaviour
     {
         base.OnAwake();
         m_Timer = new Timer(CalculateNextDirection, 3.5f , TimeType.Delta);
+        TimerManager.TryStopAllTimer(TimeType.Delta);
         if (AutoPlay)
         {
             PlayerRef.IsAutoPlay = true;

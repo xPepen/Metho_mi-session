@@ -24,20 +24,25 @@ public static class TimerManager
         return true;
     }
 
-    public static void TryStopTimerOfType(TimeType timer)
+    public static bool TryStopAllTimer(TimeType timer)
     {
+        if (m_ListOfTimer.Count == 0) return false;
         for (int i = 0; i < m_ListOfTimer.Count; i++)
         {
             ((ITimerControl)m_ListOfTimer[i]).PauseTime(timer);
         }
+        return true;
     }
 
-    public static void TryStartTimerOfType(TimeType timer)
+    public static bool TryStartAllTimer(TimeType timer)
     {
+        if (m_ListOfTimer.Count == 0) return false;
         for (int i = 0; i < m_ListOfTimer.Count; i++)
         {
             ((ITimerControl)m_ListOfTimer[i]).StartTime(timer);
         }
+
+        return true;
     }
 
     public static bool TryStartAllTimer()
