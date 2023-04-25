@@ -48,17 +48,14 @@ public class EnemySpawner : MainBehaviour
     {
         base.OnUpdate();
         m_timer.OnUpdate();
-        print(m_timer.CurrentTime);
         if (m_timer.IsTimerFinish())
         {
             EnemySpawnGameplayloop();
         }
 
-
         if (m_BossFactory != null)
         {
             m_timwWatch += Time.deltaTime;
-            print("Nomral watch = " + m_timwWatch);
         }
     }
 

@@ -25,10 +25,6 @@ n
 >Assets/Scripts/Factory/EnemyFactory/BossFactory/TreeFactory.cs,f\e\fee12672622214d4ea9b456b96679e8f89c21806
 Q
 !Assets/Scripts/UI/LevelHandler.cs,2\d\2d1bda784816bebaa4e1e4a26d9007c291669360
-€
-PAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/PlayerStatsUpgraderPanel.cs,f\9\f97eca445e04b0dd02b6c3010d79b830063f5273
-
-OAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/ProjectileUpgraderPanel.cs,c\4\c444718113a269d5c2d271983469475fc108a519
 V
 &Assets/Scripts/Script/Back4AppError.cs,1\9\199f3cbfbf189f994bddf0c4910f804ba49042a5
 S
@@ -53,8 +49,6 @@ U
 ,Assets/Scripts/Wrapper/LanguageController.cs,5\c\5c03b7d77bea43a66b52362f79031d057f2573a0
 m
 =Assets/Scripts/Script/LanguageTranslator/TranslatorManager.cs,3\2\32ee95b6a259293d9d9025469d155a08950e1ff2
-d
-4Assets/Scripts/Button Fonctionnality/DropDownLang.cs,0\2\0227d7b47c26dca293c9db06995c0401f958db44
 [
 +Assets/Scripts/Enemies/BossTree/BossTree.cs,d\4\d44b268d4830c69155a5628dcfaa206b72eec7af
 [
@@ -67,8 +61,6 @@ g
 7Assets/Scripts/Enemies/EnemiesEntity/BasicMeleeEnemy.cs,f\d\fdf901149ee4494064f8b1b9d0ab6cfcc5aac03f
 b
 2Assets/Scripts/Enemies/StateContainerBasicMelee.cs,0\2\0201cbe59d489617d57d04a031a353b7013beda8
-W
-'Assets/Scripts/Script/UserWebRequest.cs,6\2\6291ed0aa350e41a2e63cb267c2da2905282ec3b
 a
 1Assets/Scripts/Weapon/MultipleProjectileWeapon.cs,6\2\6245a89fb4476b2c631a1505337eac4bc036d79f
 W
@@ -81,3 +73,31 @@ S
 #Assets/Scripts/Weapon/IShootable.cs,1\7\178feb16d6b85215e6587a7fa2f06a2689c571b2
 O
 Assets/Scripts/Weapon/Weapon.cs,f\8\f8555916c3a2f849780340609a670fa4737c4647
+P
+ Assets/Scripts/Timer/TimeType.cs,5\3\531c42145525e96bfc3d09cc17b68a4b33acd981
+U
+%Assets/Scripts/Timer/ITimerControl.cs,4\e\4ea0b5d5d30de82c207272a4ac140507a5add87c
+S
+#Assets/Scripts/Weapon/Projectile.cs,5\b\5bd6497143909c010d23471ab1474116dec278e1
+V
+&Assets/Scripts/Factory/EnemyFactory.cs,4\d\4daf4393286c95cae51e5e6be6af51aac6ac88bd
+N
+Assets/Scripts/Pool/IPooler.cs,4\4\4407f139dc5ed8668ccbbc6327f3e32437a6f5d5
+T
+$Assets/Scripts/Weapon/RangeWeapon.cs,3\4\34bdc0ef033308a02f5b0cf842201539204cde7d
+R
+"Assets/Scripts/Pool/PoolHandler.cs,9\a\9a92ffd88d99f182072ee1fb9e98db5e69f086c9
+^
+.Assets/Scripts/Player/PlayerSerializedEvent.cs,e\0\e05b678fd33caa137ec8fed10e1d220e873df7fe
+Y
+)Assets/Scripts/Player/PhysicEntityInfo.cs,2\8\28041ac5d6197cd91ef94dd9561495561ff02705
+O
+Assets/Scripts/Enemies/Enemy.cs,b\7\b7353f45ab629382b7da29c981fd24596005cd95
+T
+$Assets/Scripts/Timer/TimerManager.cs,e\d\ed783569df2365366f2b2f7cafa0ef6bd33974b1
+Y
+)Assets/Scripts/Manager/GameplayManager.cs,0\1\01073a5c9d3d5d8de9ae9e2b4f047c90bd69bc8a
+c
+3Assets/Scripts/Collectable/ExperienceCollectable.cs,9\b\9b49cf92a2f7087502b98442bf20e94326adf342
+
+OAssets/Scripts/UpgradeMenu/UpgradeDataInfo/PanelType/ProjectileUpgraderPanel.cs,c\4\c444718113a269d5c2d271983469475fc108a519

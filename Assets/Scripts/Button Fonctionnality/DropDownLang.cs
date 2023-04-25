@@ -12,7 +12,7 @@ public class DropDownLang : DropDownController<PossibleLanguage>
         m_DropDown.value = m_DropDown.options.FindIndex(value
             => value.text == m_LangController.GetLanguage());
     }
-    public void ChangeUserLanguage(Enum x)
+    public void ChangeUserLanguage()
     {
         if (Enum.TryParse(base.GetDropDownValue(), out PossibleLanguage nextLang))
         {

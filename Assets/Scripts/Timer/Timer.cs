@@ -35,7 +35,7 @@ public class Timer : IDisposable, ITimerControl
     {
         if (!m_CanUpdate) return;
         m_TimeWatch += GetTimeScaler();
-        if (m_TimeWatch >= m_TimeForNextAction && !m_IsTimerFinish)
+        if (m_TimeWatch >= m_TimeForNextAction)
         {
             m_IsTimerFinish = true;
             if (m_TimerEvent == null) return;

@@ -6,12 +6,6 @@ public class PlayerStatsUpgraderPanel : UpgraderPanel
 {
     [SerializeField] private SerializableInterface<IUpgradeblePlayerStats> m_PlayerInterface;
 
-
-    [Header("Health")] [SerializeField] private float m_HealthUpgradeValue;
-    [SerializeField] private float m_HealthUpgradeMultiplier;
-    [Header("Speed")] [SerializeField] private float m_SpeedUpgradeValue;
-    [SerializeField] private float m_SpellTargetCountMultiplier;
-
     private const string m_TitleKey = "Player_Stats_Title";
     private const string m_DescriptionKey = "Player_Stats_Description";
 

@@ -115,8 +115,13 @@ public class Player : LivingEntity, IUpgradeblePlayerStats
     }
 
 
-    private void SetAnim()
+    public void SetAnim(float dirX = 0f, float dirY = 0f)
     {
+        if (dirX != 0f || dirY != 0f)
+        {
+            m_animator.SetFloat("directionX", dirX);
+            m_animator.SetFloat("directionY", dirY);
+        }
         m_animator.SetFloat("directionX", InputDir.normalized.x);
         m_animator.SetFloat("directionY", InputDir.normalized.y);
     }

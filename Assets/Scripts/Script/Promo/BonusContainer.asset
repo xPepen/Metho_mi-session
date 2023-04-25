@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: BonusContainer
   m_EditorClassIdentifier: 
   UserId: 1E1lXooSKf
-  UserToken: r:fa25a2c6f968b91b9ef7c15a62bc33c3
+  UserToken: r:aa8548c714ab7f8d1af8a8aafddbbe98
   ReviveCode: 1
   SpeedCode: 1
-  SkinCode: 1
+  SkinCode: 0
+  DataUrl: https://parsefiles.back4app.com/I6J5D5OdxdGGtzTWj6WoM21yg0zIt8j94JJXUvfz/2565d319beea31f593dc3702769960a6_PlayerData.bin

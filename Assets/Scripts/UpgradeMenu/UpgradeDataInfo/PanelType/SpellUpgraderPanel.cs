@@ -10,13 +10,6 @@ namespace UpgradeMenu
 
         private IUpgradebleSpell m_SpellInterface;
         [SerializeField] private TNRD.SerializableInterface<IUpgradeblePlayerStats> m_playerInterface;
-
-        [Header("Multiplier Spell Value")] [SerializeField]
-        private float m_SpellDamageMultiplier;
-
-        [SerializeField] private float m_SpellRadiusMultiplier;
-        [SerializeField] private float m_SpellAttackRateMultiplier;
-        [SerializeField] private float m_SpellTargetCountMultiplier;
         private const string m_TitleKeyValue = "Void_Circle_Title";
         private const string m_DescriptionKeyValue = "Void_Circle_Description";
 

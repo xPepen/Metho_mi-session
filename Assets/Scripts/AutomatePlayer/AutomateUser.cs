@@ -43,6 +43,7 @@ public class AutomateUser : MainBehaviour
         {
             PlayerRef.OnShoot(CheckForEnemy());
             PlayerRef.Move(Direction);
+            PlayerRef.SetAnim(Direction.x, Direction.y);
         }
         //choose a upgrade
         else if (GameState() == GameplayState.Upgrade)

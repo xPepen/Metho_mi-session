@@ -5,13 +5,6 @@ public class ProjectileUpgraderPanel : UpgraderPanel
 {
     [SerializeField] private RangeWeapon m_playerWeaponRef;
 
-    [Header("Multiplier Spell Value")] [SerializeField]
-    private float m_SpellDamageMultiplier;
-
-    [SerializeField] private float m_SpellRadiusMultiplier;
-    [SerializeField] private float m_SpellAttackRateMultiplier;
-    [SerializeField] private float m_SpellTargetCountMultiplier;
-
     private const string m_TitleKeyValue = "Projectile_Upgrade_Title";
     private const string m_DescriptionKeyValue = "Projectile_Upgrade_Description";
 
